@@ -1,19 +1,11 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using Content.Client._RMC14.Announce;
 using Content.Shared._RMC14.Announce;
 using Content.Shared._RMC14.CCVar;
-using Robust.Client.UserInterface;
-using Robust.Shared.Configuration;
-using Robust.Shared.Prototypes;
 
 namespace Content.Client.Options.UI.Tabs;
 
 public sealed partial class AccessibilityTab
 {
-    [Dependency] private IPrototypeManager _prototypeManager = default!;
-
     private void RegisterAnnouncementOptions()
     {
         var announcementEntries = new List<OptionDropDownCVar<AnnouncementDisplayPreference>.ValueOption>
@@ -25,6 +17,7 @@ public sealed partial class AccessibilityTab
         };
 
         Control.AddOptionDropDown(RMCCVars.RMCAnnouncementStyle, AnnouncementStyleDropDown, announcementEntries);
+<<<<<<< HEAD
         AddPerAnnouncementOverrides();
     }
 
@@ -221,5 +214,7 @@ public sealed partial class AccessibilityTab
 
             return _availablePreferences.Contains(preference) ? preference : null;
         }
+=======
+>>>>>>> cmu/master
     }
 }

@@ -84,7 +84,6 @@
           steps:
             - tool: Screwing
               doAfter: 3
-
 # TVs
 
 - type: constructionGraph

@@ -133,6 +133,7 @@ public sealed partial class CMDistressSignalRuleSystem : GameRuleSystem<CMDistre
     [Dependency] private MarineAnnounceSystem _marineAnnounce = default!;
     [Dependency] private MindSystem _mind = default!;
     [Dependency] private MobStateSystem _mobState = default!;
+    [Dependency] private IGameMapManager _gameMap = default!; // CMU14: warship name for ARES announcements
     [Dependency] private IPlayerManager _player = default!;
     [Dependency] private PlayTimeTrackingSystem _playTime = default!;
     [Dependency] private IServerPreferencesManager _prefsManager = default!;
@@ -168,6 +169,9 @@ public sealed partial class CMDistressSignalRuleSystem : GameRuleSystem<CMDistre
     [Dependency] private ISerializationManager _serialization = default!;
     [Dependency] private XenoMaturingSystem _maturing = default!;
     [Dependency] private CMUSharedZLevelsSystem _zLevels = default!;
+    [Dependency] private AuRoundSystem _auRound = default!; // CMU14
+
+    private const string DistressSignalPreset = "DistressSignal"; // CMU14
 
     private readonly HashSet<string> _operationNames = new();
     private readonly HashSet<string> _operationPrefixes = new();
@@ -209,8 +213,10 @@ public sealed partial class CMDistressSignalRuleSystem : GameRuleSystem<CMDistre
     [ViewVariables]
     private RMCPlanet? SelectedPlanetMap { get; set; }
 
+    private string? _cmuPlanetMapName; // CMU14
+
     [ViewVariables]
-    public string? SelectedPlanetMapName => SelectedPlanetMap?.Proto.Name;
+    public string? SelectedPlanetMapName => SelectedPlanetMap?.Proto.Name ?? _cmuPlanetMapName; // CMU14
 
     [ViewVariables]
     public string? OperationName { get; private set; }
@@ -815,6 +821,7 @@ public sealed partial class CMDistressSignalRuleSystem : GameRuleSystem<CMDistre
     {
 
         _config.SetCVar(CCVars.GameDisallowLateJoins, false);
+        _cmuPlanetMapName = null; // CMU14
 
         if (!_autoBalance)
             return;
@@ -855,6 +862,13 @@ public sealed partial class CMDistressSignalRuleSystem : GameRuleSystem<CMDistre
         ev.Handled = TryEndActiveDistressRound(
             DistressSignalRuleResult.MinorXenoVictory,
             "cmu-distress-signal-minorxenovictory-no-hijack");
+
+        if (ev.Handled || // CMU14
+            (GameTicker.CurrentPreset?.ID ?? GameTicker.Preset?.ID ?? _auRound.SelectedPreset?.ID) != DistressSignalPreset)
+            return;
+
+        GameTicker.EndRound(Loc.GetString("cmu-distress-signal-minorxenovictory-no-hijack")); // CMU14
+        ev.Handled = true;
     }
 
     private void OnDropshipHijackStart(ref DropshipHijackStartEvent ev)
@@ -862,7 +876,7 @@ public sealed partial class CMDistressSignalRuleSystem : GameRuleSystem<CMDistre
         // For human hijacks, build a set of map IDs belonging to the hijacker's faction ship(s).
         // For xeno hijacks, keep legacy behavior (Almayer maps).
         var targetShipMaps = new HashSet<MapId>();
-        if (ev.IsHumanHijack && !string.IsNullOrEmpty(ev.HijackerFaction))
+        if (ev.HijackerType == DropshipHijackerType.Human && !string.IsNullOrEmpty(ev.HijackerFaction)) // CMU14
         {
             // Scan ShipFactionComponent grids matching the hijacker's faction
             var shipQuery = EntityQueryEnumerator<ShipFactionComponent, TransformComponent>();
@@ -889,7 +903,7 @@ public sealed partial class CMDistressSignalRuleSystem : GameRuleSystem<CMDistre
         }
 
         // Only do xeno-specific cleanup for xeno hijacks
-        if (!ev.IsHumanHijack)
+        if (ev.HijackerType != DropshipHijackerType.Human) // CMU14
         {
             var hiveStructures = EntityQueryEnumerator<HiveConstructionLimitedComponent, TransformComponent>();
             while (hiveStructures.MoveNext(out var id, out _, out var xform))
@@ -1681,7 +1695,8 @@ public sealed partial class CMDistressSignalRuleSystem : GameRuleSystem<CMDistre
                 component.StartARESAnnouncements &&
                 SelectedPlanetMap.Value.Comp.Announcement is { } announcement)
             {
-                _marineAnnounce.AnnounceARESStaging(default, announcement, announcement: "rmc-announcement-ares-map");
+                _marineAnnounce.AnnounceARESStaging(default, announcement, announcement: "rmc-announcement-ares-map",
+                    ship: GetWarshipName(_gameMap.GetSelectedMap())); // CMU14
             }
         }
 
@@ -1737,6 +1752,33 @@ public sealed partial class CMDistressSignalRuleSystem : GameRuleSystem<CMDistre
     {
         OperationName = customname;
         _usingCustomOperationName = true;
+    }
+
+    // CMU14 method: rule-less presets (e.g. CMU DistressSignal) feed planet/operation names in for
+    // the tactical map and marine announcements; reuses the classic generator, honoring admin-custom names
+    public void SetCmuRoundInfo(string? planetMapName)
+    {
+        _cmuPlanetMapName = planetMapName;
+        OperationName = GetRandomOperationName();
+    }
+
+    // CMU14 method: display name of a warship gameMap, from its station's mapNameTemplate
+    // (what StationNameSetup names the ship), falling back to the prototype's mapName
+    public string? GetWarshipName(GameMapPrototype? map)
+    {
+        if (map == null)
+            return null;
+
+        foreach (var station in map.Stations.Values)
+        {
+            foreach (var entry in station.StationComponentOverrides.Values)
+            {
+                if (entry.Component is StationNameSetupComponent setup)
+                    return setup.StationNameTemplate;
+            }
+        }
+
+        return map.MapName;
     }
 
     private void StartPlanetVote()
@@ -2088,17 +2130,8 @@ public sealed partial class CMDistressSignalRuleSystem : GameRuleSystem<CMDistre
         if (mapUid is not { } map)
             return;
 
-        AddMapId(shipMaps, map);
-
-        if (!_zLevels.TryGetZNetwork(map, out var network) ||
-            !_zLevels.TryGetDepthBounds(network.Value, out var minDepth, out var maxDepth))
-            return;
-
-        for (var depth = minDepth; depth <= maxDepth; depth++)
-        {
-            if (_zLevels.TryGetMapAtDepth(network.Value, depth, out var connectedMap))
-                AddMapId(shipMaps, connectedMap);
-        }
+        foreach (var connectedMap in _zLevels.GetAllNetworkMaps(map)) // CMU14
+            AddMapId(shipMaps, connectedMap);
     }
 
     private void AddMapId(ICollection<MapId> shipMaps, EntityUid map)

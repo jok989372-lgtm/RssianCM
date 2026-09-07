@@ -1,5 +1,8 @@
 using System.Linq;
+using System.Numerics;
 using Content.Shared._CMU14.Ops.Sfx;
+using Content.Shared._CMU14.ZLevels.Core.EntitySystems;
+using Content.Shared._CMU14.ZLevels.Ordnance;
 using Content.Shared._RMC14.Evacuation;
 using Content.Shared._RMC14.OrbitalCannon;
 using Content.Shared.CCVar;
@@ -18,18 +21,18 @@ public sealed partial class EvacuationSequenceSystem : EntitySystem
     [Dependency] private OrbitalCannonSystem _orbitalCannon = default!;
     [Dependency] private ScriptedSoundSystem _scriptedSound = default!;
     [Dependency] private IConfigurationManager _cfg = default!;
-    [Dependency] private readonly SharedMapSystem _map = default!;
-    [Dependency] private readonly IRobustRandom _random = default!;
+    [Dependency] private  SharedMapSystem _map = default!;
+    [Dependency] private  IRobustRandom _random = default!;
+    [Dependency] private  CMUSharedZLevelsSystem _zLevels = default!;
 
     private static readonly ProtoId<ScriptedSoundSequencePrototype> SelfDestructSequence = "SelfDestructSequence";
     private static readonly ProtoId<ScriptedSoundSequencePrototype> SelfDestructEngineSequence = "SelfDestructEngineSequence";
     private static readonly EntProtoId SelfDestructWarhead = "CMUSelfDestructWarheadExplosion";
     private static readonly EntProtoId ScatterWarhead = "CMUSelfDestructScatterExplosion";
 
-    private static readonly int[] VolleyDelays = [15, 27, 37];
+    private static readonly int[] VolleyDelays = [37, 52, 65];
     private const int WarheadsPerVolley = 3;
-    private const float EdgePickChance = 0.6f;
-    private const float EdgeMargin = 8f;
+    private const int MainWarheadSplits = 2;
 
     public override void Initialize()
     {
@@ -43,7 +46,7 @@ public sealed partial class EvacuationSequenceSystem : EntitySystem
     {
         if (!_cfg.GetCVar(CCVars.EnableEvacSfx)) return;
 
-        if (TryComp<EvacuationProgressComponent>(ev.Map, out var progress) && progress.DropShipCrashed)
+        if (TryComp<EvacuationProgressComponent>(ev.Map, out var progress) && progress.SelfDestructAt == null)
             return;
 
         if (!_scriptedSound.TryGetActiveSequence(SelfDestructSequence, ev.Map, out _))
@@ -66,8 +69,11 @@ public sealed partial class EvacuationSequenceSystem : EntitySystem
 
     private void OnSelfDestruct(ref ShipSelfDestructEvent ev)
     {
-        if (TryGetShipTiles(ev.Map, out var tiles, out _))
-            _orbitalCannon.SpawnExplosion(SelfDestructWarhead, _random.Pick(tiles));
+        if (TryGetShipWorldTiles(ev.Map, out var tiles))
+        {
+            foreach (var pos in PickSpread(tiles, MainWarheadSplits))
+                _orbitalCannon.SpawnExplosion(SelfDestructWarhead, new EntityCoordinates(ev.Map, pos), CMUTopDownOrdnanceKind.Scuttle);
+        }
 
         for (var i = 0; i < VolleyDelays.Length; i++)
         {
@@ -77,58 +83,88 @@ public sealed partial class EvacuationSequenceSystem : EntitySystem
         }
     }
 
-    private bool TryGetShipTiles(EntityUid map, out List<EntityCoordinates> tiles, out List<EntityCoordinates> edgeTiles)
+    private bool TryGetShipWorldTiles(EntityUid map, out List<Vector2> tiles)
     {
-        tiles = new List<EntityCoordinates>();
-        edgeTiles = new List<EntityCoordinates>();
+        tiles = new List<Vector2>();
         if (TerminatingOrDeleted(map))
             return false;
 
-        var mapId = Transform(map).MapID;
-        Entity<MapGridComponent>? ship = null;
-        var bestArea = 0f;
-        foreach (var grid in _map.GetAllGrids(mapId))
+        var seen = new HashSet<Vector2i>();
+        foreach (var networkMap in _zLevels.GetAllNetworkMaps(map))
         {
-            var aabb = grid.Comp.LocalAABB;
-            var area = aabb.Width * aabb.Height;
-            if (area <= bestArea)
+            if (TerminatingOrDeleted(networkMap))
                 continue;
 
-            bestArea = area;
-            ship = grid;
-        }
-
-        if (ship is not { } target)
-            return false;
-
-        var bounds = target.Comp.LocalAABB;
-        foreach (var tile in _map.GetAllTiles(target, target.Comp))
-        {
-            var coords = new EntityCoordinates(target, tile.GridIndices);
-            tiles.Add(coords);
-
-            var p = tile.GridIndices;
-            if (bounds.Width > EdgeMargin * 2 && bounds.Height > EdgeMargin * 2
-                && (bounds.Left + EdgeMargin > p.X || p.X > bounds.Right - EdgeMargin
-                || bounds.Bottom + EdgeMargin > p.Y || p.Y > bounds.Top - EdgeMargin))
+            Entity<MapGridComponent>? ship = null;
+            var bestArea = 0f;
+            foreach (var grid in _map.GetAllGrids(Transform(networkMap).MapID))
             {
-                edgeTiles.Add(coords);
+                var aabb = grid.Comp.LocalAABB;
+                var area = aabb.Width * aabb.Height;
+                if (area <= bestArea)
+                    continue;
+
+                bestArea = area;
+                ship = grid;
+            }
+
+            if (ship is not { } target)
+                continue;
+
+            foreach (var tile in _map.GetAllTiles(target, target.Comp))
+            {
+                var world = _map.GridTileToWorldPos(target, target.Comp, tile.GridIndices);
+                if (seen.Add(new Vector2i((int) world.X, (int) world.Y)))
+                    tiles.Add(world);
             }
         }
 
         return tiles.Count > 0;
     }
 
+    private List<Vector2> PickSpread(List<Vector2> tiles, int count)
+    {
+        var picked = new List<Vector2>(count);
+        for (var i = 0; i < count && tiles.Count > 0; i++)
+        {
+            if (picked.Count == 0)
+            {
+                picked.Add(_random.Pick(tiles));
+                continue;
+            }
+
+            var best = tiles[0];
+            var bestScore = -1f;
+            foreach (var tile in tiles)
+            {
+                var score = float.MaxValue;
+                foreach (var p in picked)
+                {
+                    var d = (tile - p).LengthSquared();
+                    if (d < score)
+                        score = d;
+                }
+
+                if (score > bestScore)
+                {
+                    bestScore = score;
+                    best = tile;
+                }
+            }
+
+            picked.Add(best);
+        }
+
+        return picked;
+    }
+
     private void ScatterVolley(EntityUid map)
     {
-        if (!TryGetShipTiles(map, out var tiles, out var edgeTiles))
+        if (!TryGetShipWorldTiles(map, out var tiles))
             return;
 
-        for (var i = 0; i < WarheadsPerVolley; i++)
-        {
-            var pool = edgeTiles.Count > 0 && _random.Prob(EdgePickChance) ? edgeTiles : tiles;
-            _orbitalCannon.SpawnExplosion(ScatterWarhead, _random.Pick(pool));
-        }
+        foreach (var pos in PickSpread(tiles, WarheadsPerVolley))
+            _orbitalCannon.SpawnExplosion(ScatterWarhead, new EntityCoordinates(map, pos), CMUTopDownOrdnanceKind.Scuttle);
     }
 
     private void OnCVarChanged(bool enabled)

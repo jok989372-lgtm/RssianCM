@@ -1,4 +1,5 @@
 using Content.Shared._CMU14.Ops.Sfx;
+using System.Linq;
 using Content.Shared._CMU14.ZLevels.Core.EntitySystems;
 using Content.Shared._RMC14.CameraShake;
 using Content.Server._CMU14.ZLevels.Core;
@@ -8,6 +9,7 @@ using Content.Shared.GameTicking;
 using Robust.Shared.Audio.Systems;
 using Robust.Shared.Audio;
 using Robust.Shared.Map;
+using Robust.Shared.Localization;
 using Robust.Shared.Player;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Random;
@@ -204,7 +206,8 @@ public sealed partial class ScriptedSoundSystem : EntitySystem
             if (active.AnchorEntity is not { } anchor || TerminatingOrDeleted(anchor))
                 continue;
 
-            if (Transform(anchor).MapUid is not { } anchorMap || !GetConnectedMaps(anchorMap).Contains(playerMapId))
+            if (Transform(anchor).MapUid is not { } ||
+                !_zLevels.GetAllNetworkMapIds(Transform(anchor).MapID).Contains(playerMapId))
                 continue;
 
             foreach (var (layer, loop) in active.Loops)
@@ -323,10 +326,18 @@ public sealed partial class ScriptedSoundSystem : EntitySystem
         if (entry.Announcement is { } announcement)
         {
             var filter = GetMapFilter(active.AnchorEntity);
+            var message = announcement.Message;
+            if (announcement.Loc is { } loc)
+            {
+                message = announcement.LocArgs is { } args
+                    ? Loc.GetString(loc, args.Select(a => (a.Key, (object) a.Value)).ToArray())
+                    : Loc.GetString(loc);
+            }
+
             _generalAnnounce.AnnounceAdvanced(new AnnouncementRequest
             {
                 Preset = announcement.Preset ?? seq.DefaultAnnouncementPreset,
-                Message = announcement.Message,
+                Message = message,
                 Target = AnnouncementTarget.All,
                 Speaker = active.AnchorEntity,
                 Source = active.AnchorEntity,
@@ -376,7 +387,7 @@ public sealed partial class ScriptedSoundSystem : EntitySystem
         var mapId = Transform(mapUid.Value).MapID;
         if (!_connectedMapsCache.TryGetValue(mapId, out var maps))
         {
-            maps = GetConnectedMaps(mapUid.Value);
+            maps = _zLevels.GetAllNetworkMapIds(mapId);
             _connectedMapsCache[mapId] = maps;
         }
 
@@ -388,23 +399,6 @@ public sealed partial class ScriptedSoundSystem : EntitySystem
             filter.AddPlayers(Filter.BroadcastMap(connectedMap).Recipients);
 
         return filter;
-    }
-
-    private HashSet<MapId> GetConnectedMaps(EntityUid mapUid)
-    {
-        if (!_zLevels.TryGetZNetwork(mapUid, out var network))
-            return new HashSet<MapId> { Transform(mapUid).MapID };
-
-        var maps = new HashSet<MapId>();
-        foreach (var mapEntity in network.Value.Comp.ZLevels.Values)
-        {
-            if (mapEntity is not { } resolved)
-                continue;
-
-            maps.Add(Transform(resolved).MapID);
-        }
-
-        return maps;
     }
 
     private void InitializeJitteredDelays(ActiveScriptedSound active, ScriptedSoundSequencePrototype seq)

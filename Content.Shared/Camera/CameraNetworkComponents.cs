@@ -11,11 +11,36 @@ public enum CameraSourceKinds : byte
     All = Standard | Rmc,
 }
 
+<<<<<<< HEAD
+=======
+/// <summary>
+/// A round-scoped logical camera network. Prototype IDs are only seeds used to
+/// create these identities; runtime-created networks have no seed.
+/// </summary>
+[RegisterComponent]
+public sealed partial class CameraNetworkIdentityComponent : Component
+{
+    [DataField] public ProtoId<CameraNetworkPrototype>? Seed;
+    [DataField] public string DisplayName = string.Empty;
+    [DataField] public EntityUid? CreatedBy;
+    [DataField] public bool Runtime;
+}
+
+>>>>>>> cmu/master
 [RegisterComponent]
 public sealed partial class CameraNetworkMemberComponent : Component
 {
     [DataField(required: true)] public HashSet<ProtoId<CameraNetworkPrototype>> Networks = [];
     [DataField(required: true)] public CameraSourceKinds SourceKinds = CameraSourceKinds.None;
+<<<<<<< HEAD
+=======
+
+    /// <summary>
+    /// Runtime network memberships. Static YAML memberships are resolved from
+    /// <see cref="Networks"/> into canonical network entities by the server.
+    /// </summary>
+    public HashSet<EntityUid> RuntimeNetworks = [];
+>>>>>>> cmu/master
 }
 
 [RegisterComponent]
@@ -23,6 +48,11 @@ public sealed partial class CameraNetworkReceiverComponent : Component
 {
     [DataField] public HashSet<ProtoId<CameraNetworkPrototype>> Networks = [];
     [DataField(required: true)] public CameraSourceKinds SupportedSources = CameraSourceKinds.None;
+<<<<<<< HEAD
+=======
+
+    public HashSet<EntityUid> RuntimeNetworks = [];
+>>>>>>> cmu/master
 }
 
 [RegisterComponent]

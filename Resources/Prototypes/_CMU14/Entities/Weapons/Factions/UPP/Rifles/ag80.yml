@@ -248,6 +248,7 @@
     - AU14CartridgeRifle97x16mm
   - type: CartridgeAmmo
     proto: BulletRifle97x16mm
+    deleteOnSpawn: true # caseless ammo
 
 - type: entity
   parent: AU14CartridgeRifle97x16mm

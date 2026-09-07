@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ﻿- type: npcFaction
   id: UNMC
   hostile:
@@ -100,6 +101,20 @@
   - AUColonist
   - CMUAPE
 
+=======
+#
+# You're probably looking for: _CMU14/Roles/Shared/Factions/*.yml
+#
+# - type: npcFaction
+#   id: UNMC # CMU14 - moved
+#
+# - type: npcFaction
+#   id: RMCXeno # CMU14 - moved
+#   name: Prime Hive
+#
+# - type: npcFaction
+#   id: RMCDumb # CMU14 - moved
+>>>>>>> cmu/master
 
 - type: npcFaction
   id: SPP
@@ -108,18 +123,6 @@
 
 - type: npcFaction
   id: Halcyon
-  hostile:
-  - RMCXeno
-
-
-
-- type: npcFaction
-  id: WeYa
-  hostile:
-  - RMCXeno
-
-- type: npcFaction
-  id: Civilian
   hostile:
   - RMCXeno
 

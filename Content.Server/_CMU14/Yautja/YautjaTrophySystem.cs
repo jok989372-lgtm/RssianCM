@@ -465,8 +465,6 @@ public sealed partial class YautjaTrophySystem : EntitySystem
         trophy = Spawn(prototype, Transform(target).Coordinates);
         var trophyComp = EnsureComp<YautjaTrophyComponent>(trophy);
         trophyComp.Kind = kind;
-        trophyComp.Source = target;
-        trophyComp.Hunter = hunter;
         trophyComp.SourceName = GetSourceName(target, kind);
         Dirty(trophy, trophyComp);
         ApplyTrophyName(trophy, target, kind, trophyComp.SourceName);
@@ -1080,7 +1078,7 @@ public sealed partial class YautjaTrophySystem : EntitySystem
             return;
 
         var ev = new BodyPartSeveredEvent(target, part, type);
-        RaiseLocalEvent(part, ref ev);
+        RaiseLocalEvent(part, ref ev, broadcast: true);
     }
 
     private static bool TryGetPartForTrophy(YautjaTrophyKind kind, out BodyPartType type, out BodyPartSymmetry symmetry)

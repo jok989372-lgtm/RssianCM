@@ -10,6 +10,7 @@ using Content.Shared._RMC14.Weapons.Ranged;
 using Content.Shared._RMC14.Weapons.Ranged.Flamer;
 using Content.Shared._RMC14.Weapons.Ranged.Prediction;
 using Content.Shared._RMC14.Vehicle;
+using Content.Shared._CMU14.Weapons.Ranged; // CMU14
 using Content.Shared._CMU14.ZLevels.Core.EntitySystems;
 using Content.Shared.ActionBlocker;
 using Content.Shared.Actions;
@@ -29,6 +30,7 @@ using Content.Shared.Hands;
 using Content.Shared.Hands.EntitySystems;
 using Content.Shared.Popups;
 using Content.Shared.Projectiles;
+using Content.Shared.Stacks; // CMU14
 using Content.Shared.Stunnable;
 using Content.Shared.Tag;
 using Content.Shared.Throwing;
@@ -200,6 +202,16 @@ public abstract partial class SharedGunSystem : EntitySystem
 
     public bool TryGetGun(EntityUid entity, out EntityUid gunEntity, [NotNullWhen(true)] out GunComponent? gunComp)
     {
+        if (TryComp(entity, out RemoteWeaponOperatorComponent? remoteOperator) &&
+            remoteOperator.SelectedWeapon is { } remoteWeapon &&
+            Exists(remoteWeapon) &&
+            TryComp(remoteWeapon, out GunComponent? remoteGun))
+        {
+            gunEntity = remoteWeapon;
+            gunComp = remoteGun;
+            return true;
+        }
+
         if (TryComp(entity, out VehiclePortGunOperatorComponent? portGunOperator) &&
             portGunOperator.Gun is { } portGun &&
             TryComp(portGun, out VehiclePortGunComponent? portGunComp) &&
@@ -1095,6 +1107,13 @@ public abstract partial class SharedGunSystem : EntitySystem
         if (playSound && TryComp<CartridgeAmmoComponent>(entity, out var cartridge))
         {
             Audio.PlayPvs(cartridge.EjectSound, entity, AudioParams.Default.WithVariation(SharedContentAudioSystem.DefaultVariation).WithVolume(-1f));
+        }
+
+        if (TryComp<CartridgeAmmoComponent>(entity, out var spent) && spent.Spent) // CMU14
+        {
+            EnsureComp<CMUSpentCasingComponent>(entity).EjectedAt = Timing.CurTime;
+            // CMU14: spent casings must not stack with or split into live cartridges (infinite ammo laundering)
+            RemComp<StackComponent>(entity);
         }
     }
 

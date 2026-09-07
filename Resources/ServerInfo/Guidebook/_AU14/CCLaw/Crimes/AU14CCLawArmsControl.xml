@@ -3,11 +3,21 @@
 
   Владение оружием является лицензируемой привилегией, а не неограниченным правом. Из-за герметичных жилых комплексов и уязвимой инфраструктуры незаконное оружие рассматривается как угроза общественной безопасности.
 
+<<<<<<< HEAD
   ## Классы оружия
   - [bold]Класс A — гражданские инструменты[/bold] (ножи, топорики, ломы, промышленные, шахтёрские и сварочные инструменты). Законны при правомерном использовании. Становятся незаконными, если ими размахивают, угрожают, проносят их в зоны ограниченного доступа, модифицируют в оружие или используют при совершении преступления.
   - [bold]Класс B — гражданское огнестрельное оружие[/bold] (пистолеты, дробовики, охотничьи и малозарядные винтовки). Требует колониальной лицензии на огнестрельное оружие. Оружие должно быть зарегистрировано, иметь серийный номер и храниться безопасным образом. Открытое ношение в общественных местах без разрешения запрещено. Для скрытого ношения требуется отдельное разрешение.
   - [bold]Класс C — оружие ограниченного оборота[/bold] (автоматическое оружие, смартганы, огнемёты, гранаты, взрывчатка, бронебойные боеприпасы и ракетные установки). Запрещено для гражданских лиц. Может использоваться только вооружёнными силами, маршалами и уполномоченной охраной либо уполномоченным ополчением на основании чрезвычайного распоряжения.
   - [bold]Класс D — запрещённое оружие[/bold] (химическое, биологическое и радиологическое оружие, самодельные взрывные устройства, искусственно созданные патогены, организмы, превращённые в оружие, и орудия пыток). Запрещено для всех лиц. Владение им является тяжким или особо тяжким преступлением в зависимости от создаваемого риска и способа применения.
+=======
+  During declared emergencies, Weapons Permits (Up to Class B) may be temporarilly removed if both the Marshal and Acting Administrator agree.
+
+  ## Weapon Classes
+  - [bold]Class A — Civilian Tools[/bold] (knives, hatchets, crowbars, industrial/mining/welding tools). Legal when used lawfully. Become illegal if brandished, used to threaten, carried into restricted areas, modified into weapons, or used during a crime.
+  - [bold]Class B — Civilian Firearms[/bold] (pistols, shotguns, hunting rifles, low-capacity rifles). Require a Colonial Firearm License. Must be registered, serialized, and safely stored. Not openly carried in public without authorization. Concealed carry requires a separate permit.
+  - [bold]Class C — Restricted Weapons[/bold] (automatic weapons, smartguns, flamethrowers, grenades, explosives, armor-piercing ammunition, rocket launchers). Illegal for civilians. Only authorized for military forces, Marshals and authorized security, or authorized militia under emergency order.
+  - [bold]Class D — Prohibited Weapons[/bold] (chemical/biological/radiological weapons, improvised explosives, engineered pathogens, weaponized organisms, torture devices). Illegal for all persons. Possession is a major or capital offense depending on risk and use.
+>>>>>>> cmu/master
 
   ## Нарушения законодательства об оружии
   - [bold]Незаконное владение:[/bold] 10 мин. за класс B | 15 мин. за класс C | 20 мин. за класс D + конфискация

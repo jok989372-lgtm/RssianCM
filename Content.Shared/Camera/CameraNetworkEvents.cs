@@ -6,6 +6,10 @@ public enum CameraReceiverChangeKind : byte
 {
     Authorization,
     MemberList,
+<<<<<<< HEAD
+=======
+    Directory,
+>>>>>>> cmu/master
     Marker,
 }
 
@@ -17,3 +21,18 @@ public record struct CameraNetworkGrantRequestEvent(
     ProtoId<CameraNetworkPrototype> Network,
     EntityUid Source,
     bool Grant);
+<<<<<<< HEAD
+=======
+
+[Flags]
+public enum CameraSessionCapabilities : byte
+{
+    None = 0,
+    Browse = 1 << 0,
+    LiveView = 1 << 1,
+    Map = 1 << 2,
+}
+
+[ByRefEvent]
+public record struct CameraSessionChangedEvent(EntityUid Actor);
+>>>>>>> cmu/master

@@ -1,18 +1,21 @@
 using System.Globalization;
 using System.Linq;
-using Robust.Shared.Timing;
 using Content.Server._RMC14.Marines;
 using Content.Shared._RMC14.Marines;
 using Content.Shared.Roles;
 using Robust.Shared.Prototypes;
 using Content.Shared._RMC14.ARES;
 using Content.Shared.Radio;
-using Content.Shared._RMC14.Marines.Roles.Ranks;
 using Content.Shared._RMC14.Marines.Squads;
 using Content.Shared.Bed.Cryostorage;
 using Content.Shared.StationRecords;
 using Content.Server.StationRecords.Systems;
 using Content.Server.StationRecords;
+using Content.Server._AU14.Marines.Roles.Chevrons;
+using Robust.Server.Player;
+using Content.Server.Players;
+using Content.Server.Preferences.Managers;
+using Content.Shared.Preferences;
 
 namespace Content.Server._RMC14.Announce
 {
@@ -20,10 +23,12 @@ namespace Content.Server._RMC14.Announce
     {
         [Dependency] private ARESCoreSystem _aresCore = default!;
         [Dependency] private MarineAnnounceSystem _marineAnnounce = default!;
-        [Dependency] private SharedRankSystem _rankSystem = default!;
         [Dependency] private SquadSystem _squad = default!;
         [Dependency] private IPrototypeManager _prototypeManager = default!;
         [Dependency] private StationRecordsSystem _stationRecords = default!;
+        [Dependency] private ChevronSystem _chevron = default!;
+        [Dependency] private IServerPreferencesManager _preferences = default!;
+        [Dependency] private IPlayerManager _playerManager = default!;
 
         public static readonly ProtoId<RadioChannelPrototype> CommonChannel = "MarineCommon";
 
@@ -33,8 +38,12 @@ namespace Content.Server._RMC14.Announce
                 return;
 
             var aresUid = ares.Value.Owner;
-            var fullRankName = _rankSystem.GetSpeakerFullRankName(mob) ?? Name(mob);
-            var rankName = _rankSystem.GetSpeakerRankName(mob) ?? Name(mob);
+            HumanoidCharacterProfile? profile = null;
+            if (_playerManager.TryGetSessionByEntity(mob, out var session))
+                profile = _preferences.GetPreferences(session.UserId).SelectedCharacter as HumanoidCharacterProfile;
+
+            var fullRankName = _chevron.GetAnnouncementFullName(mob, jobId, profile);
+            var rankName = _chevron.GetAnnouncementShortName(mob, jobId, profile);
 
             if (lateJoin && !silent)
             {
@@ -53,35 +62,24 @@ namespace Content.Server._RMC14.Announce
                 }
                 else
                 {
-                    // Getting all department prototypes
                     var departmentPrototypes = _prototypeManager.EnumeratePrototypes<DepartmentPrototype>().ToList();
-
-                    // To track channels that have already been processed, prevents spam in the same channel multiple times
                     var processedChannels = new HashSet<ProtoId<RadioChannelPrototype>>();
                     bool departmentChannelFound = false;
                     bool isHead = false;
 
-                    // We are trying to send a message about arrival to the radio channel of the departments to which the player belongs
                     foreach (var department in departmentPrototypes)
                     {
                         if (!department.Roles.Contains(jobId))
                             continue;
 
-                        // Check if this role is a department head
                         if (department.HeadOfDepartment == jobId)
-                        {
                             isHead = true;
-                        }
 
                         var channelId = department.DepartmentRadio;
 
-                        // If the department doesn't have a channel, but it's a combat marine, we try to get his squad channel
                         if (channelId == null && _squad.TryGetMemberSquad(mob, out var squad) && squad.Comp.Radio != null)
-                        {
                             channelId = squad.Comp.Radio;
-                        }
 
-                        // If after all checks the channel is still not found or we have already processed this channel, skip it
                         if (channelId == null || !processedChannels.Add(channelId.Value))
                             continue;
 
@@ -95,7 +93,6 @@ namespace Content.Server._RMC14.Announce
                             channelId.Value);
                     }
 
-                    // If no department channel found OR the player is the head of the department, send to CommonChannel
                     if (!departmentChannelFound || isHead)
                     {
                         _marineAnnounce.AnnounceRadio(aresUid,
@@ -115,50 +112,37 @@ namespace Content.Server._RMC14.Announce
                 return;
 
             var aresUid = ares.Value.Owner;
-            var rankName = _rankSystem.GetSpeakerRankName(ent.Owner) ?? Name(ent.Owner);
             JobPrototype? jobProto = null;
 
-            if (!TryComp<StationRecordsComponent>(station, out var stationRecords))
-                return;
-
-            if (recordId != null && station != null)
+            if (TryComp<StationRecordsComponent>(station, out var stationRecords) && recordId != null && station != null)
             {
                 var key = new StationRecordKey(recordId.Value, station.Value);
                 if (_stationRecords.TryGetRecord<GeneralStationRecord>(key, out var entry, stationRecords) && !string.IsNullOrWhiteSpace(entry.JobPrototype))
                     _prototypeManager.TryIndex(entry.JobPrototype, out jobProto);
             }
 
-            // Getting all department prototypes
-            var departmentPrototypes = _prototypeManager.EnumeratePrototypes<DepartmentPrototype>().ToList();
+            var rankName = _chevron.GetAnnouncementShortName(ent.Owner, jobProto?.ID);
 
-            // To track channels that have already been processed, prevents spam in the same channel multiple times
+            var departmentPrototypes = _prototypeManager.EnumeratePrototypes<DepartmentPrototype>().ToList();
             var processedChannels = new HashSet<ProtoId<RadioChannelPrototype>>();
             bool departmentChannelFound = false;
             bool isHead = false;
 
             if (jobProto != null)
             {
-                // We are trying to send a message about earlyleave to the radio channel of the departments to which the player belongs
                 foreach (var department in departmentPrototypes)
                 {
                     if (!department.Roles.Contains(jobProto.ID))
                         continue;
 
-                    // Check if this role is a department head
                     if (department.HeadOfDepartment == jobProto.ID)
-                    {
                         isHead = true;
-                    }
 
                     var channelId = department.DepartmentRadio;
 
-                    // If the department doesn't have a channel, but it's a combat marine, we try to get his squad channel
                     if (channelId == null && _squad.TryGetMemberSquad(ent.Owner, out var squad) && squad.Comp.Radio != null)
-                    {
                         channelId = squad.Comp.Radio;
-                    }
 
-                    // If after all checks the channel is still not found or we have already processed this channel, skip it
                     if (channelId == null || !processedChannels.Add(channelId.Value))
                         continue;
 
@@ -172,7 +156,6 @@ namespace Content.Server._RMC14.Announce
                         channelId.Value);
                 }
 
-                // If no department channel found OR the player is the head of the department, send to CommonChannel
                 if (!departmentChannelFound || isHead)
                 {
                     _marineAnnounce.AnnounceRadio(aresUid,
@@ -186,11 +169,11 @@ namespace Content.Server._RMC14.Announce
             else
             {
                 _marineAnnounce.AnnounceRadio(aresUid,
-                        Loc.GetString("rmc-earlyleave-cryo-announcement",
-                        ("character", rankName),
-                        ("entity", ent.Owner),
-                        ("job", CultureInfo.CurrentCulture.TextInfo.ToTitleCase(jobName))),
-                        CommonChannel);
+                    Loc.GetString("rmc-earlyleave-cryo-announcement",
+                    ("character", rankName),
+                    ("entity", ent.Owner),
+                    ("job", CultureInfo.CurrentCulture.TextInfo.ToTitleCase(jobName))),
+                    CommonChannel);
             }
         }
     }

@@ -16,6 +16,12 @@
       - MeleeWeapon
       tags:
       - Knife
+<<<<<<< HEAD
+=======
+      - RMCMacheteScabbard
+      - RMCScabbardKatana
+  - type: YautjaTechItem
+>>>>>>> cmu/master
   - type: RMCArmorSpeedTier
     speedTier: very light
   - type: CMArmor
@@ -489,6 +495,12 @@
   description: Armor made from a strange alloy. It feels cold with an alien weight. It has been adapted to carry both human and alien melee weaponry.
   suffix: Thrall, Ebony
   components:
+  - type: YautjaTechItem
+    blockPickup: false
+    blockUse: false
+    blockMelee: false
+    blockThrow: false
+    blockShoot: false
   - type: Sprite
     sprite: _CMU14/Yautja/armor_thrall_ebony.rsi
   - type: Clothing
@@ -627,11 +639,17 @@
   - type: YautjaTechItem
   - type: CMArmor
     melee: 35
+<<<<<<< HEAD
     bullet: 40
     bio: 40
     explosionArmor: 50
   - type: YautjaScalableRepair
     damagedText: cmu-yautja-repair-damaged
+=======
+    bullet: 20
+    bio: 45
+    explosionArmor: 40
+>>>>>>> cmu/master
 
 - type: entity
   parent: CMUYautjaBadBloodArmorPatchwork
@@ -801,8 +819,12 @@
     explosionArmor: 50
   - type: Corrodible
     isCorrodible: false
+<<<<<<< HEAD
   - type: StaticPrice
     price: 50
+=======
+  - type: YautjaTechItem
+>>>>>>> cmu/master
 
 - type: entity
   parent: CMUYautjaBodyMesh
@@ -837,6 +859,12 @@
   description: A strange alloy weave in the form of a vest. It feels cold with an alien weight. It has been adapted for human physiology.
   suffix: Yautja, Thrall
   components:
+  - type: YautjaTechItem
+    blockPickup: false
+    blockUse: false
+    blockMelee: false
+    blockThrow: false
+    blockShoot: false
   - type: CMArmor
     melee: 10
     bullet: 35
@@ -864,6 +892,7 @@
       collection: RMCEquipArmor
       params:
         volume: -4
+  - type: YautjaTechItem
   - type: CMArmor
     melee: 35
     bullet: 45
@@ -1176,6 +1205,12 @@
   description: Greaves made from scraps of cloth and a strange alloy. They feel cold with an alien weight. They have been adapted for compatibility with human equipment.
   suffix: Thrall, Ebony
   components:
+  - type: YautjaTechItem
+    blockPickup: false
+    blockUse: false
+    blockMelee: false
+    blockThrow: false
+    blockShoot: false
   - type: Sprite
     sprite: _CMU14/Yautja/greaves_thrall_ebony.rsi
   - type: Clothing

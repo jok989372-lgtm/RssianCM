@@ -15,6 +15,11 @@
     description: cmu-pathogen-ghost-description
     rules: cmu-pathogen-ghost-rules
   - type: CMUPathogenHiveMember
+  - type: TacticalMapLiveUpdateOnOvi
+    enabled: false
+  - type: NpcFactionMember # overrides the RMCXeno inherited from the xeno mob base
+    factions:
+    - CMU14PathogenWalker
   - type: Language
     spokenLanguages:
     - Pathogen

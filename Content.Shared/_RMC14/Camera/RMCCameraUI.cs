@@ -40,9 +40,24 @@ public sealed class RMCCameraNextBuiMsg : BoundUserInterfaceMessage;
 public sealed class RMCCameraRefreshSubnetsBuiMsg : BoundUserInterfaceMessage;
 
 [Serializable, NetSerializable]
+<<<<<<< HEAD
 public sealed class RMCCameraNetworkBuiMsg(ProtoId<CameraNetworkPrototype> network) : BoundUserInterfaceMessage
 {
     public ProtoId<CameraNetworkPrototype> Network { get; } = network;
+=======
+public sealed class RMCCameraSessionNetworkBuiMsg(NetEntity network) : BoundUserInterfaceMessage
+{
+    public NetEntity Network { get; } = network;
+}
+
+[Serializable, NetSerializable]
+public sealed class RMCCameraEditorStateBuiMsg(
+    bool enabled,
+    RMCCameraNetworkEditorUiState state) : BoundUserInterfaceMessage
+{
+    public bool Enabled { get; } = enabled;
+    public RMCCameraNetworkEditorUiState State { get; } = state;
+>>>>>>> cmu/master
 }
 
 [Serializable, NetSerializable]

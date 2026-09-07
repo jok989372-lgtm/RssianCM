@@ -247,8 +247,11 @@
       enum.RMCCameraUiKey.Key:
         type: RMCCameraBui
   - type: RMCCameraComputer
+<<<<<<< HEAD
     protoIds:
     - RMCMonitorCameraAlamo
+=======
+>>>>>>> cmu/master
   - type: CameraNetworkReceiver
     networks: [RMCMonitorCameraAlamo]
     supportedSources: Rmc
@@ -263,8 +266,11 @@
   suffix: Normandy
   components:
   - type: RMCCameraComputer
+<<<<<<< HEAD
     protoIds:
     - RMCMonitorCameraNormandy
+=======
+>>>>>>> cmu/master
   - type: CameraNetworkReceiver
     networks: [RMCMonitorCameraNormandy]
     supportedSources: Rmc

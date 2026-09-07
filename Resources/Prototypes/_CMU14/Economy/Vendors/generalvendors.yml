@@ -250,8 +250,8 @@
     #     isAppendPrefix: false
     #     isAppendSquadRoleName: false
     #     giveIcon:
-    #       sprite: _AU14/Interface/au14govforjobicons.rsi
-    #       state: govfor_adj
+    #       sprite: _CMU14/Interface/cmugovforjobicons.rsi
+    #       state: adj
     # - name: Staff Officers
     #   choices: { CMUJOLoadoutVendorKit: 1 }
     #   entries:
@@ -271,17 +271,23 @@
     #     isAppendPrefix: false
     #     isAppendSquadRoleName: false
     #     giveIcon:
-    #       sprite: _AU14/Interface/au14govforjobicons.rsi
-    #       state: govfor_io
+    #       sprite: _CMU14/Interface/cmugovforjobicons.rsi
+    #       state: io
     #   - id: AU14KitJOEngineeringKit
     #     giveSquadRoleName: au14-job-name-juniorofficer-eo
     #     givePrefix: au14-job-prefix-juniorofficer-eo
     #     isAppendPrefix: false
     #     isAppendSquadRoleName: false
     #     giveIcon:
+<<<<<<< HEAD
     #       sprite: _AU14/Interface/au14govforjobicons.rsi
     #       state: govfor_eo
     - name: au14-vendor-section-spare-equipment
+=======
+    #       sprite: _CMU14/Interface/cmugovforjobicons.rsi
+    #       state: eo
+    - name: Spare Equipment
+>>>>>>> cmu/master
       entries:
       - id: RMCMegaphone
       - id: RMCLaserDesignator

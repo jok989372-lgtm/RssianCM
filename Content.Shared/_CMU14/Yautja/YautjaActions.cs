@@ -77,6 +77,10 @@ public sealed partial class YautjaRemoveTrackedItemActionEvent : InstantActionEv
 
 public sealed partial class YautjaCreateStabilisingCrystalActionEvent : InstantActionEvent;
 
+public sealed partial class YautjaCreateFieldRationActionEvent : InstantActionEvent;
+
+public sealed partial class YautjaCreateHuntingCanteenActionEvent : InstantActionEvent;
+
 public sealed partial class YautjaCreateHumanStabilisingCrystalActionEvent : InstantActionEvent;
 
 public sealed partial class YautjaCreateHealingCapsuleActionEvent : InstantActionEvent;
@@ -108,6 +112,7 @@ public sealed partial class YautjaToggleShieldActionEvent : InstantActionEvent;
 
 public sealed partial class YautjaToggleChainGauntletActionEvent : InstantActionEvent;
 
+<<<<<<< HEAD
 public sealed partial class YautjaRemoveBracerAttachmentsActionEvent : InstantActionEvent;
 
 public sealed partial class YautjaGuardChainGauntletActionEvent : InstantActionEvent;
@@ -120,6 +125,9 @@ public sealed record YautjaHivebreakerConsentAcceptedEvent(NetEntity User, NetEn
 
 [Serializable, NetSerializable]
 public sealed record YautjaHivebreakerConsentRejectedEvent(NetEntity User);
+=======
+public sealed partial class YautjaRaiseThrallActionEvent : EntityTargetActionEvent;
+>>>>>>> cmu/master
 
 public sealed partial class YautjaVoiceClickActionEvent : InstantActionEvent;
 

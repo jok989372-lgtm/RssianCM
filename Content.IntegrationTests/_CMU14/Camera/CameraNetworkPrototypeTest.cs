@@ -7,6 +7,10 @@ using Content.Server.Wires;
 using Content.Server.SurveillanceCamera;
 using Content.Shared._RMC14.Camera;
 using Content.Shared.Camera;
+<<<<<<< HEAD
+=======
+using Content.Shared.Construction.Prototypes;
+>>>>>>> cmu/master
 using Content.Shared.Wires;
 using Robust.Shared.GameObjects;
 using Robust.Shared.IoC;
@@ -49,6 +53,10 @@ public sealed class CameraNetworkPrototypeTest
         "RMCMonitorCameraLandingZone",
         "RMCMonitorCameraNormandy",
         "RMCSurveillanceCameraAlmayer",
+<<<<<<< HEAD
+=======
+        "RMCTelevision",
+>>>>>>> cmu/master
     };
 
     [Test]
@@ -101,8 +109,17 @@ public sealed class CameraNetworkPrototypeTest
             AssertMember(prototypes, factory, "RMCMonitorCameraAlamo", ["RMCMonitorCameraAlamo"], CameraSourceKinds.Rmc, true);
             AssertMember(prototypes, factory, "RMCMonitorCameraNormandy", ["RMCMonitorCameraNormandy"], CameraSourceKinds.Rmc, true);
             AssertMember(prototypes, factory, "RMCMonitorCameraLandingZone", ["RMCMonitorCameraLandingZone"], CameraSourceKinds.Rmc, false);
+<<<<<<< HEAD
             AssertReceiver(prototypes, factory, "CMComputerDropshipCamerasAlamo", ["RMCMonitorCameraAlamo"], CameraSourceKinds.Rmc);
             AssertReceiver(prototypes, factory, "RMCComputerDropshipCamerasNormandy", ["RMCMonitorCameraNormandy"], CameraSourceKinds.Rmc);
+=======
+            AssertMember(prototypes, factory, "RMCCameraBroadcasting", ["RMCTelevision"], CameraSourceKinds.Rmc, false);
+            AssertReceiver(prototypes, factory, "CMComputerDropshipCamerasAlamo", ["RMCMonitorCameraAlamo"], CameraSourceKinds.Rmc);
+            AssertReceiver(prototypes, factory, "RMCComputerDropshipCamerasNormandy", ["RMCMonitorCameraNormandy"], CameraSourceKinds.Rmc);
+            AssertReceiver(prototypes, factory, "RMCTelevision", ["RMCTelevision"], CameraSourceKinds.Rmc);
+            AssertReceiver(prototypes, factory, "RMCTelevisionWallMount", ["RMCTelevision"], CameraSourceKinds.Rmc);
+            AssertMember(prototypes, factory, "SurveillanceCameraConstructed", [], CameraSourceKinds.Standard, true);
+>>>>>>> cmu/master
             AssertMember(prototypes, factory, "CMUSurveillanceCameraColonyCMB", ["CMUSurveillanceCameraColonyCMB"], CameraSourceKinds.Rmc, true);
             AssertMember(prototypes, factory, "CMUSurveillanceCameraColonyGOVFOR", ["CMUSurveillanceCameraColonyGOVFOR"], CameraSourceKinds.Rmc, true);
             AssertMember(prototypes, factory, "CMUSurveillanceCameraColonyWEYU", ["CMUSurveillanceCameraColonyWEYU"], CameraSourceKinds.Rmc, true);
@@ -132,12 +149,15 @@ public sealed class CameraNetworkPrototypeTest
                 "RMCFlareCAS",
                 "RMCAirFlareCAS",
                 "RMCLaserDesignatorTarget",
+<<<<<<< HEAD
                 "RuMCFlareRedCAS",
                 "RMCTelevision",
                 "RMCTelevisionWallMount",
                 "RMCCameraBroadcasting",
                 "CMUMobYautjaHellhound",
                 "CMUYautjaHoundObservationPadInternalCamera",
+=======
+>>>>>>> cmu/master
             })
             {
                 AssertNoCameraNetworkComponents(prototypes, factory, id);
@@ -151,6 +171,39 @@ public sealed class CameraNetworkPrototypeTest
     }
 
     [Test]
+<<<<<<< HEAD
+=======
+    public async Task RestoredConstructionGraphsProduceGenericEquipment()
+    {
+        var (server, _) = await PoolManager.GenerateServer(new PoolSettings(), TestContext.Out);
+        try
+        {
+            await server.WaitAssertion(() =>
+            {
+                var prototypes = server.ResolveDependency<IPrototypeManager>();
+
+                Assert.Multiple(() =>
+                {
+                    Assert.That(prototypes.Index<ConstructionGraphPrototype>("SurveillanceCamera")
+                            .Nodes["camera"].Entity.GetId(null, null, new(server.EntMan)),
+                        Is.EqualTo("SurveillanceCameraConstructed"));
+                    Assert.That(prototypes.Index<ConstructionGraphPrototype>("WallmountTelescreen")
+                            .Nodes["Telescreen"].Entity.GetId(null, null, new(server.EntMan)),
+                        Is.EqualTo("WallmountTelescreen"));
+                    Assert.That(prototypes.Index<ConstructionGraphPrototype>("WallmountTelevision")
+                            .Nodes["Television"].Entity.GetId(null, null, new(server.EntMan)),
+                        Is.EqualTo("WallmountTelevision"));
+                });
+            });
+        }
+        finally
+        {
+            server.Dispose();
+        }
+    }
+
+    [Test]
+>>>>>>> cmu/master
     public async Task CmuAndRmcCamerasExposeSelectableLogicalNetworks()
     {
         var (server, _) = await PoolManager.GenerateServer(new PoolSettings(), TestContext.Out);
@@ -254,7 +307,11 @@ public sealed class CameraNetworkPrototypeTest
     }
 
     [Test]
+<<<<<<< HEAD
     public async Task GenericStationCameraAndMonitorPrototypesAreDisabled()
+=======
+    public async Task GenericStationCameraAndMonitorPrototypesAreNotRmcSources()
+>>>>>>> cmu/master
     {
         var (server, _) = await PoolManager.GenerateServer(new PoolSettings(), TestContext.Out);
         try
@@ -262,7 +319,11 @@ public sealed class CameraNetworkPrototypeTest
             await server.WaitAssertion(() =>
             {
                 var prototypes = server.ResolveDependency<IPrototypeManager>();
+<<<<<<< HEAD
                 var disabled = new[]
+=======
+                var generic = new[]
+>>>>>>> cmu/master
                 {
                     "SurveillanceCameraEngineering",
                     "SurveillanceCameraSecurity",
@@ -281,10 +342,25 @@ public sealed class CameraNetworkPrototypeTest
                     "PonderingOrbWizard",
                 };
 
+<<<<<<< HEAD
                 foreach (var id in disabled)
                 {
                     if (prototypes.HasIndex<EntityPrototype>(id))
                         Assert.That(prototypes.Index<EntityPrototype>(id).Abstract, Is.True, id);
+=======
+                foreach (var id in generic)
+                {
+                    if (!prototypes.TryIndex<EntityPrototype>(id, out var prototype))
+                        continue;
+
+                    Assert.That(prototype.TryComp<RMCCameraComputerComponent>(out _, server.EntMan.ComponentFactory),
+                        Is.False,
+                        id);
+                    if (prototype.TryComp<CameraNetworkMemberComponent>(out var member, server.EntMan.ComponentFactory))
+                        Assert.That(member!.SourceKinds & CameraSourceKinds.Rmc, Is.EqualTo(CameraSourceKinds.None), id);
+                    if (prototype.TryComp<CameraNetworkReceiverComponent>(out var receiver, server.EntMan.ComponentFactory))
+                        Assert.That(receiver!.SupportedSources & CameraSourceKinds.Rmc, Is.EqualTo(CameraSourceKinds.None), id);
+>>>>>>> cmu/master
                 }
             });
         }
@@ -367,12 +443,15 @@ public sealed class CameraNetworkPrototypeTest
                     "RMCFlareCAS",
                     "RMCAirFlareCAS",
                     "RMCLaserDesignatorTarget",
+<<<<<<< HEAD
                     "RuMCFlareRedCAS",
                     "RMCTelevision",
                     "RMCTelevisionWallMount",
                     "RMCCameraBroadcasting",
                     "CMUMobYautjaHellhound",
                     "CMUYautjaHoundObservationPadInternalCamera",
+=======
+>>>>>>> cmu/master
                 })
                 {
                     var prototype = prototypes.Index<EntityPrototype>(id);

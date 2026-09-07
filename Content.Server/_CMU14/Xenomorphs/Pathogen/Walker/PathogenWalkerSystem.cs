@@ -26,10 +26,12 @@ using Content.Server.Radio.Components;
 using Content.Server.Ghost.Roles.Components;
 using Robust.Shared.Player;
 using Content.Server.Mind;
+using Content.Server._CMU14.Weapons.Ranged;
 using Content.Shared._RMC14.TacticalMap;
 using Content.Shared.Examine;
 using Content.Shared.IdentityManagement;
 using Content.Shared._RMC14.Synth;
+using Content.Shared._RMC14.Weapons.Ranged.Whitelist;
 using Content.Shared.Mind;
 using Content.Shared.Whitelist;
 using Content.Shared._RMC14.Pulling;
@@ -44,21 +46,22 @@ namespace Content.Server._CMU14.Xenomorphs.Pathogen.Walker;
 
 public sealed partial class CMUPathogenWalkerSystem : EntitySystem
 {
-    [Dependency] private readonly IGameTiming _timing = default!;
-    [Dependency] private readonly INetManager _net = default!;
-    [Dependency] private readonly MobStateSystem _mobState = default!;
-    [Dependency] private readonly NpcFactionSystem _faction = default!;
-    [Dependency] private readonly SharedPopupSystem _popup = default!;
-    [Dependency] private readonly SharedXenoHiveSystem _hive = default!;
-    [Dependency] private readonly DamageableSystem _damageable = default!;
-    [Dependency] private readonly IPrototypeManager _protoMgr = default!;
-    [Dependency] private readonly InventorySystem _inventory = default!;
-    [Dependency] private readonly SharedJitteringSystem _jitter = default!;
-    [Dependency] private readonly SharedStatusEffectsSystem _status = default!;
-    [Dependency] private readonly LanguageSystem _language = default!;
-    [Dependency] private readonly ISharedPlayerManager _player = default!;
-    [Dependency] private readonly MindSystem _mind = default!;
-    [Dependency] private readonly BlindableSystem _blindable = default!;
+    [Dependency] private  IGameTiming _timing = default!;
+    [Dependency] private  INetManager _net = default!;
+    [Dependency] private  MobStateSystem _mobState = default!;
+    [Dependency] private  NpcFactionSystem _faction = default!;
+    [Dependency] private  SharedPopupSystem _popup = default!;
+    [Dependency] private  SharedXenoHiveSystem _hive = default!;
+    [Dependency] private  DamageableSystem _damageable = default!;
+    [Dependency] private  IPrototypeManager _protoMgr = default!;
+    [Dependency] private  InventorySystem _inventory = default!;
+    [Dependency] private  SharedJitteringSystem _jitter = default!;
+    [Dependency] private  SharedStatusEffectsSystem _status = default!;
+    [Dependency] private  LanguageSystem _language = default!;
+    [Dependency] private  ISharedPlayerManager _player = default!;
+    [Dependency] private  MindSystem _mind = default!;
+    [Dependency] private  BlindableSystem _blindable = default!;
+    [Dependency] private CMUHostileIFFSystem _hostileIFF = default!;
 
     private static readonly ProtoId<NpcFactionPrototype> WalkerFaction = "CMU14PathogenWalker";
     private static readonly ProtoId<DamageGroupPrototype> BruteGroup = "Brute";
@@ -78,7 +81,7 @@ public sealed partial class CMUPathogenWalkerSystem : EntitySystem
         SubscribeLocalEvent<CMUPathogenWalkerComponent, ExaminedEvent>(OnWalkerExamined);
         SubscribeNetworkEvent<CMUPathogenWalkerAcceptNetEvent>(OnAcceptNet);
         SubscribeNetworkEvent<CMUPathogenWalkerDeclineNetEvent>(OnDeclineNet);
-        SubscribeLocalEvent<CMUPathogenWalkerComponent, BodyPartSeveredEvent>(OnWalkerSevered);
+        SubscribeLocalEvent<BodyPartComponent, BodyPartSeveredEvent>(OnWalkerSevered);
     }
 
     private void OnReanimate(CMUMycotoxinInjectDoReanimateEvent ev)
@@ -106,6 +109,7 @@ public sealed partial class CMUPathogenWalkerSystem : EntitySystem
         }
 
         RemComp<CMUOrganBlindnessComponent>(target);
+        RemComp<ScoutWhitelistComponent>(target);
         if (TryComp<CMUEyeDamageContributionComponent>(target, out var eyeTracker))
         {
             if (TryComp<BlindableComponent>(target, out var blindable))
@@ -114,6 +118,7 @@ public sealed partial class CMUPathogenWalkerSystem : EntitySystem
         }
 
         _faction.AddFaction(target, WalkerFaction);
+        _hostileIFF.StripIFF(target);
         _language.SetExclusiveLanguage(target, "Pathogen");
 
         EnsureComp<IntrinsicRadioReceiverComponent>(target);
@@ -152,17 +157,25 @@ public sealed partial class CMUPathogenWalkerSystem : EntitySystem
         Dirty(target, walker);
     }
 
-    private void OnWalkerSevered(Entity<CMUPathogenWalkerComponent> walker, ref BodyPartSeveredEvent args)
+    private void OnWalkerSevered(Entity<BodyPartComponent> part, ref BodyPartSeveredEvent args)
     {
         if (args.Type != BodyPartType.Head)
             return;
 
-        // Cancel any pending revive and mark as exhausted
-        walker.Comp.ReviveAt = null;
-        walker.Comp.RevivesUsed = walker.Comp.MaxRevives;
-        Dirty(walker);
+        if (!TryComp<CMUPathogenWalkerComponent>(args.Body, out var walker))
+            return;
 
-        _popup.PopupEntity(Loc.GetString("cmu14-walker-permanent-death"), walker, PopupType.Medium);
+        // Decap is permanent death
+        walker.ReviveAt = null;
+        walker.RevivesUsed = walker.MaxRevives;
+        walker.OfferResolved = true;
+        walker.OfferExpiresAt = null;
+        Dirty(args.Body, walker);
+
+        RemComp<GhostTakeoverAvailableComponent>(args.Body);
+        RemComp<GhostRoleComponent>(args.Body);
+
+        _popup.PopupEntity(Loc.GetString("cmu14-walker-permanent-death"), args.Body, PopupType.Medium);
     }
 
     private void OnAcceptNet(CMUPathogenWalkerAcceptNetEvent ev, EntitySessionEventArgs args)

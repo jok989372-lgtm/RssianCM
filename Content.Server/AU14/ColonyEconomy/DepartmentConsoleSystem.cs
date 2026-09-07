@@ -1,4 +1,5 @@
 using System.Linq;
+using Content.Server._CMU14.Chat; // CMU14
 using Content.Server._RMC14.Requisitions;
 using Content.Server.Chat.Systems;
 using Content.Server.Stack;
@@ -38,7 +39,7 @@ public sealed partial class DepartmentConsoleSystem : EntitySystem
 
     private readonly Dictionary<EntityUid, PendingDepartmentRegistration> _pendingRegistrations = new();
 
-    private sealed class PendingDepartmentRegistration
+    private sealed partial class PendingDepartmentRegistration
     {
         public readonly string JobId;
         public int Attempts;
@@ -766,7 +767,8 @@ public sealed partial class DepartmentConsoleSystem : EntitySystem
             var message = Loc.GetString("department-console-salaries-dispensed");
             var sender = Loc.GetString("department-console-salary-announcement-title");
             var announcementSound = new SoundPathSpecifier("/Audio/Announcements/announce.ogg");
-            _chatSystem.DispatchGlobalAnnouncement(message, sender, true, announcementSound);
+            //_chatSystem.DispatchGlobalAnnouncement(message, sender, true, announcementSound); // CMU14: xenos must not receive colony announcements
+            _chatSystem.DispatchFilteredAnnouncement(ColonyAnnouncements.Recipients(EntityManager), message, sender: sender, playSound: true, announcementSound: announcementSound); // CMU14
         }
     }
 

@@ -260,8 +260,7 @@ cmu-yautja-bracer-id-retracted = The embedded ID chip retracts into the bracer.
 cmu-yautja-bracer-id-slot-blocked = Your ID slot is blocked.
 cmu-yautja-bracer-id-failed = The embedded ID chip fails to deploy.
 cmu-yautja-bracer-fabricator-cooldown = The bracer fabricator is still recharging.
-cmu-yautja-bracer-crystal-created = The bracer grows {$item}.
-cmu-yautja-bracer-human-crystal-created = The bracer grows {$item}.
+cmu-yautja-bracer-item-created = The bracer grows {$item}.
 cmu-yautja-bracer-hunting-trap-created = The bracer prints {$item}.
 cmu-yautja-change-explosion-type-big = Bracer self-destruct set to a big explosion.
 cmu-yautja-change-explosion-type-small = Bracer self-destruct set to a small explosion.
@@ -360,7 +359,27 @@ cmu-yautja-thrall-blooded-requires-thrall = Only your marked thrall can be blood
 cmu-yautja-thrall-blooded-cannot-remove = Once a thrall becomes a blooded hunter, there is no going back.
 cmu-yautja-thrall-marked-master = You claim {$target} as your thrall.
 cmu-yautja-thrall-marked-target = {$hunter} claims you as a Yautja thrall.
+<<<<<<< HEAD
 cmu-yautja-thrall-broadcast = {$hunter} has taken {$target} as their Thrall for '{$reason}'.
+=======
+cmu-yautja-thrall-broadcast = {$hunter} has claimed {$target} as a thrall.
+cmu-yautja-thrall-raise-invalid = The bracer cannot raise that. Only intact dead humanoids can serve.
+cmu-yautja-thrall-raise-limit = Too many raised thralls already walk. The bracer cannot sustain another until one of them falls.
+cmu-yautja-thrall-raised-others = {$target} shudders back to a twisted semblance of life!
+cmu-yautja-thrall-raised-examine = Their skin has an ashen pallor, and their movements carry a subtle wrongness.
+cmu-yautja-thrall-raise-cover-refuse = The corrupted flesh rejects the covering.
+cmu-yautja-thrall-takeover-notice = You are a thrall, bound in service to the Yautja hunter {$master}. They raised you from the dead; follow their orders. You are not friendly to marines or xenos.
+cmu-yautja-thrall-ghost-role-name = Bad Blood Thrall
+cmu-yautja-thrall-ghost-role-description = Raised from the dead by a Bad Blood's scavenged technology. Serve your new master.
+cmu-yautja-thrall-ghost-role-rules = You are bound to the Bad Blood who raised you. Follow their orders. You are not friendly to marines or xenos.
+cmu-yautja-weapon-refuse = Your hands reject the crude mechanisms of human weaponry.
+ent-CMUActionYautjaRaiseThrall = Raise Thrall
+    .desc = Revive a dead humanoid as a thrall, claimable by ghosts. Costs bracer power.
+ent-CMUActionYautjaCreateFieldRation = Fabricate Hunting Ration
+    .desc = The bracer extrudes a preserved strip of meat. Costs bracer power.
+ent-CMUActionYautjaCreateHuntingCanteen = Fabricate Hunting Canteen
+    .desc = The bracer seals water in a lacquered gourd. Costs bracer power.
+>>>>>>> cmu/master
 cmu-yautja-thrall-blooded-master = You blood {$target} and authorize alien technology.
 cmu-yautja-thrall-blooded-target = You are a Blooded Thrall. Focus on interacting with Predators and developing your reputation. You should be observant and discreet while exercising discretionary restraint when hunting worthy prey. Learn Yautja lore and their Honor Code. If you have any questions, ask the whitelisted players in LOOC.
 cmu-yautja-thrall-blooded-broadcast = {$hunter} has blooded {$target} for '{$reason}'.

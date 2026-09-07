@@ -27,7 +27,6 @@
           steps:
             - tool: Welding
               doAfter: 2
-
     - node: wired
       entity: CMUSurveillanceCameraAssembly
       edges:

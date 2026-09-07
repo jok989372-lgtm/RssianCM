@@ -78,7 +78,6 @@
   id: AU14JobFORECONRifleman
   name: FORECON Rifleman (Surv)
   components:
-  - type: Threat
   - type: GhostTakeoverAvailable
   - type: GhostRoleApplySpecial
     squad: SquadFORECON
@@ -98,7 +97,7 @@
   id: AU14GearFORECONRifleman
   equipment:
     id: AU14IDCardFORECONRifleman
-    outerClothing: RMCOuterClothingExternalWebbingBrownFull
+    outerClothing: RMCOuterClothingExternalWebbingForeconSurvivorFill
     jumpsuit: RMCJumpsuitSurvivorMarineDropPouch
     shoes: CMBootsBlackFilled
     head: ArmorHelmetM10

@@ -1,6 +1,7 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using Content.Shared._CMU14.ZLevels.Core.EntitySystems;
+using Content.Shared._CMU14.Xenomorphs.Pathogen;
 using Content.Shared._RMC14.ARES;
 using Content.Shared._RMC14.ARES.Logs;
 using Content.Shared._RMC14.Areas;
@@ -134,18 +135,21 @@ public abstract partial class SharedDropshipSystem : EntitySystem
 
     private void OnDropshipMapInit(Entity<DropshipComponent> ent, ref MapInitEvent args)
     {
-        var children = Transform(ent).ChildEnumerator;
-        while (children.MoveNext(out var uid))
+        if (!_net.IsClient)
         {
-            if (TerminatingOrDeleted(uid))
-                continue;
-
-            if (HasComp<DropshipWeaponPointComponent>(uid) ||
-                HasComp<DropshipEnginePointComponent>(uid) ||
-                HasComp<DropshipUtilityPointComponent>(uid) ||
-                HasComp<DropshipElectronicSystemPointComponent>(uid))
+            var children = Transform(ent).ChildEnumerator;
+            while (children.MoveNext(out var uid))
             {
-                ent.Comp.AttachmentPoints.Add(uid);
+                if (TerminatingOrDeleted(uid))
+                    continue;
+
+                if (HasComp<DropshipWeaponPointComponent>(uid) ||
+                    HasComp<DropshipEnginePointComponent>(uid) ||
+                    HasComp<DropshipUtilityPointComponent>(uid) ||
+                    HasComp<DropshipElectronicSystemPointComponent>(uid))
+                {
+                    ent.Comp.AttachmentPoints.Add(uid);
+                }
             }
         }
 
@@ -385,34 +389,7 @@ public abstract partial class SharedDropshipSystem : EntitySystem
         if (mapUid is not { } map)
             return;
 
-        if (_zLevels.TryGetZNetwork(map, out var network) &&
-            _zLevels.TryGetDepthBounds(network.Value, out var minDepth, out var maxDepth))
-        {
-            var connectedMaps = new List<EntityUid>();
-            for (var depth = minDepth; depth <= maxDepth; depth++)
-            {
-                if (_zLevels.TryGetMapAtDepth(network.Value, depth, out var connectedMap))
-                    connectedMaps.Add(connectedMap);
-            }
-
-            AddShipMapAndConnectedZLevels(shipMaps, map, connectedMaps);
-            return;
-        }
-
-        AddShipMapAndConnectedZLevels(shipMaps, map, null);
-    }
-
-    private static void AddShipMapAndConnectedZLevels(
-        HashSet<EntityUid> shipMaps,
-        EntityUid mapUid,
-        IEnumerable<EntityUid>? connectedMaps)
-    {
-        shipMaps.Add(mapUid);
-
-        if (connectedMaps == null)
-            return;
-
-        foreach (var connectedMap in connectedMaps)
+        foreach (var connectedMap in _zLevels.GetAllNetworkMaps(map)) // CMU14
             shipMaps.Add(connectedMap);
     }
 
@@ -743,6 +720,13 @@ public abstract partial class SharedDropshipSystem : EntitySystem
 
     private void OnAttachmentPointRemove<TComp, TEvent>(Entity<TComp> ent, ref TEvent args) where TComp : IComponent?
     {
+        // AttachmentPoints is server-authoritative replicated state. Attachment
+        // points can terminate client-side while a dropship changes maps/PVS;
+        // mutating the set there dirties the networked dropship during
+        // prediction rollback and can trip ResetPredictedEntities.
+        if (_net.IsClient)
+            return;
+
         if (TryGetGridDropship(ent, out var dropship))
         {
             dropship.Comp.AttachmentPoints.Remove(ent);
@@ -885,7 +869,7 @@ public abstract partial class SharedDropshipSystem : EntitySystem
                 if (TryComp<MarineComponent>(args.Actor, out var marine) && !string.IsNullOrEmpty(marine.Faction))
                     hijackerFaction = marine.Faction.ToLowerInvariant();
 
-                var ev = new DropshipHijackStartEvent(xform.ParentUid, hijackerFaction, true);
+                var ev = new DropshipHijackStartEvent(xform.ParentUid, hijackerFaction, DropshipHijackerType.Human); // CMU14
                 RaiseLocalEvent(ref ev);
             }
         }
@@ -918,7 +902,10 @@ public abstract partial class SharedDropshipSystem : EntitySystem
                 dropship.Crashed = true;
                 Dirty(xform.ParentUid, dropship);
 
-                var ev = new DropshipHijackStartEvent(xform.ParentUid);
+                var hijackerType = HasComp<CMUPathogenHiveMemberComponent>(args.Actor) ? DropshipHijackerType.Pathogen :
+                    HasComp<XenoComponent>(args.Actor) ? DropshipHijackerType.Xeno :
+                    DropshipHijackerType.Other; // CMU14
+                var ev = new DropshipHijackStartEvent(xform.ParentUid, HijackerType: hijackerType); // CMU14
                 RaiseLocalEvent(ref ev);
             }
         }
@@ -1420,5 +1407,11 @@ public abstract partial class SharedDropshipSystem : EntitySystem
             comp.Destination = destination;
             Dirty(uid, comp);
         }
+    }
+
+    public void SetDropshipCrashed(Entity<DropshipComponent> dropship, bool crashed)
+    {
+        dropship.Comp.Crashed = crashed;
+        Dirty(dropship);
     }
 }

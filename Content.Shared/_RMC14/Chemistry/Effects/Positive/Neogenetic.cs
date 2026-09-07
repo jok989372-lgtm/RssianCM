@@ -15,6 +15,7 @@ public sealed partial class Neogenetic : RMCChemicalEffect
 
     protected override string ReagentEffectGuidebookText(IPrototypeManager prototype, IEntitySystemManager entSys)
     {
+<<<<<<< HEAD
         var healing = PotencyPerSecond;
         if (ActualPotency > 2)
             healing += PotencyPerSecond * 0.5f;
@@ -25,19 +26,20 @@ public sealed partial class Neogenetic : RMCChemicalEffect
             ("critBurn", PotencyPerSecond * 5),
             ("critToxin", PotencyPerSecond * 2));
         // RuMC edit end
+=======
+        var healing = PotencyPerSecond * 1.5f;
+
+        return $"Heals [color=green]{healing}[/color] brute damage.\n" +
+               $"Overdoses cause [color=red]{PotencyPerSecond}[/color] burn damage.\n" +
+               $"Critical overdoses cause [color=red]{PotencyPerSecond * 5}[/color] burn and [color=red]{PotencyPerSecond * 2}[/color] toxin damage";
+>>>>>>> cmu/master
     }
 
     protected override void Tick(DamageableSystem damageable, FixedPoint2 potency, EntityEffectReagentArgs args)
     {
         var rmcDamageable = args.EntityManager.System<SharedRMCDamageableSystem>();
-        var healing = rmcDamageable.DistributeHealingCached(args.TargetEntity, BruteGroup, potency);
-
+        var healing = rmcDamageable.DistributeHealingCached(args.TargetEntity, BruteGroup, potency * 1.5f);
         damageable.TryChangeDamage(args.TargetEntity, healing, true, interruptsDoAfters: false);
-        if (ActualPotency > 2)
-        {
-            healing = rmcDamageable.DistributeHealingCached(args.TargetEntity, BruteGroup, potency * 0.5f);
-            damageable.TryChangeDamage(args.TargetEntity, healing, true, interruptsDoAfters: false);
-        }
     }
 
     protected override void TickOverdose(DamageableSystem damageable, FixedPoint2 potency, EntityEffectReagentArgs args)

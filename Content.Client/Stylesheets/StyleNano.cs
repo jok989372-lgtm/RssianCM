@@ -1,5 +1,6 @@
-using System.Linq;
+﻿using System.Linq;
 using System.Numerics;
+using Content.Client._CMU14.UserInterface.ColorPicker;
 using Content.Client._RMC14;
 using Content.Client.ContextMenu.UI;
 using Content.Client.Examine;
@@ -42,7 +43,7 @@ namespace Content.Client.Stylesheets
 
     }
     // STLYE SHEETS WERE A MISTAKE. KILL ALL OF THIS WITH FIRE
-    public sealed class StyleNano : StyleBase
+    public sealed partial class StyleNano : StyleBase
     {
         public const string StyleClassBorderedWindowPanel = "BorderedWindowPanel";
         public const string StyleClassInventorySlotBackground = "InventorySlotBackground";
@@ -88,6 +89,7 @@ namespace Content.Client.Stylesheets
         public const string StyleClassCharacterName = "CharacterName";
         public const string StyleClassCharacterNameInput = "CharacterNameInput";
         public const string StyleClassButtonBig = "ButtonBig";
+<<<<<<< HEAD
         public const string StyleClassCrtWindow = "CrtWindow";
         public const string StyleClassCrtWindowHeader = "CrtWindowHeader";
         public const string StyleClassCrtWindowTitle = "CrtWindowTitle";
@@ -114,6 +116,8 @@ namespace Content.Client.Stylesheets
         public const string StyleClassCrtIconButton = "CrtIconButton";
         public const string StyleClassCrtItemList = "CrtItemList";
         public const string StyleClassCrtScrollBar = "CrtScrollBar";
+=======
+>>>>>>> cmu/master
 
         public const string StyleClassButtonHelp = "HelpButton";
 
@@ -127,44 +131,7 @@ namespace Content.Client.Stylesheets
         public static readonly Color PanelDark = Color.FromHex("#1E1E22");
 
         public static readonly Color NanoGold = Color.FromHex("#A88B5E");
-        private static CrtPalette _crtPalette = CrtPalette.Green;
-        private static bool _crtUiEnabled = true;
-        private static readonly Color DefaultCrtBackground = Color.FromHex("#07090B");
-        private static readonly Color DefaultCrtPanelBackground = Color.FromHex("#25252A");
-        private static readonly Color DefaultCrtPanelBackgroundAlt = Color.FromHex("#202023");
-        private static readonly Color DefaultCrtInsetBackground = PanelDark;
-        private static readonly Color DefaultCrtHeaderBackground = Color.FromHex("#2F3035");
-        private static readonly Color DefaultCrtButtonBackground = Color.FromHex("#464966");
-        private static readonly Color DefaultCrtButtonHoverBackground = Color.FromHex("#565A78");
-        private static readonly Color DefaultCrtButtonPressedBackground = Color.FromHex("#383B52");
-        private static readonly Color DefaultCrtButtonDisabledBackground = Color.FromHex("#252734");
-        private static readonly Color DefaultCrtSliderForeground = Color.FromHex("#5B5E77");
-        private static readonly Color DefaultCrtItemBackground = Color.FromHex("#202028");
-        private static readonly Color DefaultCrtItemSelectedBackground = Color.FromHex("#373744");
-        private static readonly Color DefaultCrtItemDisabledBackground = Color.FromHex("#202024");
-        private static readonly Color DefaultCrtDim = Color.FromHex("#9A9A9A");
-        private static readonly Color DefaultCrtDisabled = Color.FromHex("#5A5A5A");
 
-        public static bool CrtUiEnabled => _crtUiEnabled;
-
-        public static Color CrtBackground => _crtUiEnabled ? _crtPalette.Background : DefaultCrtBackground;
-        public static Color CrtPanelBackground => _crtUiEnabled ? _crtPalette.PanelBackground : DefaultCrtPanelBackground;
-        public static Color CrtPanelBackgroundAlt => _crtUiEnabled ? _crtPalette.PanelBackgroundAlt : DefaultCrtPanelBackgroundAlt;
-        public static Color CrtInsetBackground => _crtUiEnabled ? _crtPalette.InsetBackground : DefaultCrtInsetBackground;
-        public static Color CrtHeaderBackground => _crtUiEnabled ? _crtPalette.HeaderBackground : DefaultCrtHeaderBackground;
-        public static Color CrtButtonBackground => _crtUiEnabled ? _crtPalette.ButtonBackground : DefaultCrtButtonBackground;
-        public static Color CrtButtonHoverBackground => _crtUiEnabled ? _crtPalette.ButtonHoverBackground : DefaultCrtButtonHoverBackground;
-        public static Color CrtButtonPressedBackground => _crtUiEnabled ? _crtPalette.ButtonPressedBackground : DefaultCrtButtonPressedBackground;
-        public static Color CrtButtonDisabledBackground => _crtUiEnabled ? _crtPalette.ButtonDisabledBackground : DefaultCrtButtonDisabledBackground;
-        public static Color CrtSliderForeground => _crtUiEnabled ? _crtPalette.SliderForeground : DefaultCrtSliderForeground;
-        public static Color CrtProgressForeground => _crtUiEnabled ? _crtPalette.ProgressForeground : DefaultCrtSliderForeground;
-        public static Color CrtItemBackground => _crtUiEnabled ? _crtPalette.ItemBackground : DefaultCrtItemBackground;
-        public static Color CrtItemSelectedBackground => _crtUiEnabled ? _crtPalette.ItemSelectedBackground : DefaultCrtItemSelectedBackground;
-        public static Color CrtItemDisabledBackground => _crtUiEnabled ? _crtPalette.ItemDisabledBackground : DefaultCrtItemDisabledBackground;
-        public static Color CrtGreen => _crtUiEnabled ? _crtPalette.Accent : NanoGold;
-        public static Color CrtGreenDim => _crtUiEnabled ? _crtPalette.AccentDim : DefaultCrtDim;
-        public static Color CrtGreenSoft => _crtUiEnabled ? _crtPalette.AccentSoft : Color.White;
-        public static Color CrtGreenDisabled => _crtUiEnabled ? _crtPalette.AccentDisabled : DefaultCrtDisabled;
         public static readonly Color GoodGreenFore = Color.FromHex("#31843E");
         public static readonly Color ConcerningOrangeFore = Color.FromHex("#A5762F");
         public static readonly Color DangerousRedFore = Color.FromHex("#BB3232");
@@ -231,273 +198,7 @@ namespace Content.Client.Stylesheets
         public const string StyleClassPinButtonPinned = "pinButtonPinned";
         public const string StyleClassPinButtonUnpinned = "pinButtonUnpinned";
 
-        private sealed class CrtPalette
-        {
-            public static readonly CrtPalette Green = new(
-                "#000906",
-                "#02130B",
-                "#032314",
-                "#000E08",
-                "#003B1C",
-                "#001D0E",
-                "#003B1C",
-                "#075E2D",
-                "#041109",
-                "#002412",
-                "#0A4B28",
-                "#00130A",
-                "#0A3B20",
-                "#020805",
-                "#46FF8E",
-                "#0D7E43",
-                "#B0FFC8",
-                "#12351F");
-
-            public static readonly CrtPalette Blue = new(
-                "#00070D",
-                "#061221",
-                "#0A1D32",
-                "#020C15",
-                "#073251",
-                "#041A2A",
-                "#073A5C",
-                "#0E5D8E",
-                "#05111A",
-                "#061F30",
-                "#0B4567",
-                "#061728",
-                "#0C3551",
-                "#02070B",
-                "#58CCFF",
-                "#126A91",
-                "#B9ECFF",
-                "#123042");
-
-            public static readonly CrtPalette Orange = new(
-                "#0B0500",
-                "#160B02",
-                "#281404",
-                "#130800",
-                "#4A2605",
-                "#241000",
-                "#54300A",
-                "#895018",
-                "#140A02",
-                "#2D1402",
-                "#70420E",
-                "#1A0B00",
-                "#4B2A08",
-                "#090400",
-                "#FFB454",
-                "#9B5A12",
-                "#FFD8A6",
-                "#3C2410");
-
-            public static readonly CrtPalette Red = new(
-                "#0B0000",
-                "#170303",
-                "#2A0607",
-                "#120101",
-                "#4A070A",
-                "#230203",
-                "#560B0F",
-                "#8E1820",
-                "#140303",
-                "#2C0508",
-                "#6B1017",
-                "#1A0203",
-                "#4C0B10",
-                "#080101",
-                "#FF4E5E",
-                "#9A1723",
-                "#FFC3CA",
-                "#3A1115");
-
-            public static readonly CrtPalette Purple = new(
-                "#07000D",
-                "#12041F",
-                "#210832",
-                "#0C0214",
-                "#310750",
-                "#190326",
-                "#3A0B5E",
-                "#5F1790",
-                "#100318",
-                "#200730",
-                "#4B0F6D",
-                "#150320",
-                "#350B4F",
-                "#050109",
-                "#C45BFF",
-                "#6F1D99",
-                "#E8C5FF",
-                "#2E143F");
-
-            public readonly Color Background;
-            public readonly Color PanelBackground;
-            public readonly Color PanelBackgroundAlt;
-            public readonly Color InsetBackground;
-            public readonly Color HeaderBackground;
-            public readonly Color ButtonBackground;
-            public readonly Color ButtonHoverBackground;
-            public readonly Color ButtonPressedBackground;
-            public readonly Color ButtonDisabledBackground;
-            public readonly Color SliderForeground;
-            public readonly Color ProgressForeground;
-            public readonly Color ItemBackground;
-            public readonly Color ItemSelectedBackground;
-            public readonly Color ItemDisabledBackground;
-            public readonly Color Accent;
-            public readonly Color AccentDim;
-            public readonly Color AccentSoft;
-            public readonly Color AccentDisabled;
-
-            public static CrtPalette FromAccent(Color accent)
-            {
-                var hsv = Color.ToHsv(accent);
-                var hue = hsv.X;
-                var saturation = Clamp(hsv.Y, 0.05f, 1f);
-                var value = Clamp(hsv.Z, 0.55f, 1f);
-                var backgroundSaturation = Clamp(saturation * 0.85f, 0.02f, 0.85f);
-
-                Color Hsv(float sat, float val)
-                {
-                    return Color.FromHsv(new Vector4(
-                        hue,
-                        Clamp(sat, 0f, 1f),
-                        Clamp(val, 0f, 1f),
-                        1f));
-                }
-
-                return new CrtPalette(
-                    Hsv(backgroundSaturation, 0.04f),
-                    Hsv(backgroundSaturation, 0.075f),
-                    Hsv(backgroundSaturation, 0.135f),
-                    Hsv(backgroundSaturation, 0.055f),
-                    Hsv(saturation, 0.23f),
-                    Hsv(saturation, 0.115f),
-                    Hsv(saturation, 0.23f),
-                    Hsv(saturation, 0.37f),
-                    Hsv(backgroundSaturation, 0.07f),
-                    Hsv(saturation, 0.14f),
-                    Hsv(saturation, 0.30f),
-                    Hsv(saturation, 0.08f),
-                    Hsv(saturation, 0.23f),
-                    Hsv(backgroundSaturation, 0.035f),
-                    Hsv(saturation, value),
-                    Hsv(saturation, value * 0.50f),
-                    Hsv(saturation * 0.30f, 1f),
-                    Hsv(saturation * 0.60f, 0.21f));
-            }
-
-            private CrtPalette(
-                string background,
-                string panelBackground,
-                string panelBackgroundAlt,
-                string insetBackground,
-                string headerBackground,
-                string buttonBackground,
-                string buttonHoverBackground,
-                string buttonPressedBackground,
-                string buttonDisabledBackground,
-                string sliderForeground,
-                string progressForeground,
-                string itemBackground,
-                string itemSelectedBackground,
-                string itemDisabledBackground,
-                string accent,
-                string accentDim,
-                string accentSoft,
-                string accentDisabled)
-            {
-                Background = Color.FromHex(background);
-                PanelBackground = Color.FromHex(panelBackground);
-                PanelBackgroundAlt = Color.FromHex(panelBackgroundAlt);
-                InsetBackground = Color.FromHex(insetBackground);
-                HeaderBackground = Color.FromHex(headerBackground);
-                ButtonBackground = Color.FromHex(buttonBackground);
-                ButtonHoverBackground = Color.FromHex(buttonHoverBackground);
-                ButtonPressedBackground = Color.FromHex(buttonPressedBackground);
-                ButtonDisabledBackground = Color.FromHex(buttonDisabledBackground);
-                SliderForeground = Color.FromHex(sliderForeground);
-                ProgressForeground = Color.FromHex(progressForeground);
-                ItemBackground = Color.FromHex(itemBackground);
-                ItemSelectedBackground = Color.FromHex(itemSelectedBackground);
-                ItemDisabledBackground = Color.FromHex(itemDisabledBackground);
-                Accent = Color.FromHex(accent);
-                AccentDim = Color.FromHex(accentDim);
-                AccentSoft = Color.FromHex(accentSoft);
-                AccentDisabled = Color.FromHex(accentDisabled);
-            }
-
-            private CrtPalette(
-                Color background,
-                Color panelBackground,
-                Color panelBackgroundAlt,
-                Color insetBackground,
-                Color headerBackground,
-                Color buttonBackground,
-                Color buttonHoverBackground,
-                Color buttonPressedBackground,
-                Color buttonDisabledBackground,
-                Color sliderForeground,
-                Color progressForeground,
-                Color itemBackground,
-                Color itemSelectedBackground,
-                Color itemDisabledBackground,
-                Color accent,
-                Color accentDim,
-                Color accentSoft,
-                Color accentDisabled)
-            {
-                Background = background;
-                PanelBackground = panelBackground;
-                PanelBackgroundAlt = panelBackgroundAlt;
-                InsetBackground = insetBackground;
-                HeaderBackground = headerBackground;
-                ButtonBackground = buttonBackground;
-                ButtonHoverBackground = buttonHoverBackground;
-                ButtonPressedBackground = buttonPressedBackground;
-                ButtonDisabledBackground = buttonDisabledBackground;
-                SliderForeground = sliderForeground;
-                ProgressForeground = progressForeground;
-                ItemBackground = itemBackground;
-                ItemSelectedBackground = itemSelectedBackground;
-                ItemDisabledBackground = itemDisabledBackground;
-                Accent = accent;
-                AccentDim = accentDim;
-                AccentSoft = accentSoft;
-                AccentDisabled = accentDisabled;
-            }
-
-            private static float Clamp(float value, float min, float max)
-            {
-                return Math.Min(Math.Max(value, min), max);
-            }
-        }
-
-
         public override Stylesheet Stylesheet { get; }
-
-        public static void SetCrtPalette(string palette)
-        {
-            _crtPalette = palette switch
-            {
-                CCVars.CrtUiColorGreen => CrtPalette.Green,
-                CCVars.CrtUiColorBlue => CrtPalette.Blue,
-                CCVars.CrtUiColorOrange => CrtPalette.Orange,
-                CCVars.CrtUiColorRed => CrtPalette.Red,
-                CCVars.CrtUiColorPurple => CrtPalette.Purple,
-                _ => Color.TryFromHex(palette, out var hex)
-                    ? CrtPalette.FromAccent(hex)
-                    : CrtPalette.Green,
-            };
-        }
-
-        public static void SetCrtUiEnabled(bool enabled)
-        {
-            _crtUiEnabled = enabled;
-        }
 
         public StyleNano(IResourceCache resCache) : base(resCache)
         {
@@ -518,13 +219,6 @@ namespace Content.Client.Stylesheets
             var notoSansBold18 = resCache.NotoStack(variation: "Bold", size: 18);
             var notoSansBold20 = resCache.NotoStack(variation: "Bold", size: 20);
             var notoSansMono = resCache.GetFont("/EngineFonts/NotoSans/NotoSansMono-Regular.ttf", size: 12);
-            var uavOsdStack = new[]
-            {
-                "/Fonts/UAVOSD/UAV-OSD-Sans-Mono.ttf",
-                "/Fonts/NotoSans/NotoSans-Regular.ttf",
-                "/Fonts/NotoSans/NotoSansSymbols-Regular.ttf",
-                "/Fonts/NotoSans/NotoSansSymbols2-Regular.ttf"
-            };
             var robotoMonoBoldStack = new[]
             {
                 "/Fonts/RobotoMono/RobotoMono-Bold.ttf",
@@ -532,6 +226,7 @@ namespace Content.Client.Stylesheets
                 "/Fonts/NotoSans/NotoSansSymbols-Bold.ttf",
                 "/Fonts/NotoSans/NotoSansSymbols2-Regular.ttf"
             };
+<<<<<<< HEAD
             var uavOsd13 = resCache.GetFont
             (
                 uavOsdStack,
@@ -557,23 +252,17 @@ namespace Content.Client.Stylesheets
                 uavOsdStack,
                 size: 15
             );
+=======
+>>>>>>> cmu/master
             var robotoMonoBold11 = resCache.GetFont(robotoMonoBoldStack, size: 11);
             var robotoMonoBold12 = resCache.GetFont(robotoMonoBoldStack, size: 12);
             var robotoMonoBold14 = resCache.GetFont(robotoMonoBoldStack, size: 14);
-            var useCrtUi = CrtUiEnabled;
-            var crtTextFont = useCrtUi ? uavOsdBold14 : notoSans12;
-            var crtDimFont = useCrtUi ? uavOsd13 : notoSans10;
-            var crtHeadingFont = useCrtUi ? uavOsdBold16 : notoSansBold12;
-            var crtHeadingBigFont = useCrtUi ? uavOsdBold18 : notoSansBold18;
-            var crtRichTextFont = useCrtUi ? uavOsd14 : notoSans12;
-            var crtButtonLabelFont = useCrtUi ? uavOsdBold14 : notoSans12;
-            var crtLineEditFont = useCrtUi ? uavOsd14 : notoSans12;
-            var crtNativeLineEditFont = notoSans12;
-            var characterNameFont = useCrtUi ? robotoMonoBold12 : notoSans12;
-            var crtTextColor = useCrtUi ? CrtGreenSoft : Color.White;
-            var crtDimTextColor = useCrtUi ? CrtGreenDim : Color.FromHex("#B8B8B8");
-            var crtHeadingColor = useCrtUi ? CrtGreen : NanoGold;
-            var crtSelectionColor = (useCrtUi ? CrtGreen : NanoGold).WithAlpha(useCrtUi ? 0.33f : 0.25f);
+
+            // The CRT theme lives in StyleNanoCrt.cs. Its rules are spliced back into the list
+            // below at the exact position they used to occupy; `crt` carries the few styleboxes
+            // that base-theme rules also reach for.
+            var crtRules = BuildCrtRules(resCache, out var crt);
+            var characterNameFont = CrtUiEnabled ? robotoMonoBold12 : notoSans12;
 
             var windowHeaderTex = resCache.GetTexture("/Textures/Interface/Nano/window_header.png");
             var windowHeader = new StyleBoxTexture
@@ -766,6 +455,7 @@ namespace Content.Client.Stylesheets
             lineEdit.SetPatchMargin(StyleBox.Margin.All, 3);
             lineEdit.SetContentMarginOverride(StyleBox.Margin.Horizontal, 5);
 
+<<<<<<< HEAD
             var crtWindowPanel = new CrtStyleBox
             {
                 BackgroundColor = CrtPanelBackground,
@@ -1237,6 +927,8 @@ namespace Content.Client.Stylesheets
                 BorderColor = CrtGreenSoft.WithAlpha(0.8f)
             };
 
+=======
+>>>>>>> cmu/master
             var chatBg = new StyleBoxFlat
             {
                 BackgroundColor = ChatBackgroundColor,
@@ -1496,7 +1188,7 @@ namespace Content.Client.Stylesheets
             var directionIconQuestionTex = resCache.GetTexture("/Textures/Interface/VerbIcons/information.svg.192dpi.png");
             var directionIconHereTex = resCache.GetTexture("/Textures/Interface/VerbIcons/dot.svg.192dpi.png");
 
-            Stylesheet = new Stylesheet(BaseRules.Concat(new[]
+            Stylesheet = new Stylesheet(BaseRules.Concat(new StyleRule[]
             {
                 Element().Class("monospace")
                     .Prop("font", notoSansMono),
@@ -1573,13 +1265,13 @@ namespace Content.Client.Stylesheets
 
                 Child().Parent(Element<DefaultWindow>().Class(StyleClassCrtWindow))
                     .Child(Element<PanelContainer>().Class(DefaultWindow.StyleClassWindowPanel))
-                    .Prop(PanelContainer.StylePropertyPanel, crtWindowPanel),
+                    .Prop(PanelContainer.StylePropertyPanel, crt.WindowPanel),
 
                 Element<PanelContainer>().Class(StyleClassCrtWindowHeader)
-                    .Prop(PanelContainer.StylePropertyPanel, crtWindowHeader),
+                    .Prop(PanelContainer.StylePropertyPanel, crt.WindowHeader),
 
                 Element<Label>().Class(StyleClassCrtWindowTitle)
-                    .Prop(Label.StylePropertyFontColor, crtTextColor)
+                    .Prop(Label.StylePropertyFontColor, crt.TextColor)
                     .Prop(Label.StylePropertyFont, notoSansDisplayBold14),
 
                 // Shapes for the buttons.
@@ -2483,7 +2175,7 @@ namespace Content.Client.Stylesheets
                 }),
 
                 Element<PanelContainer>().Class(OptionButton.StyleClassOptionsBackground)
-                    .Prop(PanelContainer.StylePropertyPanel, crtInsetPanel),
+                    .Prop(PanelContainer.StylePropertyPanel, crt.InsetPanel),
 
                 new StyleRule(new SelectorElement(typeof(PanelContainer), new []{ ClassHighDivider}, null, null), new []
                 {
@@ -2615,6 +2307,11 @@ namespace Content.Client.Stylesheets
                     .Prop(Control.StylePropertyModulateSelf, ButtonColorHoveredRed),
                 // ---
 
+                // Toggle Red (base theme only - see StyleClassButtonToggleRed) ---
+                Element<Button>().Class(StyleClassButtonToggleRed).Pseudo(ContainerButton.StylePseudoClassPressed)
+                    .Prop(Control.StylePropertyModulateSelf, CrtDanger),
+                // ---
+
                 // Green Button ---
                 Element<Button>().Class("ButtonColorGreen")
                     .Prop(Control.StylePropertyModulateSelf, ButtonColorGoodDefault),
@@ -2682,6 +2379,7 @@ namespace Content.Client.Stylesheets
                 Element<TextureButton>().Class("RadialMenuBackButton")
                     .Pseudo(TextureButton.StylePseudoClassHover)
                     .Prop(TextureButton.StylePropertyTexture, resCache.GetTexture("/Textures/Interface/Radial/back_hover.png")),
+<<<<<<< HEAD
 
                 // CRT lobby/preferences theme.
                 Element<PanelContainer>().Class(StyleClassCrtPanel)
@@ -2852,6 +2550,12 @@ namespace Content.Client.Stylesheets
 
                 Element<TextureButton>().Class(StyleClassCrtIconButton)
                     .Prop(Control.StylePropertyModulateSelf, crtTextColor),
+=======
+            // CRT theme rules go here, in this exact slot - Stylesheet breaks specificity ties by
+            // insertion order, so moving the block changes which rule wins with no compile error.
+            }).Concat(crtRules).Concat(new StyleRule[]
+            {
+>>>>>>> cmu/master
 
                 //PDA - Backgrounds
                 Element<PanelContainer>().Class("PdaContentBackground")

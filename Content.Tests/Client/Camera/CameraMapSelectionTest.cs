@@ -9,7 +9,10 @@ using Robust.Client.UserInterface;
 using Robust.Client.UserInterface.Controls;
 using Robust.Shared.IoC;
 using Robust.Shared.Maths;
+<<<<<<< HEAD
 using Robust.Shared.Prototypes;
+=======
+>>>>>>> cmu/master
 using NUnit.Framework;
 using Robust.Shared.GameObjects;
 using Robust.UnitTesting;
@@ -34,8 +37,13 @@ public sealed class CameraMapSelectionTest : RobustUnitTest
     [Test]
     public void RmcEditorControlRebindsReusedCameraRowAndMultipleMemberships()
     {
+<<<<<<< HEAD
         var firstNetwork = (ProtoId<CameraNetworkPrototype>) "CMUTestCameraNetworkA";
         var secondNetwork = (ProtoId<CameraNetworkPrototype>) "CMUTestCameraNetworkB";
+=======
+        var firstNetwork = new NetEntity(1);
+        var secondNetwork = new NetEntity(2);
+>>>>>>> cmu/master
         var firstCamera = new NetEntity(10);
         var secondCamera = new NetEntity(20);
         var control = new RMCCameraNetworkEditorControl();
@@ -72,7 +80,11 @@ public sealed class CameraMapSelectionTest : RobustUnitTest
     [Test]
     public void RmcEditorControlBuildsCommandsFromLatestRevisionAndSelection()
     {
+<<<<<<< HEAD
         var seeded = (ProtoId<CameraNetworkPrototype>) "CMUTestCameraNetworkA";
+=======
+        var seeded = new NetEntity(1);
+>>>>>>> cmu/master
         var control = new RMCCameraNetworkEditorControl();
         control.SetState(EditorState(3,
             [Network(seeded, "Seeded", RMCCameraNetworkEditorOrigin.Seeded)], []));
@@ -97,8 +109,13 @@ public sealed class CameraMapSelectionTest : RobustUnitTest
     [Test]
     public void RmcEditorControlShowsHiddenSeededAndOwnedNetworkActions()
     {
+<<<<<<< HEAD
         var seeded = (ProtoId<CameraNetworkPrototype>) "CMUTestCameraNetworkA";
         var owned = (ProtoId<CameraNetworkPrototype>) "CMURuntimeCameraNetwork1N1";
+=======
+        var seeded = new NetEntity(1);
+        var owned = new NetEntity(2);
+>>>>>>> cmu/master
         var control = new RMCCameraNetworkEditorControl();
         control.SetState(EditorState(4,
         [
@@ -171,6 +188,7 @@ public sealed class CameraMapSelectionTest : RobustUnitTest
     [Test]
     public void RmcNetworkSelectorUsesLocalizedLabelsStableIdsAndSelectedNetworkMessage()
     {
+<<<<<<< HEAD
         var first = (ProtoId<CameraNetworkPrototype>) "CMUTestCameraNetworkA";
         var second = (ProtoId<CameraNetworkPrototype>) "CMUTestCameraNetworkB";
         var selector = new OptionButton();
@@ -181,6 +199,20 @@ public sealed class CameraMapSelectionTest : RobustUnitTest
                 new CameraNetworkUiData(second, "Localized network B"),
             ],
             second);
+=======
+        var first = new NetEntity(1);
+        var second = new NetEntity(2);
+        var selector = new OptionButton();
+
+        var state = new CameraSessionDirectoryUiData(null, null,
+            [
+                new CameraSessionNetworkUiData(first, "Localized network A"),
+                new CameraSessionNetworkUiData(second, "Localized network B"),
+            ],
+            second,
+            [],
+            false);
+>>>>>>> cmu/master
         RMCCameraBui.PopulateNetworkSelector(selector, state);
         var message = RMCCameraBui.GetNetworkSelectionMessage(
             new OptionButton.ItemSelectedEventArgs(0, selector));
@@ -393,7 +425,11 @@ public sealed class CameraMapSelectionTest : RobustUnitTest
     }
 
     private static RMCCameraNetworkEditorNetworkUiData Network(
+<<<<<<< HEAD
         ProtoId<CameraNetworkPrototype> id,
+=======
+        NetEntity id,
+>>>>>>> cmu/master
         string name,
         RMCCameraNetworkEditorOrigin origin,
         bool hidden = false)

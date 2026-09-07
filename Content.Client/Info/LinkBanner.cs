@@ -14,6 +14,15 @@ namespace Content.Client.Info
 {
     public sealed class LinkBanner : BoxContainer
     {
+        // The banner shares a grid with the lobby's action buttons, so it has to be built to the same
+        // box: same column count, same separations, every button expanding to fill its cell. Buttons
+        // that shrink-wrapped their own label left a row of mismatched nubs above a row of full-size
+        // ones. Kept in step with the action grid in LobbyGui.xaml.
+        private const int Columns = 2;
+        private const int ButtonMinHeight = 28;
+        private const int HSeparation = 6;
+        private const int VSeparation = 4;
+
         private readonly IConfigurationManager _cfg;
 
         private ValueList<(CVarDef<string> cVar, Button button)> _infoLinks;
@@ -22,21 +31,32 @@ namespace Content.Client.Info
         {
             var buttons = new GridContainer
             {
+<<<<<<< HEAD
                 Columns = 2,
                 HSeparationOverride = 3,
                 VSeparationOverride = 3,
                 HorizontalExpand = true,
+=======
+                Columns = Columns,
+                HorizontalExpand = true,
+                HSeparationOverride = HSeparation,
+                VSeparationOverride = VSeparation
+>>>>>>> cmu/master
             };
             AddChild(buttons);
 
             var uriOpener = IoCManager.Resolve<IUriOpener>();
             _cfg = IoCManager.Resolve<IConfigurationManager>();
 
+<<<<<<< HEAD
             var rulesButton = new Button
             {
                 Text = Loc.GetString("server-info-rules-button"),
                 HorizontalExpand = true,
             };
+=======
+            var rulesButton = NewLinkButton(Loc.GetString("server-info-rules-button"));
+>>>>>>> cmu/master
             rulesButton.OnPressed += args => new RulesAndInfoWindow().Open();
             buttons.AddChild(rulesButton);
 
@@ -47,11 +67,15 @@ namespace Content.Client.Info
             AddInfoButton("server-info-telegram-button", CCVars.InfoLinksTelegram);
 
             var guidebookController = UserInterfaceManager.GetUIController<GuidebookUIController>();
+<<<<<<< HEAD
             var guidebookButton = new Button
             {
                 Text = Loc.GetString("server-info-guidebook-button"),
                 HorizontalExpand = true,
             };
+=======
+            var guidebookButton = NewLinkButton(Loc.GetString("server-info-guidebook-button"));
+>>>>>>> cmu/master
             guidebookButton.OnPressed += _ =>
             {
                 guidebookController.ToggleGuidebook();
@@ -61,9 +85,11 @@ namespace Content.Client.Info
             var changelogButton = new ChangelogButton();
             changelogButton.HorizontalExpand = true;
             changelogButton.Visible = false;
+            SizeLinkButton(changelogButton);
             changelogButton.OnPressed += args => UserInterfaceManager.GetUIController<ChangelogUIController>().ToggleWindow();
             buttons.AddChild(changelogButton);
 
+<<<<<<< HEAD
             var roadmapButton = new Button
             {
                 Text = Loc.GetString("cm-ui-roadmap"),
@@ -71,6 +97,11 @@ namespace Content.Client.Info
                 HorizontalExpand = true,
                 Visible = false
             };
+=======
+            var roadmapButton = NewLinkButton(Loc.GetString("cm-ui-roadmap"));
+            roadmapButton.AddStyleClass(StyleBase.ButtonCaution);
+            roadmapButton.Visible = false;
+>>>>>>> cmu/master
             roadmapButton.OnPressed += _ => UserInterfaceManager.GetUIController<RoadmapUIController>().ToggleRoadmap();
             buttons.AddChild(roadmapButton);
 
@@ -78,15 +109,36 @@ namespace Content.Client.Info
 
             void AddInfoButton(string loc, CVarDef<string> cVar)
             {
+<<<<<<< HEAD
                 var button = new Button
                 {
                     Text = Loc.GetString(loc),
                     HorizontalExpand = true,
                 };
+=======
+                var button = NewLinkButton(Loc.GetString(loc));
+>>>>>>> cmu/master
                 button.OnPressed += _ => uriOpener.OpenUri(_cfg.GetCVar(cVar));
                 buttons.AddChild(button);
                 _infoLinks.Add((cVar, button));
             }
+        }
+
+        private static Button NewLinkButton(string text)
+        {
+            var button = new Button
+            {
+                Text = text,
+                StyleClasses = { StyleNano.StyleClassButtonBig }
+            };
+            SizeLinkButton(button);
+            return button;
+        }
+
+        private static void SizeLinkButton(Button button)
+        {
+            button.MinHeight = ButtonMinHeight;
+            button.HorizontalExpand = true;
         }
 
         protected override void EnteredTree()

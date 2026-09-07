@@ -7,6 +7,7 @@ namespace Content.Server.SurveillanceCamera;
 [Access(typeof(SurveillanceCameraMonitorSystem))]
 public sealed partial class SurveillanceCameraMonitorComponent : Component
 {
+<<<<<<< HEAD
     // Currently active camera viewed by this monitor.
     [ViewVariables]
     public EntityUid? ActiveCamera { get; set; }
@@ -17,4 +18,6 @@ public sealed partial class SurveillanceCameraMonitorComponent : Component
 
     [ViewVariables]
     public ProtoId<CameraNetworkPrototype>? ActiveNetwork { get; set; }
+=======
+>>>>>>> cmu/master
 }

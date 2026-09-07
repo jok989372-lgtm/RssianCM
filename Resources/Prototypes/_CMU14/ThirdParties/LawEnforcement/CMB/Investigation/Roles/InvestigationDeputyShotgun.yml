@@ -2,12 +2,11 @@
   parent: AU14JobLEOBase
   id: AU14JobInvestigationCMBDeputyShotgun
   roundSide: ThirdParty
+  roundProfiles:
+  - AU14RoundJobProfileThirdParty
   roundForce: CMB
   roundRole: InvestigationCMBDeputyShotgun
   roundComponents:
-  - type: NpcFactionMember
-    factions:
-    - AUBureau
   - type: Skills
     skills:
       RMCSkillCqc: 3
@@ -57,6 +56,7 @@
   equipment:
     back: AU14SatchelCMBShotgun
     ears: AU14CMBHeadsetOnlyCMB
+    pocket1: RMCPouchShotgunLargeBuckshot
   inhand:
   - RMCWeaponShotgunHG3712
 

@@ -5,6 +5,7 @@ using Content.Shared.Doors.Components;
 using Content.Shared.Shuttles.Systems;
 using JetBrains.Annotations;
 using Robust.Client.UserInterface;
+using Robust.Client.UserInterface.Controls;
 using Robust.Shared.Timing;
 using Robust.Shared.Localization; // RuMC edit
 
@@ -81,13 +82,6 @@ public sealed partial class DropshipNavigationBui : BoundUserInterface
                 return;
             }
 
-            if (_tacticalHoverActive)
-            {
-                SendPredictedMessage(new DropshipNavigationTacticalHoverCancelMsg());
-                SetCancelDisabled(true);
-                return;
-            }
-
             SetLaunchDisabled(true);
             SetCancelDisabled(true);
             _selected = null;
@@ -132,21 +126,18 @@ public sealed partial class DropshipNavigationBui : BoundUserInterface
             return;
 
         _tacticalLandActive = false;
-        _tacticalHoverActive = destinations.CanCancelTacticalHover;
-        // RuMC edit start
-        _window.LaunchButton.Text = Loc.GetString("rmc-dropship-nav-launch");
-        _window.CancelButton.Text = _tacticalHoverActive
-            ? Loc.GetString("rmc-dropship-nav-return-now")
-            : Loc.GetString("rmc-dropship-nav-cancel");
+        _tacticalHoverActive = destinations.TacticalHoverActive;
+        _window.LaunchButton.Text = "Launch";
+        _window.CancelButton.Text = "Cancel";
 
         SetFlightHeader(Loc.GetString("rmc-dropship-nav-flight-controls"));
         // RuMC edit end
 
         _window.DestinationsContainer.Visible = true;
         _window.ProgressBarContainer.Visible = false;
-        _window.CancelButton.Visible = true;
+        _window.CancelButton.Visible = !_tacticalHoverActive;
         _window.LaunchButton.Visible = true;
-        _window.CancelButton.Button.Disabled = !_tacticalHoverActive;
+        _window.CancelButton.Button.Disabled = true;
         _window.LaunchButton.Button.Disabled = true;
 
         _window.DestinationsContainer.DisposeAllChildren();
@@ -156,7 +147,7 @@ public sealed partial class DropshipNavigationBui : BoundUserInterface
             var button = new DropshipButton();
 
             button.Text = name;
-            button.Disabled = _tacticalHoverActive || disabled;
+            button.Disabled = disabled;
             button.BorderColor = Color.Transparent;
             button.BorderThickness = new Thickness(0);
             button.Button.ToggleMode = false;
@@ -177,7 +168,7 @@ public sealed partial class DropshipNavigationBui : BoundUserInterface
         {
             var hoverStatus = new DropshipButton
             {
-                Text = Loc.GetString("rmc-dropship-nav-hover-active"), // RuMC edit
+                Text = Loc.GetString("cmu-tactical-land-hover-active"),
                 Disabled = true,
                 BorderColor = Color.FromHex("#4E6B8E"),
                 BorderThickness = new Thickness(1),
@@ -209,7 +200,7 @@ public sealed partial class DropshipNavigationBui : BoundUserInterface
         {
             var tacticalButton = new DropshipButton
             {
-                Text = Loc.GetString("rmc-dropship-nav-tactical-land"), // RuMC edit
+                Text = Loc.GetString("cmu-tactical-land-button"),
                 Disabled = false,
                 BorderColor = Color.FromHex("#2A6D2A"),
                 BorderThickness = new Thickness(1),
@@ -247,11 +238,9 @@ public sealed partial class DropshipNavigationBui : BoundUserInterface
         _tacticalLandActive = true;
         _tacticalHoverActive = false;
 
-        // RuMC edit start
-        SetFlightHeader(tactical.TacticalHover
-            ? Loc.GetString("rmc-dropship-nav-tactical-hover-header")
-            : Loc.GetString("rmc-dropship-nav-tactical-landing-header"));
-        // RuMC edit end
+        SetFlightHeader(Loc.GetString(tactical.TacticalHover
+            ? "cmu-tactical-land-header-hover"
+            : "cmu-tactical-land-header-landing"));
 
         _window.DestinationsContainer.Visible = true;
         _window.ProgressBarContainer.Visible = false;
@@ -265,11 +254,9 @@ public sealed partial class DropshipNavigationBui : BoundUserInterface
         {
             Text = tactical.ClearForLanding
                 ? tactical.TacticalHover
-                // RuMC edit start
-                    ? Loc.GetString("rmc-dropship-nav-wasd-hover-clear")
-                    : Loc.GetString("rmc-dropship-nav-wasd-land-clear")
-                : Loc.GetString("rmc-dropship-nav-wasd-obstructed"),
-                // RuMC edit end
+                    ? Loc.GetString("cmu-tactical-land-hover-point-clear")
+                    : Loc.GetString("cmu-tactical-land-point-clear")
+                : Loc.GetString("cmu-tactical-land-point-obstructed"),
             Disabled = true,
             BorderColor = tactical.ClearForLanding ? Color.FromHex("#2A6D2A") : Color.FromHex("#7A2A2A"),
             BorderThickness = new Thickness(1),
@@ -278,7 +265,7 @@ public sealed partial class DropshipNavigationBui : BoundUserInterface
 
         var upButton = new DropshipButton
         {
-            Text = Loc.GetString("rmc-dropship-nav-ascend"), // RuMC edit
+            Text = Loc.GetString("cmu-tactical-land-ascend-level"),
             Disabled = !tactical.CanMoveUp,
             BorderColor = Color.FromHex("#4E6B8E"),
             BorderThickness = new Thickness(1),
@@ -289,7 +276,7 @@ public sealed partial class DropshipNavigationBui : BoundUserInterface
 
         var downButton = new DropshipButton
         {
-            Text = Loc.GetString("rmc-dropship-nav-descend"), // RuMC edit
+            Text = Loc.GetString("cmu-tactical-land-descend-level"),
             Disabled = !tactical.CanMoveDown,
             BorderColor = Color.FromHex("#4E6B8E"),
             BorderThickness = new Thickness(1),
@@ -298,11 +285,49 @@ public sealed partial class DropshipNavigationBui : BoundUserInterface
         downButton.Button.OnPressed += _ => SendPredictedMessage(new DropshipNavigationTacticalLandMoveDownMsg());
         _window.DestinationsContainer.AddChild(downButton);
 
-        // RuMC edit start
-        _window.LaunchButton.Text = tactical.TacticalHover
-            ? Loc.GetString("rmc-dropship-nav-hover")
-            : Loc.GetString("rmc-dropship-nav-land");
-        // RuMC edit end
+        var rotationContainer = new BoxContainer
+        {
+            Orientation = BoxContainer.LayoutOrientation.Horizontal,
+            HorizontalExpand = true,
+        };
+
+        var rotateCounterClockwise = new DropshipButton
+        {
+            Text = Loc.GetString("cmu-tactical-land-rotate-left"),
+            BorderColor = Color.FromHex("#4E6B8E"),
+            BorderThickness = new Thickness(1),
+            HorizontalExpand = true,
+        };
+        rotateCounterClockwise.Button.ToggleMode = false;
+        rotateCounterClockwise.Button.OnPressed += _ => SendPredictedMessage(new DropshipNavigationTacticalLandRotateMsg(false));
+        rotationContainer.AddChild(rotateCounterClockwise);
+
+        var heading = new DropshipButton
+        {
+            Text = Loc.GetString("cmu-tactical-land-heading", ("degrees", tactical.RotationDegrees)),
+            Disabled = true,
+            BorderColor = Color.FromHex("#4E6B8E"),
+            BorderThickness = new Thickness(1),
+            HorizontalExpand = true,
+        };
+        rotationContainer.AddChild(heading);
+
+        var rotateClockwise = new DropshipButton
+        {
+            Text = Loc.GetString("cmu-tactical-land-rotate-right"),
+            BorderColor = Color.FromHex("#4E6B8E"),
+            BorderThickness = new Thickness(1),
+            HorizontalExpand = true,
+        };
+        rotateClockwise.Button.ToggleMode = false;
+        rotateClockwise.Button.OnPressed += _ => SendPredictedMessage(new DropshipNavigationTacticalLandRotateMsg(true));
+        rotationContainer.AddChild(rotateClockwise);
+
+        _window.DestinationsContainer.AddChild(rotationContainer);
+
+        _window.LaunchButton.Text = Loc.GetString(tactical.TacticalHover
+            ? "cmu-tactical-land-confirm-hover"
+            : "cmu-tactical-land-confirm-land");
         _window.LaunchButton.Button.Disabled = !tactical.ClearForLanding;
         _window.CancelButton.Text = Loc.GetString("rmc-dropship-nav-cancel"); // RuMC edit
         _window.CancelButton.Button.Disabled = false;
@@ -317,18 +342,14 @@ public sealed partial class DropshipNavigationBui : BoundUserInterface
             return;
 
         _tacticalLandActive = false;
-        _tacticalHoverActive = travelling.CanCancelTacticalHover;
+        _tacticalHoverActive = false;
         _window.DestinationsContainer.Visible = false;
         _window.ProgressBarContainer.Visible = true;
         _window.LaunchButton.Visible = false;
         _window.ProgressBar.Margin = new Thickness(0, 5, 0, 0);
 
-        // RuMC edit start
-        _window.CancelButton.Text = _tacticalHoverActive
-            ? Loc.GetString("rmc-dropship-nav-return-now")
-            : Loc.GetString("rmc-dropship-nav-cancel");
-        // RuMC edit end
-        _window.CancelButton.Visible = _tacticalHoverActive || travelling.Destination == travelling.DepartureLocation;
+        _window.CancelButton.Text = "Cancel";
+        _window.CancelButton.Visible = !_tacticalHoverActive && travelling.Destination == travelling.DepartureLocation;
         _window.CancelButton.Button.Disabled = false;
 
         var time = Math.Ceiling((travelling.Time.End - _timing.CurTime).TotalSeconds);
@@ -380,9 +401,6 @@ public sealed partial class DropshipNavigationBui : BoundUserInterface
             default:
                 return;
         }
-
-        if (_tacticalHoverActive)
-            SetCancelDisabled(false);
 
         RefreshDoorLockStatus(travelling.DoorLockStatus);
         SetRemoteControl(travelling.RemoteControlStatus);

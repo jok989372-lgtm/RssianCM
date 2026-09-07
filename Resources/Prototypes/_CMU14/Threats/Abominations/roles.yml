@@ -61,6 +61,7 @@
   speechVerbStrings:
   - chat-speech-verb-robotic-1
   - chat-speech-verb-robotic-2
+<<<<<<< HEAD
 
 # General abomination radio channel, the hive-equivalent for the threat.
 # Spider / Grunt / Skitter / Mimic all share this band.
@@ -84,3 +85,5 @@
   frequency: 427
   color: "#a63636"
   longRange: true
+=======
+>>>>>>> cmu/master

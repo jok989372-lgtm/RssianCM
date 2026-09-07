@@ -2053,6 +2053,12 @@
   parent: CMUYautjaThrallMaskBase
   id: CMUYautjaMaskThrallBone
   components:
+  - type: YautjaTechItem
+    blockPickup: false
+    blockUse: false
+    blockMelee: false
+    blockThrow: false
+    blockShoot: false
   - type: Sprite
     sprite: _CMU14/Yautja/masks/thrallmask_bone.rsi
     layers:
@@ -2067,6 +2073,12 @@
   parent: CMUYautjaThrallMaskBase
   id: CMUYautjaMaskThrallCrimson
   components:
+  - type: YautjaTechItem
+    blockPickup: false
+    blockUse: false
+    blockMelee: false
+    blockThrow: false
+    blockShoot: false
   - type: Sprite
     sprite: _CMU14/Yautja/masks/thrallmask_crimson.rsi
     layers:
@@ -2081,6 +2093,12 @@
   parent: CMUYautjaThrallMaskBase
   id: CMUYautjaMaskThrallEbony
   components:
+  - type: YautjaTechItem
+    blockPickup: false
+    blockUse: false
+    blockMelee: false
+    blockThrow: false
+    blockShoot: false
   - type: Sprite
     sprite: _CMU14/Yautja/masks/thrallmask_ebony.rsi
     layers:
@@ -2095,6 +2113,12 @@
   parent: CMUYautjaThrallMaskBase
   id: CMUYautjaMaskThrallGold
   components:
+  - type: YautjaTechItem
+    blockPickup: false
+    blockUse: false
+    blockMelee: false
+    blockThrow: false
+    blockShoot: false
   - type: Sprite
     sprite: _CMU14/Yautja/masks/thrallmask_gold.rsi
     layers:
@@ -2109,6 +2133,12 @@
   parent: CMUYautjaThrallMaskBase
   id: CMUYautjaMaskThrallSilver
   components:
+  - type: YautjaTechItem
+    blockPickup: false
+    blockUse: false
+    blockMelee: false
+    blockThrow: false
+    blockShoot: false
   - type: Sprite
     sprite: _CMU14/Yautja/masks/thrallmask_silver.rsi
     layers:

@@ -133,7 +133,17 @@ public sealed partial class YautjaPowerSystem : EntitySystem
         AddAction(ent.Comp, ref args, ref ent.Comp.ToggleCloakAction, ent.Comp.ToggleCloakActionId);
         AddAction(ent.Comp, ref args, ref ent.Comp.RecallAction, ent.Comp.RecallActionId);
 
+<<<<<<< HEAD
     }
+=======
+        args.AddAction(ref ent.Comp.OpenBracerMenuAction, ent.Comp.OpenBracerMenuActionId);
+        args.AddAction(ref ent.Comp.ToggleCloakAction, ent.Comp.ToggleCloakActionId);
+        args.AddAction(ref ent.Comp.CreateFieldRationAction, ent.Comp.CreateFieldRationActionId);
+        args.AddAction(ref ent.Comp.CreateHuntingCanteenAction, ent.Comp.CreateHuntingCanteenActionId);
+
+        if (ent.Comp.EnableRaiseThrall)
+            args.AddAction(ref ent.Comp.RaiseThrallAction, ent.Comp.RaiseThrallActionId);
+>>>>>>> cmu/master
 
     private static void AddAction(
         YautjaBracerComponent bracer,

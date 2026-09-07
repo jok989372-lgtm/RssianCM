@@ -12,6 +12,7 @@
     state: bracer1
   - type: Clothing
     sprite: _CMU14/Yautja/bracer.rsi
+  - type: YautjaTechItem
   - type: YautjaBracer
     charge: 3000
     maxCharge: 3000
@@ -144,9 +145,11 @@
     badBlood: true
     idChipPrototype: CMUYautjaBadBloodBracerIdChip
     enableRecall: false
-    cloakDuration: 20
-    cloakCooldown: 20
-    cloakWarningBefore: 5
+    enableRaiseThrall: true
+    maxRaiseThrall: 3
+    cloakDuration: 8
+    cloakCooldown: 30
+    cloakWarningBefore: 3
     cloakWarningSound:
       collection: CMUYautjaCloakWarning
   - type: ContainerContainer
@@ -527,6 +530,7 @@
     - Suitstorage
   - type: Item
     size: Small
+  - type: YautjaTechItem
   - type: Tag
     tags:
     - GasMask
@@ -929,6 +933,7 @@
     quickEquip: false
     slots:
     - back
+  - type: YautjaTechItem
   - type: ThermalCloak
     grantAction: false
     opacity: 0.02
@@ -1121,6 +1126,7 @@
   id: CMUYautjaPlasmaCasterRetro
   name: retro shoulder plasma caster
   components:
+<<<<<<< HEAD
   - type: Sprite
     sprite: _CMU14/Yautja/plasma_caster_retro.rsi
     layers:
@@ -1229,6 +1235,37 @@
     quickEquip: false
     slots:
     - suitStorage
+=======
+  - type: YautjaCaster
+    powerCost: 30
+    cooldownSound:
+      path: /Audio/_CMU14/Yautja/Weapons/Plasma/plasma_caster_no_energy_01.wav
+    modes:
+    - name: cmu-yautja-caster-mode-stun
+      projectile: CMUYautjaCasterStunBolt
+      powerCost: 30
+      cooldown: 10
+      fireSound:
+        path: /Audio/_CMU14/Yautja/Weapons/Plasma/pred_plasmacaster_fire.wav
+    - name: cmu-yautja-caster-mode-lethal
+      projectile: CMUYautjaBadBloodCasterLethalBolt
+      powerCost: 100
+      cooldown: 20
+      fireSound:
+        path: /Audio/_CMU14/Yautja/Weapons/Plasma/pred_lasercannon.wav
+    #- name: cmu-yautja-caster-mode-immobilizer # disabled pending retune
+    #  projectile: CMUYautjaCasterImmobilizerBolt
+    #  powerCost: 150
+    #  cooldown: 15
+    #  fireSound:
+    #    path: /Audio/_CMU14/Yautja/Weapons/Plasma/pulse.wav
+    #- name: cmu-yautja-caster-mode-eradicator # disabled pending retune
+    #  projectile: CMUYautjaCasterEradicatorBolt
+    #  powerCost: 1000
+    #  cooldown: 30
+    #  fireSound:
+    #    path: /Audio/_CMU14/Yautja/Weapons/Plasma/pulse.wav
+>>>>>>> cmu/master
 
 - type: entity
   parent: [ BaseItem, RMCBaseMeleeWeapon ]
@@ -1244,6 +1281,7 @@
     sprite: _CMU14/Yautja/wrist_blades.rsi
     size: Huge
   - type: YautjaTechItem
+  - type: CMUShrapnelExtractor
   - type: Prying
     speedModifier: 1.5
     pryPowered: true
@@ -1296,8 +1334,12 @@
     sprite: _CMU14/Yautja/scimitar.rsi
     size: Large
   - type: YautjaTechItem
+<<<<<<< HEAD
   - type: YautjaBracerAttachmentSpeedBonus
     pairedAttackSeconds: 0.6
+=======
+  - type: CMUShrapnelExtractor
+>>>>>>> cmu/master
   - type: Prying
     speedModifier: 1.5
     pryPowered: true
@@ -1814,6 +1856,29 @@
   description: A small case packed with Yautja trauma poultices and burn salves.
   suffix: Yautja, Filled
   components:
+<<<<<<< HEAD
+=======
+  - type: Storage
+    grid:
+    - 0,0,15,1
+    whitelist:
+      components:
+      - YautjaMedicalItem
+  - type: StorageFill
+    contents:
+    - id: CMUYautjaAdvancedBruisePack
+      amount: 4
+    - id: CMUYautjaAdvancedOintment
+      amount: 4
+
+- type: entity
+  parent: BaseStorageItem
+  id: CMUYautjaMedicomp
+  name: medicomp
+  description: A predator compact medical kit stocked for solo field recovery.
+  suffix: Yautja, Filled
+  components:
+>>>>>>> cmu/master
   - type: Sprite
     sprite: _CMU14/Yautja/medical.rsi
     layers:
@@ -1823,6 +1888,11 @@
       visible: false
   - type: Item
     size: Small
+<<<<<<< HEAD
+=======
+    sprite: _CMU14/Yautja/yautja_items.rsi
+  - type: YautjaTechItem
+>>>>>>> cmu/master
   - type: Storage
     maxItemSize: Small
     grid:
@@ -3344,6 +3414,7 @@
         name: Armor
         choices: { CMUYautjaArmor: 1 }
         amount: 1
+<<<<<<< HEAD
         mandatory: true
     - name: Main Weapons (CHOOSE 1)
       choices: { CMUYautjaPrimary: 1 }
@@ -3354,6 +3425,17 @@
         recommended: true
       - id: CMUYautjaRendingSword
         name: The Rending Hunting Sword
+=======
+      - id: CMUYautjaMetalChains
+        amount: 2
+      - id: CMUYautjaScalp
+        amount: 4
+      - id: CMUYautjaCommunicator
+        amount: 2
+      # - id: CMUYautjaOverseerCommunicator
+      #   amount: 1
+      - id: CMUYautjaBadBloodCommunicator
+>>>>>>> cmu/master
         amount: 1
         recommended: true
       - id: CMUYautjaPiercingSword

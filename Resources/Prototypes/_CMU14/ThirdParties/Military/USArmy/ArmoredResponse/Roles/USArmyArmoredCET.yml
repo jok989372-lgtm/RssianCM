@@ -17,7 +17,7 @@
   - type: TacticalMapIcon
     icon:
       sprite: /Textures/_RMC14/Interface/map_blips.rsi
-      state: medic
+      state: engi
     background:
       sprite: /Textures/_RMC14/Interface/map_blips.rsi
       state: background_ua
@@ -49,7 +49,7 @@
         role: AU14JobUSArmyCET
         time: 18000 #5 hours
     USArmy_PFC:
-      entity: AU14ChevronUSArmyPFC 
+      entity: AU14ChevronUSArmyPFC
       requirements: []
   spawnMenuRoleName: US Army Combat Engineer Tech (AU14, ERT)
   startingGear: AU14GearUSArmyCETArmored
@@ -118,7 +118,7 @@
   parent: CMJobIconBase
   id: AU14JobIconUSArmyCET
   icon:
-    sprite: _AU14/Interface/job_icons.rsi
+    sprite: _CMU14/Interface/job_icons.rsi
     state: hudsquad_cet
 
 - type: playTimeTracker

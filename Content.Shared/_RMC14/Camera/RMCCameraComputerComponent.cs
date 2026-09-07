@@ -1,7 +1,10 @@
 ﻿using Robust.Shared.GameStates;
+<<<<<<< HEAD
 using Content.Shared.Camera;
 using Robust.Shared.Maths;
 using Robust.Shared.Prototypes;
+=======
+>>>>>>> cmu/master
 
 namespace Content.Shared._RMC14.Camera;
 
@@ -9,6 +12,7 @@ namespace Content.Shared._RMC14.Camera;
 [Access(typeof(SharedRMCCameraSystem))]
 public sealed partial class RMCCameraComputerComponent : Component
 {
+<<<<<<< HEAD
     [DataField(required: true), AutoNetworkedField]
     public HashSet<EntProtoId> ProtoIds = new ();
 
@@ -27,6 +31,8 @@ public sealed partial class RMCCameraComputerComponent : Component
     [DataField, AutoNetworkedField]
     public List<EntityUid> Watchers = new();
 
+=======
+>>>>>>> cmu/master
     [DataField, AutoNetworkedField]
     public LocId? Title;
 

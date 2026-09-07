@@ -134,6 +134,7 @@
   - type: AU14CashVendor
     allowDepartmentBudget: true
     items:
+<<<<<<< HEAD
     # RuMC edit - comm name
     - id: CMDrinkCanBobdaClassic
       # name: Bobda Classic
@@ -164,8 +165,51 @@
       price: 2
     - id: CMDrinkCanBobdaClassicDiet
       # name: Diet Bobda Classic
+=======
+    # BASIC
+    - id: CMDrinkCanBobdaClassic
       price: 2
+    - id: CMDrinkCanBobdaCherry
+      price: 2
+    - id: CMDrinkCanBobdaLime
+      price: 2
+    - id: CMDrinkCanBobdaGrape
+      price: 2
+    - id: CMDrinkCanBobdaBlue
+      price: 2
+    - id: CMDrinkCanBobdaPeach
+      price: 2
+    - id: CMDrinkCanBobdaCranberry
+      price: 2
+    - id: CMDrinkCanBobdaVanilla
+      price: 2
+    - id: CMDrinkCanBobdaPineapple
+      price: 2
+    # DIET
+    - id: CMDrinkCanBobdaDiet
+      price: 2
+    - id: CMDrinkCanBobdaClassicDiet
+>>>>>>> cmu/master
+      price: 2
+    - id: CMDrinkCanBobdaCherryDiet
+      price: 2
+    - id: CMDrinkCanBobdaLimeDiet
+      price: 2
+    - id: CMDrinkCanBobdaGrapeDiet
+      price: 2
+    - id: CMDrinkCanBobdaBlueDiet
+      price: 2
+    - id: CMDrinkCanBobdaPeachDiet
+      price: 2
+    - id: CMDrinkCanBobdaCranberryDiet
+      price: 2
+    - id: CMDrinkCanBobdaVanillaDiet
+      price: 2
+    - id: CMDrinkCanBobdaPineappleDiet
+      price: 2
+    # NON BOBDA
     - id: CMDrinkCanCola
+<<<<<<< HEAD
       # name: Space Cola
       price: 2
     - id: CMDrinkCanSoda
@@ -176,6 +220,14 @@
       price: 2
     - id: CMDrinkCanFruitBeer
       # name: Fruit Beer (NA)
+=======
+      price: 2
+    - id: CMDrinkCanSoda
+      price: 2
+    - id: CMDrinkCanTonic
+      price: 2
+    - id: CMDrinkCanFruitBeer
+>>>>>>> cmu/master
       price: 2
 
 # Snack machine — mirrors CMVendorSnack
@@ -594,7 +646,7 @@
 #     - id: RMCArcadeCircuitboard
 #       amount: 2
 #     - id: RMCAtmosphericConsoleCircuitboard
-#       amount: 2    
+#       amount: 2
 
 # General medical supplies — mirrors AU14GeneralMedicalVendor field supplies + autoinjectors
 - type: entity

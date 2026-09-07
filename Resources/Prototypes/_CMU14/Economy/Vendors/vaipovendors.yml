@@ -508,8 +508,13 @@
       entries:
       - id: CMArmorHelmetM30
       - id: RMCM5CameraGear
+<<<<<<< HEAD
     - name: au14-vendor-section-hud
       choices: { CMUPlatoonAirCrewFlightVisor: 2 }
+=======
+    - name: Pilot HUD
+      choices: { CMUPlatoonAirCrewPilotHUD: 1 }
+>>>>>>> cmu/master
       entries:
       - id: RMCVisorPilotBlack
       - id: RMCVisorPilotDarkblue

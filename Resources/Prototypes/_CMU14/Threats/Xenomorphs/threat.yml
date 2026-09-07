@@ -1,6 +1,7 @@
 
 - type: threat
   id: XenoThreat
+  burrowedLarvaEnabled: true
   lorePrimer: AU14PrimerThreatXeno
   roundstartspawns: XenoThreatSpawns
   blacklistedgamemodes:
@@ -10,6 +11,7 @@
   winconditions:
   - KillAllGovforRule
   - KillAllXenoRule
+  - HiveCollapseRule
 
 - type: partySpawn
   id: XenoThreatSpawns
@@ -26,6 +28,7 @@
 
 - type: threat
   id: XenoThreatCF
+  burrowedLarvaEnabled: true
   lorePrimer: AU14PrimerThreatXeno
   roundstartspawns: XenoThreatSpawnsCF
   thirdpartyinterval: 9100
@@ -36,6 +39,8 @@
   winconditions:
   - KillAllColonistRule
   - KillAllXenoRule
+  spawnDelayMin: 1200
+  spawnDelayMax: 2400
 
 - type: partySpawn
   id: XenoThreatSpawnsCF

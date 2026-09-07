@@ -1,4 +1,7 @@
+<<<<<<< HEAD
 using System.Linq;
+=======
+>>>>>>> cmu/master
 using Content.Shared.Camera;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Serialization;
@@ -6,19 +9,30 @@ using Robust.Shared.Serialization;
 namespace Content.Shared.SurveillanceCamera;
 
 [Serializable, NetSerializable]
+<<<<<<< HEAD
 public sealed class CameraNetworkUiData(ProtoId<CameraNetworkPrototype> id, string name)
 {
     public ProtoId<CameraNetworkPrototype> Id { get; } = id;
+=======
+public sealed class CameraSessionNetworkUiData(NetEntity network, string name)
+{
+    public NetEntity Network { get; } = network;
+>>>>>>> cmu/master
     public string Name { get; } = name;
 }
 
 [Serializable, NetSerializable]
+<<<<<<< HEAD
 public sealed class CameraListUiData(NetEntity camera, string name, bool active,
     HashSet<ProtoId<CameraNetworkPrototype>> networks)
+=======
+public sealed class CameraSessionCameraUiData(NetEntity camera, string name, bool active)
+>>>>>>> cmu/master
 {
     public NetEntity Camera { get; } = camera;
     public string Name { get; } = name;
     public bool Active { get; } = active;
+<<<<<<< HEAD
     public HashSet<ProtoId<CameraNetworkPrototype>> Networks { get; } = networks;
 }
 
@@ -73,22 +87,92 @@ public sealed class SurveillanceCameraMonitorSubnetRequestMessage(ProtoId<Camera
 
     [Obsolete("Use Network.")]
     public string Subnet => Network.ToString();
+=======
 }
 
-// Sent when the user requests that the cameras on the current subnet be refreshed.
 [Serializable, NetSerializable]
-public sealed class SurveillanceCameraRefreshCamerasMessage : BoundUserInterfaceMessage
-{}
+public sealed class CameraSessionDirectoryUiData(
+    NetEntity? activeCamera,
+    string? activeCameraName,
+    List<CameraSessionNetworkUiData> networks,
+    NetEntity? activeNetwork,
+    List<CameraSessionCameraUiData> cameras,
+    bool mapEnabled)
+{
+    public NetEntity? ActiveCamera { get; } = activeCamera;
+    public string? ActiveCameraName { get; } = activeCameraName;
+    public List<CameraSessionNetworkUiData> Networks { get; } = networks;
+    public NetEntity? ActiveNetwork { get; } = activeNetwork;
+    public List<CameraSessionCameraUiData> Cameras { get; } = cameras;
+    public bool MapEnabled { get; } = mapEnabled;
+>>>>>>> cmu/master
+}
 
-// Sent when the user requests that the subnets known by the monitor be refreshed.
 [Serializable, NetSerializable]
-public sealed class SurveillanceCameraRefreshSubnetsMessage : BoundUserInterfaceMessage
-{}
+public sealed class CameraSessionSnapshotMessage(
+    uint sessionId,
+    ulong revision,
+    CameraSessionDirectoryUiData directory) : BoundUserInterfaceMessage
+{
+    public uint SessionId { get; } = sessionId;
+    public ulong Revision { get; } = revision;
+    public CameraSessionDirectoryUiData Directory { get; } = directory;
+}
 
-// Sent when the user wants to disconnect the monitor from the camera.
 [Serializable, NetSerializable]
-public sealed class SurveillanceCameraDisconnectMessage : BoundUserInterfaceMessage
-{}
+public sealed class CameraSessionDeltaMessage(
+    uint sessionId,
+    ulong baseRevision,
+    ulong revision,
+    CameraSessionDirectoryUiData directory) : BoundUserInterfaceMessage
+{
+    public uint SessionId { get; } = sessionId;
+    public ulong BaseRevision { get; } = baseRevision;
+    public ulong Revision { get; } = revision;
+    public CameraSessionDirectoryUiData Directory { get; } = directory;
+}
+
+[Serializable, NetSerializable]
+public sealed class CameraSessionGeometryMessage(
+    uint sessionId,
+    NetEntity? network,
+    ulong markerRevision,
+    CameraMapUiState geometry) : BoundUserInterfaceMessage
+{
+    public uint SessionId { get; } = sessionId;
+    public NetEntity? Network { get; } = network;
+    public ulong MarkerRevision { get; } = markerRevision;
+    public CameraMapUiState Geometry { get; } = geometry;
+}
+
+[Serializable, NetSerializable]
+public sealed class CameraSessionResetMessage(uint sessionId) : BoundUserInterfaceMessage
+{
+    public uint SessionId { get; } = sessionId;
+}
+
+[Serializable, NetSerializable]
+public sealed class CameraSessionResyncMessage(uint sessionId) : BoundUserInterfaceMessage
+{
+    public uint SessionId { get; } = sessionId;
+}
+
+[Serializable, NetSerializable]
+public sealed class CameraSessionSelectMessage(NetEntity camera) : BoundUserInterfaceMessage
+{
+    public NetEntity Camera { get; } = camera;
+}
+
+[Serializable, NetSerializable]
+public sealed class CameraSessionSelectNetworkMessage(NetEntity network) : BoundUserInterfaceMessage
+{
+    public NetEntity Network { get; } = network;
+}
+
+[Serializable, NetSerializable]
+public sealed class CameraSessionDisconnectMessage : BoundUserInterfaceMessage
+{
+}
 
 [Serializable, NetSerializable]
 public enum SurveillanceCameraMonitorUiKey : byte

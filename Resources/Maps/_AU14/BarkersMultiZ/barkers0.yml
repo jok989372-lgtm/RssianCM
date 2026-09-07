@@ -594378,7 +594378,7 @@ entities:
       rot: -1.5707963267948966 rad
       pos: -71.5,36.5
       parent: 1
-- proto: RMCTacticalMapTableGovfor
+- proto: CMUTacticalMapTableGovfor
   entities:
   - uid: 77580
     components:
@@ -610393,7 +610393,88 @@ entities:
     - type: Physics
       canCollide: False
     - type: InsideEntityStorage
+<<<<<<< HEAD
 - proto: ScenarioClfCivilianColonistSpawnMarker
+=======
+- proto: SalvageSpawnerBarrels
+  entities:
+  - uid: 91192
+    components:
+    - type: Transform
+      pos: 35.5,-86.5
+      parent: 1
+- proto: SalvageSpawnerBookpile
+  entities:
+  - uid: 91190
+    components:
+    - type: Transform
+      pos: 29.5,-86.5
+      parent: 1
+- proto: SalvageSpawnerCardboard
+  entities:
+  - uid: 91193
+    components:
+    - type: Transform
+      pos: 28.5,-95.5
+      parent: 1
+- proto: SalvageSpawnerFoodstuff
+  entities:
+  - uid: 91194
+    components:
+    - type: Transform
+      pos: 35.5,-98.5
+      parent: 1
+- proto: SalvageSpawnerGlassBottles
+  entities:
+  - uid: 91195
+    components:
+    - type: Transform
+      pos: 32.5,-95.5
+      parent: 1
+- proto: SalvageSpawnerMinecart
+  entities:
+  - uid: 91196
+    components:
+    - type: Transform
+      pos: 33.5,-88.5
+      parent: 1
+- proto: SalvageSpawnerPots
+  entities:
+  - uid: 91197
+    components:
+    - type: Transform
+      pos: 45.5,-100.5
+      parent: 1
+- proto: SalvageSpawnerRubble
+  entities:
+  - uid: 91198
+    components:
+    - type: Transform
+      pos: 29.5,-92.5
+      parent: 1
+- proto: SalvageSpawnerScrapwood
+  entities:
+  - uid: 91199
+    components:
+    - type: Transform
+      pos: 35.5,-89.5
+      parent: 1
+- proto: SalvageSpawnerTrashbags
+  entities:
+  - uid: 91201
+    components:
+    - type: Transform
+      pos: 32.5,-83.5
+      parent: 1
+- proto: SalvageSpawnerTrashbin
+  entities:
+  - uid: 91200
+    components:
+    - type: Transform
+      pos: 45.5,-90.5
+      parent: 1
+- proto: AU14SpawnPointCivilianColonist
+>>>>>>> cmu/master
   entities:
   - uid: 171
     components:
@@ -610470,7 +610551,7 @@ entities:
     - type: Transform
       pos: -40.5,-12.5
       parent: 1
-- proto: scenarioclfsafehousespawnmarker
+- proto: safehousemarker
   entities:
   - uid: 250
     components:
@@ -610492,14 +610573,14 @@ entities:
     - type: Transform
       pos: -24.5,-70.5
       parent: 1
-- proto: scenariocultistcfthreatleaderspawnmarker
+- proto: threatleaderspawnmarker
   entities:
   - uid: 82668
     components:
     - type: Transform
       pos: -44.5,128.5
       parent: 1
-- proto: scenariocultistcfthreatmemberspawnmarker
+- proto: threatmemberspawnmarker
   entities:
   - uid: 82669
     components:
@@ -610541,7 +610622,7 @@ entities:
     - type: Transform
       pos: -47.5,128.5
       parent: 1
-- proto: scenariothirdpartyentityspawnmarker
+- proto: thirdpartyentityspawnmarker
   entities:
   - uid: 90717
     components:
@@ -610578,7 +610659,7 @@ entities:
     - type: Transform
       pos: 114.5,9.5
       parent: 1
-- proto: scenariothirdpartyleaderspawnmarker
+- proto: thirdpartyleaderspawnmarker
   entities:
   - uid: 90724
     components:
@@ -610595,7 +610676,7 @@ entities:
     - type: Transform
       pos: 109.5,-125.5
       parent: 1
-- proto: scenariothirdpartymemberspawnmarker
+- proto: thirdpartymemberspawnmarker
   entities:
   - uid: 90727
     components:
@@ -610657,7 +610738,7 @@ entities:
     - type: Transform
       pos: 114.5,6.5
       parent: 1
-- proto: scenariothreatentityspawnmarker
+- proto: threatentityspawnmarker
   entities:
   - uid: 90739
     components:
@@ -610694,7 +610775,7 @@ entities:
     - type: Transform
       pos: 116.5,9.5
       parent: 1
-- proto: scenariothreatleaderspawnmarker
+- proto: threatleaderspawnmarker
   entities:
   - uid: 90746
     components:
@@ -610711,7 +610792,7 @@ entities:
     - type: Transform
       pos: 115.5,8.5
       parent: 1
-- proto: scenariothreatmemberspawnmarker
+- proto: threatmemberspawnmarker
   entities:
   - uid: 90749
     components:
@@ -610778,7 +610859,7 @@ entities:
     - type: Transform
       pos: 114.5,7.5
       parent: 1
-- proto: scenarioxenocfthreatentityspawnmarker
+- proto: xenocfthreatentityspawnmarker
   entities:
   - uid: 90796
     components:
@@ -610795,14 +610876,14 @@ entities:
     - type: Transform
       pos: -44.5,131.5
       parent: 1
-- proto: scenarioxenocfthreatleaderspawnmarker
+- proto: xenocfthreatleaderspawnmarker
   entities:
   - uid: 90799
     components:
     - type: Transform
       pos: -44.5,128.5
       parent: 1
-- proto: scenarioxenocfthreatmemberspawnmarker
+- proto: xenocfthreatmemberspawnmarker
   entities:
   - uid: 90800
     components:

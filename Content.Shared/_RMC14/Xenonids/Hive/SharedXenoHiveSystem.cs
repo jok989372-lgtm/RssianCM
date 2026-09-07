@@ -84,7 +84,7 @@ public abstract partial class SharedXenoHiveSystem : EntitySystem
     private void OnDropshipHijackStart(ref DropshipHijackStartEvent ev)
     {
         // Evolution boost is xeno-specific; skip for human-vs-human hijacks
-        if (ev.IsHumanHijack)
+        if (ev.HijackerType == DropshipHijackerType.Human) // CMU14
             return;
 
         var hives = EntityQueryEnumerator<HiveComponent>();
@@ -558,11 +558,30 @@ public abstract partial class SharedXenoHiveSystem : EntitySystem
 
     public void ChangeBurrowedLarva(Entity<HiveComponent> hive, int amount)
     {
+        if (!hive.Comp.BurrowedLarvaEnabled) // CMU14
+            return;
+
         SetHiveBurrowedLarva(hive, hive.Comp.BurrowedLarva + amount);
+    }
+
+    // CMU14 method
+    public void SetBurrowedLarvaEnabled(Entity<HiveComponent> hive, bool enabled)
+    {
+        if (hive.Comp.BurrowedLarvaEnabled == enabled)
+            return;
+
+        hive.Comp.BurrowedLarvaEnabled = enabled;
+        if (!enabled && hive.Comp.BurrowedLarva != 0)
+            SetHiveBurrowedLarva(hive, 0);
+        else
+            Dirty(hive);
     }
 
     public bool HasBurrowedLarvaSpawnPoint(Entity<HiveComponent> hive)
     {
+        if (!hive.Comp.BurrowedLarvaEnabled) // CMU14
+            return false;
+
         return TryGetBurrowedLarvaSpawnPosition(hive, out _);
     }
 
@@ -588,7 +607,8 @@ public abstract partial class SharedXenoHiveSystem : EntitySystem
         if (_net.IsClient)
             return false;
 
-        if (hive.Comp.BurrowedLarva <= 0)
+        if (!hive.Comp.BurrowedLarvaEnabled // CMU14
+            || hive.Comp.BurrowedLarva <= 0)
             return false;
 
         if (!TryGetBurrowedLarvaSpawnPosition(hive, out var position))

@@ -71,7 +71,6 @@
   id: AU14JobFORECONMarksman
   name: FORECON Marksman (Surv)
   components:
-  - type: Threat
   - type: GhostTakeoverAvailable
   - type: GhostRoleApplySpecial
     squad: SquadFORECON
@@ -91,7 +90,7 @@
   id: AU14GearFORECONMarksman
   equipment:
     id: AU14IDCardFORECONMarksman
-    outerClothing: RMCOuterClothingExternalWebbingBrownFull
+    outerClothing: RMCOuterClothingExternalWebbingForeconSurvivorFill
     jumpsuit: RMCJumpsuitSurvivorMarineDropPouch
     shoes: RMCScoutShoes
     head: RMCBoonieTan
