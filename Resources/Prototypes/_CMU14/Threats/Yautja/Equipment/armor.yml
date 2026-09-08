@@ -16,12 +16,9 @@
       - MeleeWeapon
       tags:
       - Knife
-<<<<<<< HEAD
-=======
       - RMCMacheteScabbard
       - RMCScabbardKatana
   - type: YautjaTechItem
->>>>>>> cmu/master
   - type: RMCArmorSpeedTier
     speedTier: very light
   - type: CMArmor
@@ -30,7 +27,6 @@
     bio: 40
     explosionArmor: 45
   - type: CMHardArmor
-  - type: YautjaTechItem
   - type: Corrodible
     isCorrodible: false
   - type: RMCImmuneToIgnition
@@ -505,7 +501,6 @@
     sprite: _CMU14/Yautja/armor_thrall_ebony.rsi
   - type: Clothing
     sprite: _CMU14/Yautja/armor_thrall_ebony.rsi
-  - type: YautjaTechItem
   - type: CMArmor
     melee: 45
     bullet: 45
@@ -639,17 +634,9 @@
   - type: YautjaTechItem
   - type: CMArmor
     melee: 35
-<<<<<<< HEAD
-    bullet: 40
-    bio: 40
-    explosionArmor: 50
-  - type: YautjaScalableRepair
-    damagedText: cmu-yautja-repair-damaged
-=======
     bullet: 20
     bio: 45
     explosionArmor: 40
->>>>>>> cmu/master
 
 - type: entity
   parent: CMUYautjaBadBloodArmorPatchwork
@@ -819,12 +806,6 @@
     explosionArmor: 50
   - type: Corrodible
     isCorrodible: false
-<<<<<<< HEAD
-  - type: StaticPrice
-    price: 50
-=======
-  - type: YautjaTechItem
->>>>>>> cmu/master
 
 - type: entity
   parent: CMUYautjaBodyMesh
@@ -898,7 +879,6 @@
     bullet: 45
     bio: 40
     explosionArmor: 45
-  - type: YautjaTechItem
   - type: Corrodible
     isCorrodible: false
   - type: RMCImmuneToIgnition
@@ -1215,7 +1195,6 @@
     sprite: _CMU14/Yautja/greaves_thrall_ebony.rsi
   - type: Clothing
     sprite: _CMU14/Yautja/greaves_thrall_ebony.rsi
-  - type: YautjaTechItem
   - type: CMArmor
     melee: 35
     bullet: 45

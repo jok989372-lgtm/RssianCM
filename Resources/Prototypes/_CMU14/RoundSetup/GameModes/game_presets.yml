@@ -1,52 +1,12 @@
 - type: gamePreset
   id: ColonyFall
   alias:
-<<<<<<< HEAD
-  - forceonforce
-  name: au14-preset-forceonforce-title # RuMC edit
-  showInVote: true
-  description: au14-preset-forceonforce-description # RuMC edit
-  minPlayers: 100 # RuMC
-  requiresOpforVote: true
-  requiresGovforVote: true
-  respawnEnabled: false # RuMC
-  supportedPlanets:
-  #- AUPlanetGixensCaverns Rout of rotation till fixed - eg
-  #- AUPlanetShepherdsPride
-  #- AUPlanetFlight
-  # - AUPlanetLV759 # RuMC Временно убрана на переработку, раскомментировать по завершению
-  - AUPlanetLV327
-  - AUPlanetCorsatStation
-  - AUPlanetSorokyne
-  - AUPlanetStableGarrison
-  - CMUPlanetStableGarrisonRedux
-  - AUPlanetTrijent
-  - CMUPlanetLament
-  - CMUPlanetHopesRetreat
-  rules:
-  - AuVoteRule
-  - PlatoonSpawn
-  - RemoveAllJobs
-  - AddGovfor
-  - AddOpfor
-
-- type: gamePreset
-  id: Insurgency
-  alias:
-  - insurgency
-  name: au14-preset-insurgency-title # RuMC edit
-  showInVote: true
-  description: au14-preset-insurgency-description # RuMC edit
-  minPlayers: 35
-  requiresGovforVote: true
-=======
   - colonyfall
   name: Colony Fall
   showInVote: true
   maxPlayers: 45
   description: Live in an offworld colony as it falls into chaos.
   burrowedLarvaEnabled: false
->>>>>>> cmu/master
   thirdPartyAutoSpawn: true
   thirdPartyInterval: 2250
   thirdPartyRatio: 0.25
@@ -89,12 +49,6 @@
 - type: gamePreset
   id: Insurgency
   alias:
-<<<<<<< HEAD
-  - colonyfall
-  name: au14-preset-colonyfall-title # RuMC edit
-  showInVote: true
-  description: au14-preset-colonyfall-description # RuMC edit
-=======
   - insurgency
   name: Insurgency
   showInVote: true
@@ -106,7 +60,6 @@
   thirdPartyInterval: 3600
   thirdPartyRatio: 0.15
   maxThirdParties: 3
->>>>>>> cmu/master
   supportedPlanets:
   - SharedPlanetPool
 # - AUPlanetLV624 # Green Hell # map lacks medical, dropships - govfor spawns outside base

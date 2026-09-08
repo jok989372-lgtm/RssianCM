@@ -17,13 +17,8 @@ public sealed partial class SurveillanceCameraSystem : EntitySystem
 {
     [Dependency] private IPrototypeManager _prototypeManager = default!;
     [Dependency] private ActionBlockerSystem _actionBlocker = default!;
-<<<<<<< HEAD
-    [Dependency] private ViewSubscriberSystem _viewSubscriberSystem = default!;
-    [Dependency] private CameraNetworkSystem _cameraNetworks = default!;
-=======
     [Dependency] private CameraNetworkSystem _cameraNetworks = default!;
     [Dependency] private CameraSessionSystem _cameraSessions = default!;
->>>>>>> cmu/master
     [Dependency] private UserInterfaceSystem _userInterface = default!;
     [Dependency] private SharedAppearanceSystem _appearance = default!;
     [Dependency] private WiresSystem _wires = default!;
@@ -67,10 +62,7 @@ public sealed partial class SurveillanceCameraSystem : EntitySystem
         SubscribeLocalEvent<SurveillanceCameraComponent, SurveillanceCameraSetupSetNetwork>(OnSetNetwork);
         SubscribeLocalEvent<SurveillanceCameraComponent, GetVerbsEvent<AlternativeVerb>>(AddVerbs);
         SubscribeLocalEvent<SurveillanceCameraComponent, PanelChangedEvent>(OnPanelChanged);
-<<<<<<< HEAD
-=======
         SubscribeLocalEvent<SurveillanceCameraComponent, CameraSessionSelectionChangedEvent>(OnSessionSelectionChanged);
->>>>>>> cmu/master
 
         SubscribeLocalEvent<SurveillanceCameraComponent, EmpPulseEvent>(OnEmpPulse);
         SubscribeLocalEvent<SurveillanceCameraComponent, EmpDisabledRemoved>(OnEmpDisabledRemoved);

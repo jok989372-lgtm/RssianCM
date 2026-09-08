@@ -359,9 +359,6 @@ cmu-yautja-thrall-blooded-requires-thrall = Only your marked thrall can be blood
 cmu-yautja-thrall-blooded-cannot-remove = Once a thrall becomes a blooded hunter, there is no going back.
 cmu-yautja-thrall-marked-master = You claim {$target} as your thrall.
 cmu-yautja-thrall-marked-target = {$hunter} claims you as a Yautja thrall.
-<<<<<<< HEAD
-cmu-yautja-thrall-broadcast = {$hunter} has taken {$target} as their Thrall for '{$reason}'.
-=======
 cmu-yautja-thrall-broadcast = {$hunter} has claimed {$target} as a thrall.
 cmu-yautja-thrall-raise-invalid = The bracer cannot raise that. Only intact dead humanoids can serve.
 cmu-yautja-thrall-raise-limit = Too many raised thralls already walk. The bracer cannot sustain another until one of them falls.
@@ -379,7 +376,6 @@ ent-CMUActionYautjaCreateFieldRation = Fabricate Hunting Ration
     .desc = The bracer extrudes a preserved strip of meat. Costs bracer power.
 ent-CMUActionYautjaCreateHuntingCanteen = Fabricate Hunting Canteen
     .desc = The bracer seals water in a lacquered gourd. Costs bracer power.
->>>>>>> cmu/master
 cmu-yautja-thrall-blooded-master = You blood {$target} and authorize alien technology.
 cmu-yautja-thrall-blooded-target = You are a Blooded Thrall. Focus on interacting with Predators and developing your reputation. You should be observant and discreet while exercising discretionary restraint when hunting worthy prey. Learn Yautja lore and their Honor Code. If you have any questions, ask the whitelisted players in LOOC.
 cmu-yautja-thrall-blooded-broadcast = {$hunter} has blooded {$target} for '{$reason}'.
@@ -1221,3 +1217,5 @@ cmu-yautja-clan-info-appearance-updated = Clan name and color updated.
 cmu-yautja-clan-info-honor-updated = Clan honor updated.
 cmu-yautja-clan-info-member-purged = Hunter profile purged.
 cmu-yautja-clan-info-clan-deleted = Clan deactivated.
+
+cmu-yautja-houndpad-network = Hellhounds

@@ -163,33 +163,7 @@ public sealed partial class ANPRCRadioSystem
 
         if (!wearing.PendingANPRCTransmit)
         {
-<<<<<<< HEAD
-            if (args.Channel != null &&
-                args.Channel.Frequency > 0 &&
-                TryComp(wearing.Radio, out ANPRCRadioComponent? logRadio) &&
-                logRadio.Enabled)
-            {
-                // log headset traffic under what actually went on air: the callsign
-                // on a callsign-faction net, the plain name on an open channel
-                var logName = AU14Callsigns.IsCallsignChannel(args.Channel) &&
-                              TryComp(ent.Owner, out AU14CallsignComponent? ownCallsign) &&
-                              !string.IsNullOrEmpty(ownCallsign.Callsign)
-                    ? ownCallsign.Callsign
-                    : Name(ent.Owner);
-
-                AppendNetLog(
-                    logRadio,
-                    _timing.CurTime.TotalSeconds,
-                    logName,
-                    $"{args.Channel.LocalizedName} ({TunableFrequencySystem.FormatFreq(_freqPlan.GetFrequency(args.Channel))} МГц)",
-                    args.Message);
-
-                UpdateBuiState(new Entity<ANPRCRadioComponent>(wearing.Radio, logRadio));
-            }
-
-=======
             LogHeadsetTraffic(ent, ref args);
->>>>>>> cmu/master
             return;
         }
 
@@ -395,11 +369,7 @@ public sealed partial class ANPRCRadioSystem
             radio,
             _timing.CurTime.TotalSeconds,
             senderName,
-<<<<<<< HEAD
-                $"{channel.LocalizedName} ({TunableFrequencySystem.FormatFreq(_freqPlan.GetFrequency(channel))} МГц)",
-=======
             FormatLogChannel(radio, channel),
->>>>>>> cmu/master
             outMessage);
 
         UpdateBuiState(pack);

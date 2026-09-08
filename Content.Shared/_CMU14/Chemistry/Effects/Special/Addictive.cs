@@ -17,9 +17,6 @@ public sealed partial class Addictive : RMCChemicalEffect
 
     protected override void Tick(DamageableSystem damageable, FixedPoint2 potency, EntityEffectReagentArgs args)
     {
-<<<<<<< HEAD
-        return Loc.GetString("reagent-effect-guidebook-cmu-stub"); // RuMC edit
-=======
         if (args.Reagent is not { } reagent)
             return;
 
@@ -38,6 +35,5 @@ public sealed partial class Addictive : RMCChemicalEffect
         var random = IoCManager.Resolve<IRobustRandom>();
         if (random.Prob(chance))
             addictions.AddOrSatisfy(args.TargetEntity, id);
->>>>>>> cmu/master
     }
 }

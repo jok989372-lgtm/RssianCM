@@ -582,9 +582,6 @@
       - id: AU14GogglesLACNLAH99VisorClear
       - id: AU14GogglesLACNLAH99Visor
       - id: AU14GogglesLACNLAH99VisorMirror
-<<<<<<< HEAD
-    - name: au14-vendor-section-webbings
-=======
     - name: Pilot HUD
       choices: { CMUPlatoonAirCrewPilotHUD: 1 }
       entries:
@@ -595,7 +592,6 @@
       - id: RMCVisorPilotRed
       - id: RMCVisorPilotYellow
     - name: Webbings
->>>>>>> cmu/master
       choices: { CMUPlatoonAirCrewWebbings: 1 }
       entries:
       - id: AU14WebbingMagazine

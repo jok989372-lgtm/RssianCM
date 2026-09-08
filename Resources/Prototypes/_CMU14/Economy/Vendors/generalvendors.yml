@@ -279,15 +279,9 @@
     #     isAppendPrefix: false
     #     isAppendSquadRoleName: false
     #     giveIcon:
-<<<<<<< HEAD
-    #       sprite: _AU14/Interface/au14govforjobicons.rsi
-    #       state: govfor_eo
-    - name: au14-vendor-section-spare-equipment
-=======
     #       sprite: _CMU14/Interface/cmugovforjobicons.rsi
     #       state: eo
     - name: Spare Equipment
->>>>>>> cmu/master
       entries:
       - id: RMCMegaphone
       - id: RMCLaserDesignator

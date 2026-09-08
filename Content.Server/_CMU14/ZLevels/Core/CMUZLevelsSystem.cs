@@ -19,12 +19,9 @@ public sealed partial class CMUZLevelsSystem : CMUSharedZLevelsSystem
     [Dependency] private MapSystem _map = default!;
     [Dependency] private MapLoaderSystem _mapLoader = default!;
     [Dependency] private MetaDataSystem _meta = default!;
-<<<<<<< HEAD
     [Dependency] private NavMapSystem _navMap = default!;
     [Dependency] private ShuttleSystem _shuttle = default!;
-=======
     [Dependency] private SharedPhysicsSystem _physics = default!;
->>>>>>> cmu/master
     [Dependency] private StationSystem _station = default!;
     [Dependency] private TransformSystem _transform = default!;
 
@@ -148,7 +145,6 @@ public sealed partial class CMUZLevelsSystem : CMUSharedZLevelsSystem
         }
     }
 
-<<<<<<< HEAD
     private void StabilizeZLevelDeckGrids(IEnumerable<EntityUid> maps)
     {
         foreach (var mapUid in maps)
@@ -170,6 +166,4 @@ public sealed partial class CMUZLevelsSystem : CMUSharedZLevelsSystem
             }
         }
     }
-=======
->>>>>>> cmu/master
 }

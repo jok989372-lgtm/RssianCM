@@ -29,9 +29,6 @@ public sealed partial class Cardiopeutic : OrganPeuticEffect<HeartComponent>
 
     protected override void TickOverdose(DamageableSystem damageable, FixedPoint2 potency, EntityEffectReagentArgs args)
     {
-<<<<<<< HEAD
-        return Loc.GetString("reagent-effect-guidebook-cmu-stub"); // RuMC edit
-=======
         base.TickOverdose(damageable, potency, args);
         args.EntityManager.System<SharedStatusEffectsSystem>()
             .TrySetStatusEffectDuration(args.TargetEntity, Arrhythmia, TimeSpan.FromSeconds(3));
@@ -48,6 +45,5 @@ public sealed partial class Cardiopeutic : OrganPeuticEffect<HeartComponent>
     {
         var ev = new HydroTickEvent<Cardiopeutic>(potency, args);
         args.EntityManager.EventBus.RaiseEvent(EventSource.Local, ev);
->>>>>>> cmu/master
     }
 }

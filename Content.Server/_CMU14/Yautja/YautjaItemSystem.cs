@@ -1034,7 +1034,6 @@ public sealed partial class YautjaItemSystem : EntitySystem
         }
 
         var internalCamera = GetOrCreateHoundPadInternalCamera(pad);
-        _rmcCamera.RebuildComputerCameras(internalCamera);
         _ui.TryOpenUi(internalCamera, RMCCameraUiKey.Key, args.User);
     }
 

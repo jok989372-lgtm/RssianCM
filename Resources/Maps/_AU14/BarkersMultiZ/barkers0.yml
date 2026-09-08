@@ -610393,9 +610393,6 @@ entities:
     - type: Physics
       canCollide: False
     - type: InsideEntityStorage
-<<<<<<< HEAD
-- proto: ScenarioClfCivilianColonistSpawnMarker
-=======
 - proto: SalvageSpawnerBarrels
   entities:
   - uid: 91192
@@ -610474,7 +610471,6 @@ entities:
       pos: 45.5,-90.5
       parent: 1
 - proto: AU14SpawnPointCivilianColonist
->>>>>>> cmu/master
   entities:
   - uid: 171
     components:

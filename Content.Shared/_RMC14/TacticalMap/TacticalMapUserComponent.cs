@@ -66,16 +66,13 @@ public sealed partial class TacticalMapUserComponent : Component
     [DataField, AutoNetworkedField]
     public Dictionary<int, TacticalMapBlip> ClfBlips = new();
 
-<<<<<<< HEAD
     [DataField, AutoNetworkedField]
     public Dictionary<int, TacticalMapBlip> YautjaBlips = new();
-=======
     [DataField, AutoNetworkedField] // CMU14
     public Dictionary<int, TacticalMapBlip> WeYuBlips = new();
 
     [DataField, AutoNetworkedField] // CMU14
     public Dictionary<int, TacticalMapBlip> AbominationBlips = new();
->>>>>>> cmu/master
 
     [DataField(customTypeSerializer: typeof(TimeOffsetSerializer)), AutoNetworkedField, AutoPausedField]
     public TimeSpan LastAnnounceAt;

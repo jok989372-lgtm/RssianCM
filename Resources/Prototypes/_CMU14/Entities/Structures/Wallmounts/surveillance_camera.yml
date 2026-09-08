@@ -24,10 +24,6 @@
     - CMUSurveillanceCameraColonyGOVFOR
     - CMUSurveillanceCameraColonyWEYU
   - type: RMCCamera
-<<<<<<< HEAD
-    id: CMUSurveillanceCameraColonyGOVFOR
-=======
->>>>>>> cmu/master
   - type: CameraMapMarker
   - type: CameraNetworkMember
     networks: [CMUSurveillanceCameraColonyGOVFOR]
@@ -54,10 +50,6 @@
     - CMUSurveillanceCameraColonyGOVFOR
     - CMUSurveillanceCameraColonyWEYU
   - type: RMCCamera
-<<<<<<< HEAD
-    id: CMUSurveillanceCameraColonyWEYU
-=======
->>>>>>> cmu/master
   - type: CameraMapMarker
   - type: CameraNetworkMember
     networks: [CMUSurveillanceCameraColonyWEYU]
@@ -84,10 +76,6 @@
     - CMUSurveillanceCameraColonyGOVFOR
     - CMUSurveillanceCameraColonyWEYU
   - type: RMCCamera
-<<<<<<< HEAD
-    id: CMUSurveillanceCameraColonyCMB
-=======
->>>>>>> cmu/master
   - type: CameraMapMarker
   - type: CameraNetworkMember
     networks: [CMUSurveillanceCameraColonyCMB]
@@ -103,11 +91,6 @@
   - type: Transform
     anchored: true
   - type: RMCCameraComputer
-<<<<<<< HEAD
-    protoIds:
-    - CMUSurveillanceCameraColonyGOVFOR
-=======
->>>>>>> cmu/master
   - type: CameraNetworkReceiver
     networks: [CMUSurveillanceCameraColonyGOVFOR]
     supportedSources: Rmc
@@ -122,11 +105,6 @@
   - type: Transform
     anchored: true
   - type: RMCCameraComputer
-<<<<<<< HEAD
-    protoIds:
-    - CMUSurveillanceCameraColonyWEYU
-=======
->>>>>>> cmu/master
   - type: CameraNetworkReceiver
     networks: [CMUSurveillanceCameraColonyWEYU]
     supportedSources: Rmc
@@ -141,12 +119,6 @@
   - type: Transform
     anchored: true
   - type: RMCCameraComputer
-<<<<<<< HEAD
-    protoIds:
-    - CMUSurveillanceCameraColonyCMB
-    - CMUSurveillanceCameraColonyWEYU
-=======
->>>>>>> cmu/master
   - type: CameraNetworkReceiver
     networks: [CMUSurveillanceCameraColonyCMB, CMUSurveillanceCameraColonyWEYU]
     supportedSources: Rmc
@@ -161,12 +133,6 @@
   - type: Transform
     anchored: true
   - type: RMCCameraComputer
-<<<<<<< HEAD
-    protoIds:
-    - CMUSurveillanceCameraColonyCMB
-    - CMUSurveillanceCameraColonyGOVFOR
-=======
->>>>>>> cmu/master
   - type: CameraNetworkReceiver
     networks: [CMUSurveillanceCameraColonyCMB, CMUSurveillanceCameraColonyGOVFOR]
     supportedSources: Rmc
@@ -181,11 +147,6 @@
   - type: Transform
     anchored: true
   - type: RMCCameraComputer
-<<<<<<< HEAD
-    protoIds:
-    - CMUSurveillanceCameraColonyCMB
-=======
->>>>>>> cmu/master
   - type: CameraNetworkReceiver
     networks: [CMUSurveillanceCameraColonyCMB]
     supportedSources: Rmc

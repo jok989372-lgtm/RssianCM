@@ -1,4 +1,4 @@
-﻿- type: entity
+- type: entity
   id: RMCSurveillanceCameraAlmayer
   name: ship-grade camera
   description: It's used to monitor rooms.
@@ -56,10 +56,6 @@
           params:
             volume: -8
   - type: RMCCamera
-<<<<<<< HEAD
-    id: RMCSurveillanceCameraAlmayer
-=======
->>>>>>> cmu/master
   - type: SurveillanceCamera
     nameSet: true
     networkSet: false
@@ -108,13 +104,6 @@
       enum.RMCCameraUiKey.Key:
         type: RMCCameraBui
   - type: RMCCameraComputer
-<<<<<<< HEAD
-    protoIds:
-    - RMCSurveillanceCameraAlmayer
-    - RMCMonitorCameraAlamo
-    - RMCMonitorCameraNormandy
-=======
->>>>>>> cmu/master
   - type: CameraNetworkReceiver
     networks: [RMCSurveillanceCameraAlmayer, RMCMonitorCameraAlamo, RMCMonitorCameraNormandy]
     supportedSources: Rmc
@@ -132,11 +121,6 @@
   - type: RMCCamera
   - type: SurveillanceCamera
     id: RMCMonitorCameraAlamo
-<<<<<<< HEAD
-  - type: SurveillanceCamera
-    id: RMCMonitorCameraAlamo
-=======
->>>>>>> cmu/master
     nameSet: true
   - type: CameraNetworkMember
     networks: [RMCMonitorCameraAlamo]
@@ -153,11 +137,6 @@
   - type: RMCCamera
   - type: SurveillanceCamera
     id: RMCMonitorCameraNormandy
-<<<<<<< HEAD
-  - type: SurveillanceCamera
-    id: RMCMonitorCameraNormandy
-=======
->>>>>>> cmu/master
     nameSet: true
   - type: CameraNetworkMember
     networks: [RMCMonitorCameraNormandy]
@@ -178,10 +157,6 @@
     state: camera
     cycle: true
   - type: RMCCamera
-<<<<<<< HEAD
-    id: RMCMonitorCameraLandingZone
-=======
->>>>>>> cmu/master
   - type: CameraNetworkMember
     networks: [RMCMonitorCameraLandingZone]
     sourceKinds: Rmc

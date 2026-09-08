@@ -26,9 +26,6 @@ public sealed partial class Neuroshielding : RMCChemicalEffect
 
     protected override void Tick(DamageableSystem damageable, FixedPoint2 potency, EntityEffectReagentArgs args)
     {
-<<<<<<< HEAD
-        return Loc.GetString("reagent-effect-guidebook-cmu-stub"); // RuMC edit
-=======
         args.EntityManager.System<ChemicalPropertyStatusSystem>()
             .ApplyNeuroshield(args.TargetEntity,
                 MathF.Min(0.95f, LinearLevel * 0.8f),
@@ -52,6 +49,5 @@ public sealed partial class Neuroshielding : RMCChemicalEffect
         damageable.TryChangeDamage(args.TargetEntity, damage, true, interruptsDoAfters: false);
         args.EntityManager.System<CMUChemicalMedicalSystem>()
             .DamageOrgan<CMUBrainComponent>(args.TargetEntity, potency * 4f, ShockType);
->>>>>>> cmu/master
     }
 }

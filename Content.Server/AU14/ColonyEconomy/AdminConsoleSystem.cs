@@ -124,11 +124,6 @@ public sealed partial class AdminConsoleSystem : EntitySystem
         if (Math.Abs(oldTax - clamped) > 0.01f)
         {
             var sound = new Robust.Shared.Audio.SoundPathSpecifier("/Audio/Announcements/announce.ogg");
-<<<<<<< HEAD
-            _chat.DispatchGlobalAnnouncement(
-                Loc.GetString("au14-admin-console-sales-tax-set", ("percent", (int)clamped)), // RuMC edit
-                Loc.GetString("au14-admin-console-sender"), // RuMC edit
-=======
             //_chat.DispatchGlobalAnnouncement(
             //    $"Colony sales tax has been set to {clamped:F0}%.",
             //    "Administration",
@@ -136,9 +131,8 @@ public sealed partial class AdminConsoleSystem : EntitySystem
             //    announcementSound: sound); // CMU14: xenos must not receive colony announcements
             _chat.DispatchFilteredAnnouncement(
                 ColonyAnnouncements.Recipients(EntityManager), // CMU14
-                $"Colony sales tax has been set to {clamped:F0}%.",
-                sender: "Administration",
->>>>>>> cmu/master
+                Loc.GetString("au14-admin-console-sales-tax-set", ("percent", (int) clamped)),
+                sender: Loc.GetString("au14-admin-console-sender"),
                 playSound: true,
                 announcementSound: sound);
         }
@@ -159,11 +153,6 @@ public sealed partial class AdminConsoleSystem : EntitySystem
         if (Math.Abs(oldTax - clamped) > 0.01f)
         {
             var sound = new Robust.Shared.Audio.SoundPathSpecifier("/Audio/Announcements/announce.ogg");
-<<<<<<< HEAD
-            _chat.DispatchGlobalAnnouncement(
-                Loc.GetString("au14-admin-console-income-tax-set", ("percent", (int)clamped)), // RuMC edit
-                Loc.GetString("au14-admin-console-sender"), // RuMC edit
-=======
             //_chat.DispatchGlobalAnnouncement(
             //    $"Colony income tax has been set to {clamped:F0}%. This affects salary payouts and corporate withdrawals.",
             //    "Administration",
@@ -171,9 +160,8 @@ public sealed partial class AdminConsoleSystem : EntitySystem
             //    announcementSound: sound); // CMU14: xenos must not receive colony announcements
             _chat.DispatchFilteredAnnouncement(
                 ColonyAnnouncements.Recipients(EntityManager), // CMU14
-                $"Colony income tax has been set to {clamped:F0}%. This affects salary payouts and corporate withdrawals.",
-                sender: "Administration",
->>>>>>> cmu/master
+                Loc.GetString("au14-admin-console-income-tax-set", ("percent", (int) clamped)),
+                sender: Loc.GetString("au14-admin-console-sender"),
                 playSound: true,
                 announcementSound: sound);
         }
@@ -238,4 +226,3 @@ public sealed partial class AdminConsoleSystem : EntitySystem
             UpdateUiState(uid, comp);
     }
 }
-

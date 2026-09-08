@@ -44,9 +44,6 @@ public sealed partial class Defibrillating : RMCChemicalEffect
 
     protected override void Tick(DamageableSystem damageable, FixedPoint2 potency, EntityEffectReagentArgs args)
     {
-<<<<<<< HEAD
-        return Loc.GetString("reagent-effect-guidebook-cmu-stub"); // RuMC edit
-=======
         if (args.EntityManager.TryGetComponent<MobStateComponent>(args.TargetEntity, out var mobState) &&
             mobState.CurrentState == MobState.Dead)
         {
@@ -64,7 +61,6 @@ public sealed partial class Defibrillating : RMCChemicalEffect
         args.EntityManager.System<ChemicalPropertyStatusSystem>()
             .ApplyCardiacPacing(args.TargetEntity, ActualPotency, args.Reagent!.ID);
         args.EntityManager.System<SharedHeartSystem>().TryRestartHeart((heart, heartComp));
->>>>>>> cmu/master
     }
 
     private static void TickDead(DamageableSystem damageable, FixedPoint2 potency, EntityEffectReagentArgs args,

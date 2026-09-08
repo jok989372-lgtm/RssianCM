@@ -26,9 +26,6 @@ public sealed partial class Hemostatic : RMCChemicalEffect
 
     protected override void Tick(DamageableSystem damageable, FixedPoint2 potency, EntityEffectReagentArgs args)
     {
-<<<<<<< HEAD
-        return Loc.GetString("reagent-effect-guidebook-cmu-stub"); // RuMC edit
-=======
         var index = args.EntityManager.System<CMUMedicalBodyIndexSystem>();
         var wounds = args.EntityManager.System<SharedCMUWoundsSystem>();
         foreach (var (part, _) in index.GetBodyParts(args.TargetEntity))
@@ -54,6 +51,5 @@ public sealed partial class Hemostatic : RMCChemicalEffect
         damage.DamageDict[HeatType] = potency * 9f;
         damage.DamageDict[PoisonType] = potency * 9f;
         damageable.TryChangeDamage(args.TargetEntity, damage, true, interruptsDoAfters: false);
->>>>>>> cmu/master
     }
 }

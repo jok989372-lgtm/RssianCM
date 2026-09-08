@@ -1,4 +1,4 @@
-﻿- type: entity
+- type: entity
   parent: [ BaseMachinePowered, RMCConstructibleMachine ]
   id: RMCTelevision
   name: television set
@@ -30,8 +30,6 @@
     activeLoad: 300
     channel: Equipment
   - type: Appearance
-<<<<<<< HEAD
-=======
   - type: ActivatableUI
     key: enum.RMCCameraUiKey.Key
   - type: ActivatableUIRequiresPower
@@ -44,7 +42,6 @@
   - type: CameraNetworkReceiver
     networks: [RMCTelevision]
     supportedSources: Rmc
->>>>>>> cmu/master
   - type: Machine
     board: RMCCircuitboardTelevision
 
@@ -90,8 +87,6 @@
     activeLoad: 300
     channel: Equipment
   - type: Appearance
-<<<<<<< HEAD
-=======
   - type: ActivatableUI
     key: enum.RMCCameraUiKey.Key
   - type: ActivatableUIRequiresPower
@@ -104,6 +99,5 @@
   - type: CameraNetworkReceiver
     networks: [RMCTelevision]
     supportedSources: Rmc
->>>>>>> cmu/master
   - type: Machine
     board: RMCCircuitboardTelevision

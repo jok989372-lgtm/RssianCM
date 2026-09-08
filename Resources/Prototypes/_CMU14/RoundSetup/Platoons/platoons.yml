@@ -648,12 +648,6 @@
 - type: platoon
   id: WYPMC
   name: WY PMC
-<<<<<<< HEAD
-  nameLocKey: lore-primer-platoon-weyu # RuMC edit
-  lorePrimer: AU14PrimerPlatoonWEYU
-  reqlist: WEYUCargoCatalog
-  vendorSet: WEYU
-=======
   lorePrimer: AU14PrimerPlatoonWYPMC
   reqlist: WYPMCCargoCatalog
   vendorSet: WYPMC
@@ -935,7 +929,6 @@
         entity: AU14ChevronWeYuAdjutant
         requirements: []
 
->>>>>>> cmu/master
   languages:
     - English
     - Japanese
@@ -1962,13 +1955,8 @@
   PlatoonInfo: lore-primer-platoon-upp-info
 
 - type: lorePrimer
-<<<<<<< HEAD
-  id: AU14PrimerPlatoonWEYU
-  PlatoonInfo: lore-primer-platoon-weyu-info
-=======
   id: AU14PrimerPlatoonWYPMC
   PlatoonInfo: "The Weyland-Yutani Private Military Company (WEYU PMC), known as the 'Whiteshields', is the organized security force of Weyland-Yutani. While usually reserved for operations directly related to Weyland-Yutani facilities, whether for security or containment, colonial governments have often found hiring them to be more efficient and effective than relying on the local military."
->>>>>>> cmu/master
 
 - type: lorePrimer
   id: AU14PrimerPlatoonCMBCIU
@@ -1988,8 +1976,4 @@
 
 - type: lorePrimer
   id: AU14PrimerPlatoonRMC
-<<<<<<< HEAD
-  PlatoonInfo: lore-primer-platoon-rmc-info
-=======
   PlatoonInfo: "The Three World Empire Royal Marine Commandos (TWE RMC) are a specialized and highly disciplined force trained in rapid deployment, boarding actions, reconnaissance, sabotage, and precision strikes way behind enemy lines."
->>>>>>> cmu/master

@@ -474,9 +474,6 @@
       - id: AU14GogglesLACNLAH99VisorClear
       - id: AU14GogglesLACNLAH99Visor
       - id: AU14GogglesLACNLAH99VisorMirror
-<<<<<<< HEAD
-    - name: au14-vendor-section-mask
-=======
     - name: Pilot HUD
       choices: { CMUPlatoonAirCrewPilotHUD: 1 }
       entries:
@@ -487,7 +484,6 @@
       - id: RMCVisorPilotRed
       - id: RMCVisorPilotYellow
     - name: Flight Mask
->>>>>>> cmu/master
       choices: { CMUPlatoonAirCrewFlightMask: 1 }
       entries:
       - id: AU14MaskLACNPilotOxygen

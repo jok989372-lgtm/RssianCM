@@ -178,12 +178,8 @@ public sealed partial class MarineAnnounceSystem : SharedMarineAnnounceSystem
     {
         base.AnnounceARESStaging(source, message, sound, announcement, faction, ship);
 
-<<<<<<< HEAD
         var ttsMessage = message;
-        message = FormatARESStaging(announcement, message);
-=======
         message = FormatARESStaging(announcement, message, ship);
->>>>>>> cmu/master
 
         var filter = string.IsNullOrWhiteSpace(faction)
             ? BuildAllMarineAnnouncementFilter()

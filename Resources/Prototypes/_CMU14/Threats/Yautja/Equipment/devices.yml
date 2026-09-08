@@ -530,7 +530,6 @@
     - Suitstorage
   - type: Item
     size: Small
-  - type: YautjaTechItem
   - type: Tag
     tags:
     - GasMask
@@ -1126,116 +1125,6 @@
   id: CMUYautjaPlasmaCasterRetro
   name: retro shoulder plasma caster
   components:
-<<<<<<< HEAD
-  - type: Sprite
-    sprite: _CMU14/Yautja/plasma_caster_retro.rsi
-    layers:
-    - state: icon
-      map: [ "enum.GunVisualLayers.Base" ]
-  - type: Item
-    sprite: _CMU14/Yautja/plasma_caster_retro.rsi
-    size: Normal
-  - type: Clothing
-    sprite: _CMU14/Yautja/plasma_caster_retro.rsi
-    quickEquip: false
-    slots:
-    - suitStorage
-
-- type: entity
-  parent: CMUYautjaPlasmaCaster
-  id: CMUYautjaPlasmaCasterEbony
-  name: ebony shoulder plasma caster
-  components:
-  - type: Sprite
-    sprite: _CMU14/Yautja/plasma_caster_ebony.rsi
-    layers:
-    - state: icon
-      map: [ "enum.GunVisualLayers.Base" ]
-  - type: Item
-    sprite: _CMU14/Yautja/plasma_caster_ebony.rsi
-    size: Normal
-  - type: Clothing
-    sprite: _CMU14/Yautja/plasma_caster_ebony.rsi
-    quickEquip: false
-    slots:
-    - suitStorage
-
-- type: entity
-  parent: CMUYautjaPlasmaCaster
-  id: CMUYautjaPlasmaCasterSilver
-  name: silver shoulder plasma caster
-  components:
-  - type: Sprite
-    sprite: _CMU14/Yautja/plasma_caster_silver.rsi
-    layers:
-    - state: icon
-      map: [ "enum.GunVisualLayers.Base" ]
-  - type: Item
-    sprite: _CMU14/Yautja/plasma_caster_silver.rsi
-    size: Normal
-  - type: Clothing
-    sprite: _CMU14/Yautja/plasma_caster_silver.rsi
-    quickEquip: false
-    slots:
-    - suitStorage
-
-- type: entity
-  parent: CMUYautjaPlasmaCaster
-  id: CMUYautjaPlasmaCasterBronze
-  name: bronze shoulder plasma caster
-  components:
-  - type: Sprite
-    sprite: _CMU14/Yautja/plasma_caster_bronze.rsi
-    layers:
-    - state: icon
-      map: [ "enum.GunVisualLayers.Base" ]
-  - type: Item
-    sprite: _CMU14/Yautja/plasma_caster_bronze.rsi
-    size: Normal
-  - type: Clothing
-    sprite: _CMU14/Yautja/plasma_caster_bronze.rsi
-    quickEquip: false
-    slots:
-    - suitStorage
-
-- type: entity
-  parent: CMUYautjaPlasmaCaster
-  id: CMUYautjaPlasmaCasterCrimson
-  name: crimson shoulder plasma caster
-  components:
-  - type: Sprite
-    sprite: _CMU14/Yautja/plasma_caster_crimson.rsi
-    layers:
-    - state: icon
-      map: [ "enum.GunVisualLayers.Base" ]
-  - type: Item
-    sprite: _CMU14/Yautja/plasma_caster_crimson.rsi
-    size: Normal
-  - type: Clothing
-    sprite: _CMU14/Yautja/plasma_caster_crimson.rsi
-    quickEquip: false
-    slots:
-    - suitStorage
-
-- type: entity
-  parent: CMUYautjaPlasmaCaster
-  id: CMUYautjaPlasmaCasterBone
-  name: bone shoulder plasma caster
-  components:
-  - type: Sprite
-    sprite: _CMU14/Yautja/plasma_caster_bone.rsi
-    layers:
-    - state: icon
-      map: [ "enum.GunVisualLayers.Base" ]
-  - type: Item
-    sprite: _CMU14/Yautja/plasma_caster_bone.rsi
-    size: Normal
-  - type: Clothing
-    sprite: _CMU14/Yautja/plasma_caster_bone.rsi
-    quickEquip: false
-    slots:
-    - suitStorage
-=======
   - type: YautjaCaster
     powerCost: 30
     cooldownSound:
@@ -1265,7 +1154,6 @@
     #  cooldown: 30
     #  fireSound:
     #    path: /Audio/_CMU14/Yautja/Weapons/Plasma/pulse.wav
->>>>>>> cmu/master
 
 - type: entity
   parent: [ BaseItem, RMCBaseMeleeWeapon ]
@@ -1334,12 +1222,7 @@
     sprite: _CMU14/Yautja/scimitar.rsi
     size: Large
   - type: YautjaTechItem
-<<<<<<< HEAD
-  - type: YautjaBracerAttachmentSpeedBonus
-    pairedAttackSeconds: 0.6
-=======
   - type: CMUShrapnelExtractor
->>>>>>> cmu/master
   - type: Prying
     speedModifier: 1.5
     pryPowered: true
@@ -1856,8 +1739,6 @@
   description: A small case packed with Yautja trauma poultices and burn salves.
   suffix: Yautja, Filled
   components:
-<<<<<<< HEAD
-=======
   - type: Storage
     grid:
     - 0,0,15,1
@@ -1870,65 +1751,6 @@
       amount: 4
     - id: CMUYautjaAdvancedOintment
       amount: 4
-
-- type: entity
-  parent: BaseStorageItem
-  id: CMUYautjaMedicomp
-  name: medicomp
-  description: A predator compact medical kit stocked for solo field recovery.
-  suffix: Yautja, Filled
-  components:
->>>>>>> cmu/master
-  - type: Sprite
-    sprite: _CMU14/Yautja/medical.rsi
-    layers:
-    - state: surgical_case
-    - state: surgical_case
-      map: [ "openLayer" ]
-      visible: false
-  - type: Item
-    size: Small
-<<<<<<< HEAD
-=======
-    sprite: _CMU14/Yautja/yautja_items.rsi
-  - type: YautjaTechItem
->>>>>>> cmu/master
-  - type: Storage
-    maxItemSize: Small
-    grid:
-    - 0,0,3,0
-    whitelist:
-      tags:
-      - CMUYautjaHerbalMedicine
-  - type: FixedItemSizeStorage
-    size: 1,1
-  - type: Tag
-    tags:
-    - CMSurgicalCase
-    - CMUYautjaMedicompItem
-  - type: GenericVisualizer
-    visuals:
-      enum.SharedBagOpenVisuals.BagState:
-        openLayer:
-          Open: { visible: true }
-          Closed: { visible: false }
-        closedLayer:
-          Open: { visible: false }
-          Closed: { visible: true }
-  - type: Appearance
-  - type: InteractedBlacklist
-    blacklist:
-      components:
-      - Xeno
-  - type: PhysicalComposition
-    materialComposition:
-      RMCPlastic: 1000
-  - type: StorageFill
-    contents:
-    - id: CMUYautjaAdvancedBruisePack
-      amount: 2
-    - id: CMUYautjaAdvancedOintment
-      amount: 2
 
 - type: entity
   parent: BaseStorageItem
@@ -3414,18 +3236,6 @@
         name: Armor
         choices: { CMUYautjaArmor: 1 }
         amount: 1
-<<<<<<< HEAD
-        mandatory: true
-    - name: Main Weapons (CHOOSE 1)
-      choices: { CMUYautjaPrimary: 1 }
-      entries:
-      - id: CMUYautjaClanSword
-        name: The Primary Hunting Sword
-        amount: 1
-        recommended: true
-      - id: CMUYautjaRendingSword
-        name: The Rending Hunting Sword
-=======
       - id: CMUYautjaMetalChains
         amount: 2
       - id: CMUYautjaScalp
@@ -3435,7 +3245,6 @@
       # - id: CMUYautjaOverseerCommunicator
       #   amount: 1
       - id: CMUYautjaBadBloodCommunicator
->>>>>>> cmu/master
         amount: 1
         recommended: true
       - id: CMUYautjaPiercingSword

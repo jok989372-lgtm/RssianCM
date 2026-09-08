@@ -227,11 +227,7 @@ public sealed partial class ANPRCRadioSystem : EntitySystem
                 radio,
                 _timing.CurTime.TotalSeconds,
                 GetSenderDisplayName(args.MessageSource),
-<<<<<<< HEAD
-                $"{args.Channel.LocalizedName} ({TunableFrequencySystem.FormatFreq(_freqPlan.GetFrequency(args.Channel))} МГц)",
-=======
                 FormatLogChannel(radio, args.Channel),
->>>>>>> cmu/master
                 heard,
                 intercepted,
                 args.Language);

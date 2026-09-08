@@ -1,4 +1,4 @@
-﻿<Document>
+<Document>
   # Стандарты снаряжения и внешнего вида личного состава
 
     Эти правила и положения регулируют использование снаряжения, а также требования к внешнему виду военнослужащих.
@@ -8,7 +8,6 @@
     - Исполняющий обязанности Командира может в индивидуальном порядке выдавать специальное снаряжение, например особые гарнитуры или специальное вооружение отдельным сотрудникам или подразделениям, если это не нарушает Единый кодекс военной юстиции или Стандартные операционные процедуры.
     - Алкоголь должен храниться в офицерской столовой или в кабинетах офицеров.
 
-<<<<<<< HEAD
   ## Правила ношения формы
     Во время проведения операций личный состав обязан носить соответствующую одежду. Стандартные операционные процедуры не могут быть изменены таким образом, чтобы разрешить личному составу высаживаться без одежды или униформы.
       - Офицеры разведки и техники разведки с разрешения Командира могут не соблюдать требования к ношению военной формы, обуви, головных уборов и вооружения.
@@ -21,21 +20,6 @@
       - Любой старший по званию может приказать подчинённому надеть защитный шлем или бронежилет, кроме стрелка, которому не было выдано специальное оружие.
       - Подворачивать или иным образом укорачивать элементы униформы разрешено при условии, что это не приводит к её повреждению.
       - Сотрудники, остающиеся на корабле, могут носить парадную форму, если они не участвуют в высадке.
-=======
-  ## Uniform Regulations
-    Personnel are required to wear appropriate clothing during operations. SOP may not be changed to allow personnel to deploy without clothes or a uniform.
-      - Intelligence officers and intelligence technicians, with the commander's permission, may exempt themselves from all uniform regulations in relation to wearing military clothing, boots, headwear and weaponry.
-      - Deploying personnel must be wearing their uniform, boots and chest protective armour at a minimum. Suit webbings may be used in the place of chest protective armour.
-      - All personnel required to wear armour at all times may temporarily remove it while on a friendly ship and/or installation or after an operation has ended for social events, such as memorials. Other forms of clothing, like service jackets, may be used during this time.
-      - All personnel must wear their uniform and assigned footwear or a standard-issue replacement.
-      - All personnel must wear their rank pins, IO's may be exempt from doing so if they have the permission of the CO or acting commander.
-      - Auxiliary staff and support crew should not be in armour unless the ship/base is on a security alert or is deploying to the AO.
-      - MP/Law Enforcement, combat personnel and flight crew are permitted to wear armour on the ship/installation, as part of their job.
-      - Any headwear that is worn must be standard issue or an acceptable replacement. Exceptions must be made for reasonable religious headdress
-      - Anyone of higher rank may still order any personnel below them to wear a protective helmet or vest unless they are a rifleman who has not been issued a special weapon.
-      - Folding or otherwise shortening uniforms is permitted, provided no damage comes to the uniform.
-      - Dress uniforms may be worn by shipside staff as long as they are not deploying.
->>>>>>> cmu/master
 
   ## Правила обращения с огнестрельным оружием
     - Неиспользуемое оружие должно находиться в кобуре или на ремне с включённым предохранителем. При первом нарушении сотруднику должна быть предоставлена возможность убрать оружие в кобуру или повесить его на ремень.
@@ -81,13 +65,5 @@
     - Волосы должны иметь естественный цвет.
     - Командиры отделений, представители командного состава и сотрудники военной полиции могут требовать соблюдения этих стандартов. Отказ подчиниться повлечёт обвинение в нарушении установленных процедур, а не соответствующие требованиям волосы или растительность на лице будут полностью сбриты.
 
-<<<<<<< HEAD
   [italic]Примечание OOC: внешность персонажа является значимой частью ролевого отыгрыша и может существенно влиять на впечатления игрока. Поэтому при обеспечении соблюдения требований к внешнему виду необходимо предоставить игроку возможность самостоятельно выбрать причёску, соответствующую установленным стандартам. Полностью сбрить волосы разрешается только в том случае, если игрок отказывается выбрать подходящую причёску.[/italic]
-=======
-  [italic]OOC Note: Character appearance is a significant part of roleplay and can greatly impact a player's experience. For this reason, if you choose to enforce grooming standards, you must allow the player to adjust their own hairstyle to one that fits within grooming standards. Only if they refuse to choose one, you may give them a complete shave.[/italic]
-
-  ## Ship Construction and Deconstruction
-    Deconstruction of the ship is strictly prohibited. Construction of new area's onboard a ship/installation is permitted and deconstruction of non-essential area's to create a new functioning area permitted, so long as the new area serves a functioning purpose (Such as a first aid station near the dropships.)
-    - The EO may approve and deny all changes to the ship/installation, the CO, XO or acting commander may overrule this.
->>>>>>> cmu/master
 </Document>

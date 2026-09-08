@@ -72,17 +72,14 @@ public sealed partial class YautjaComponent : Component
     public LocId IdentityName = "cmu-yautja-identity-unknown";
 
     [DataField]
-<<<<<<< HEAD
     public bool BracerNameActive = true;
 
     [DataField]
     public bool RandomizeSkinColor = true;
 
-=======
-    public bool RandomizeSkinColor = true;
     [ViewVariables]
     public bool SkinColorRandomized;
->>>>>>> cmu/master
+
     [DataField]
     public float SkinHueMin = 0f;
     [DataField]
@@ -96,8 +93,6 @@ public sealed partial class YautjaComponent : Component
     [DataField]
     public float SkinValueMax = 1f;
 
-    [ViewVariables]
-    public bool SkinColorRandomized;
 
     [DataField]
     public EntProtoId LeapActionId = "CMUActionYautjaLeap";
@@ -295,11 +290,8 @@ public enum YautjaBracerOwnerRank : byte
 [Access(typeof(YautjaPowerSystem), typeof(YautjaMaskSystem), typeof(YautjaCloakSystem), typeof(YautjaSelfDestructSystem), Other = AccessPermissions.ReadWriteExecute)]
 public sealed partial class YautjaBracerComponent : Component, IClothingSlots
 {
-<<<<<<< HEAD
     [DataField]
     public HashSet<EntProtoId>? ActionWhitelist;
-=======
->>>>>>> cmu/master
 
     [DataField, AutoNetworkedField]
     public FixedPoint2 MaxCharge = 3000;
@@ -307,7 +299,6 @@ public sealed partial class YautjaBracerComponent : Component, IClothingSlots
     public FixedPoint2 Charge = 3000;
 
     [DataField]
-<<<<<<< HEAD
     public FixedPoint2 Regen = 60;
 
     [DataField]
@@ -322,9 +313,6 @@ public sealed partial class YautjaBracerComponent : Component, IClothingSlots
     [DataField, AutoNetworkedField]
     public YautjaBracerOwnerRank OwnerRank = YautjaBracerOwnerRank.Unblooded;
 
-=======
-    public FixedPoint2 Regen = 2;
->>>>>>> cmu/master
     [DataField]
     public TimeSpan RegenEvery = TimeSpan.FromSeconds(1);
     [DataField]
@@ -562,7 +550,6 @@ public sealed partial class YautjaBracerComponent : Component, IClothingSlots
     public FixedPoint2 HumanStabilisingCrystalCost = 400;
 
     [DataField]
-<<<<<<< HEAD
     public FixedPoint2 HealingCapsuleCost = 600;
 
     [DataField]
@@ -581,8 +568,6 @@ public sealed partial class YautjaBracerComponent : Component, IClothingSlots
     public bool HealingEnabled = true;
 
     [DataField]
-=======
->>>>>>> cmu/master
     public FixedPoint2 HuntingTrapCost = 300;
 
     [DataField]
@@ -636,7 +621,6 @@ public sealed partial class YautjaBracerComponent : Component, IClothingSlots
     public SoundSpecifier EquipSound = new SoundPathSpecifier("/Audio/_CMU14/Yautja/Equipment/pred_bracer.wav");
 
     [DataField]
-<<<<<<< HEAD
     public SoundSpecifier CloakOnSound = new SoundPathSpecifier("/Audio/_CMU14/Yautja/pred_cloakon_modern.wav");
 
     [DataField]
@@ -645,11 +629,6 @@ public sealed partial class YautjaBracerComponent : Component, IClothingSlots
     [DataField]
     public YautjaInvisibilitySound InvisibilitySound = YautjaInvisibilitySound.Modern;
 
-=======
-    public SoundSpecifier CloakOnSound = new SoundPathSpecifier("/Audio/_CMU14/Yautja/Equipment/pred_cloakon.wav");
-    [DataField]
-    public SoundSpecifier CloakOffSound = new SoundPathSpecifier("/Audio/_CMU14/Yautja/Equipment/pred_cloakoff.wav");
->>>>>>> cmu/master
     [DataField]
     public float CloakOpacity = 0.02f;
     /// <summary>
@@ -775,12 +754,8 @@ public sealed partial class YautjaBracerComponent : Component, IClothingSlots
     [DataField]
     public TimeSpan NonYautjaCloakShockEvery = TimeSpan.FromSeconds(2);
     [DataField]
-<<<<<<< HEAD
     public float NonYautjaCloakShockChance = 0.04f;
 
-=======
-    public float NonYautjaCloakShockChance = 0.25f;
->>>>>>> cmu/master
     [DataField]
     public TimeSpan NextNonYautjaCloakShock;
 
@@ -1089,11 +1064,8 @@ public sealed partial class YautjaHealingCapsuleComponent : Component;
 [RegisterComponent, NetworkedComponent, AutoGenerateComponentState(raiseAfterAutoHandleState: true)]
 public sealed partial class YautjaHealingGunComponent : Component
 {
-<<<<<<< HEAD
     [DataField, AutoNetworkedField]
     public bool Loaded = true;
-=======
->>>>>>> cmu/master
 
     [DataField(required: true)]
     public DamageSpecifier Damage = default!;
@@ -1367,12 +1339,7 @@ public sealed partial class YautjaSmartDiscComponent : Component
 [Access(typeof(YautjaCasterSystem))]
 public sealed partial class YautjaCasterComponent : Component
 {
-<<<<<<< HEAD
     [DataField, AutoNetworkedField]
-=======
-
-    [DataField]
->>>>>>> cmu/master
     public FixedPoint2 PowerCost = 100;
 
     [DataField]
@@ -2212,21 +2179,13 @@ public sealed partial class YautjaThrallBracerComponent : Component, IClothingSl
     [DataField]
     public ProtoId<ExplosionPrototype> SelfDestructExplosion = "RMC";
     [DataField]
-<<<<<<< HEAD
     public float SelfDestructTotalIntensity = 800;
 
-=======
-    public float SelfDestructTotalIntensity = 500;
->>>>>>> cmu/master
     [DataField]
     public float SelfDestructIntensitySlope = 10;
     [DataField]
-<<<<<<< HEAD
     public float SelfDestructMaxIntensity = 550;
 
-=======
-    public float SelfDestructMaxIntensity = 65;
->>>>>>> cmu/master
     [DataField]
     public int SelfDestructMaxTileBreak = 1;
 
@@ -2736,7 +2695,6 @@ public enum YautjaTechMisuseKind : byte
     Shoot,
 }
 
-<<<<<<< HEAD
 [RegisterComponent, NetworkedComponent]
 public sealed partial class YautjaBowComponent : Component;
 
@@ -3321,5 +3279,3 @@ public sealed partial class YautjaPlasmaWeaponProjectileRefundComponent : Compon
     [DataField]
     public bool Fired;
 }
-=======
->>>>>>> cmu/master

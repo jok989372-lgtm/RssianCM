@@ -990,19 +990,11 @@ public sealed partial class XenoEvolutionSystem : EntitySystem
             granter.GotOvipositorPopup = true;
             Dirty(uid, granter);
 
-<<<<<<< HEAD
                 _popup.PopupEntity(Loc.GetString("rmc-xeno-hive-needs-ovipositor-popup"), // RuMC edit
                     uid,
                     uid,
                     PopupType.LargeCaution
                 );
-=======
-            _popup.PopupEntity("It is time to settle down and let your children grow.",
-                uid,
-                uid,
-                PopupType.LargeCaution
-            );
->>>>>>> cmu/master
 
             _xenoHive.AnnounceNeedsOvipositorToSameHive(uid);
         }

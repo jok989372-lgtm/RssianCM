@@ -31,3 +31,5 @@ ent-CMUActionYautjaHellhoundGorge = Пронзить
     .desc = Прыгнуть на добычу и пронзить её шипами.
 ent-CMUActionYautjaHellhoundSenseOwner = Найти хозяина
     .desc = Вынюхать местоположение вашего яутжа-хозяина.
+
+cmu-yautja-houndpad-network = Гончие

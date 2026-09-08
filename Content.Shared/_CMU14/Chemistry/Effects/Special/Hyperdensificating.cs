@@ -26,9 +26,6 @@ public sealed partial class Hyperdensificating : RMCChemicalEffect
 
     protected override void TickOverdose(DamageableSystem damageable, FixedPoint2 potency, EntityEffectReagentArgs args)
     {
-<<<<<<< HEAD
-        return Loc.GetString("reagent-effect-guidebook-cmu-stub"); // RuMC edit
-=======
         args.EntityManager.System<SharedStunSystem>()
             .TrySlowdown(args.TargetEntity, TimeSpan.FromSeconds(2), true, 0.85f, 0.85f);
         args.EntityManager.System<SharedPainShockSystem>().AddPainPulse(args.TargetEntity, potency);
@@ -39,6 +36,5 @@ public sealed partial class Hyperdensificating : RMCChemicalEffect
         args.EntityManager.System<SharedPainShockSystem>().AddPainPulse(args.TargetEntity, potency * 4f);
         args.EntityManager.System<SharedBoneSystem>()
             .DamageWeakestBone(args.TargetEntity, potency * 4f, fracture: true);
->>>>>>> cmu/master
     }
 }

@@ -112,11 +112,6 @@ public sealed partial class CorporateConsoleSystem : EntitySystem
         if (Math.Abs(oldTariff - clamped) > 0.01f)
         {
             var sound = new Robust.Shared.Audio.SoundPathSpecifier("/Audio/Announcements/announce.ogg");
-<<<<<<< HEAD
-            _chat.DispatchGlobalAnnouncement(
-                Loc.GetString("au14-corporate-console-tariff-announcement", ("percent", (int)clamped)), // RuCM edit
-                Loc.GetString("au14-corporate-console-tariff-sender"),
-=======
             //_chat.DispatchGlobalAnnouncement(
             //    $"Corporate transit tariff has been set to {clamped:F0}%. Submission payouts to the colony have been adjusted.",
             //    "Corporate Affairs",
@@ -124,9 +119,8 @@ public sealed partial class CorporateConsoleSystem : EntitySystem
             //    announcementSound: sound); // CMU14: xenos must not receive colony announcements
             _chat.DispatchFilteredAnnouncement(
                 ColonyAnnouncements.Recipients(EntityManager), // CMU14
-                $"Corporate transit tariff has been set to {clamped:F0}%. Submission payouts to the colony have been adjusted.",
-                sender: "Corporate Affairs",
->>>>>>> cmu/master
+                Loc.GetString("au14-corporate-console-tariff-announcement", ("percent", (int) clamped)),
+                sender: Loc.GetString("au14-corporate-console-tariff-sender"),
                 playSound: true,
                 announcementSound: sound);
         }
@@ -255,4 +249,3 @@ public sealed partial class CorporateConsoleSystem : EntitySystem
             UpdateUiState(uid, comp);
     }
 }
-

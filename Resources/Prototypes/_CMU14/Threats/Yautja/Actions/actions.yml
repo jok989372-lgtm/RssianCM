@@ -62,23 +62,6 @@
 
 - type: entity
   parent: CMUYautjaActionBase
-<<<<<<< HEAD
-  id: CMUActionYautjaToggleLantern
-  name: Toggle Light
-  description: Turn the light on and off.
-  components:
-  - type: Action
-    useDelay: 1
-    icon:
-      sprite: _CMU14/Yautja/actions.rsi
-      state: lantern_on_framed
-    iconOn:
-      sprite: _CMU14/Yautja/actions.rsi
-      state: lantern_off_framed
-  - type: InstantAction
-    event: !type:ToggleActionEvent
-  - type: ActionBlockIfDevoured
-=======
   id: CMUActionYautjaRaiseThrall
   components:
   - type: Action
@@ -94,7 +77,6 @@
     event: !type:Content.Shared._CMU14.Yautja.YautjaRaiseThrallActionEvent
   - type: ActionInRangeUnobstructed
     range: 2
->>>>>>> cmu/master
 
 - type: entity
   parent: CMUYautjaActionBase
@@ -871,3 +853,21 @@
       state: voice_death_framed
   - type: InstantAction
     event: !type:Content.Shared._CMU14.Yautja.YautjaVoiceDeathLaughActionEvent
+
+- type: entity
+  parent: CMUYautjaActionBase
+  id: CMUActionYautjaToggleLantern
+  name: Toggle Light
+  description: Turn the light on and off.
+  components:
+  - type: Action
+    useDelay: 1
+    icon:
+      sprite: _CMU14/Yautja/actions.rsi
+      state: lantern_on_framed
+    iconOn:
+      sprite: _CMU14/Yautja/actions.rsi
+      state: lantern_off_framed
+  - type: InstantAction
+    event: !type:ToggleActionEvent
+  - type: ActionBlockIfDevoured

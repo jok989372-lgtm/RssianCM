@@ -32,9 +32,6 @@ public sealed partial class Neurocryogenic : RMCChemicalEffect
 
     protected override void Tick(DamageableSystem damageable, FixedPoint2 potency, EntityEffectReagentArgs args)
     {
-<<<<<<< HEAD
-        return Loc.GetString("reagent-effect-guidebook-cmu-stub"); // RuMC edit
-=======
         if (args.EntityManager.TryGetComponent<MobStateComponent>(args.TargetEntity, out var mobState) &&
             mobState.CurrentState == MobState.Dead)
         {
@@ -46,7 +43,6 @@ public sealed partial class Neurocryogenic : RMCChemicalEffect
         args.EntityManager.System<ChemicalPropertyStatusSystem>().ApplyNeurocryogenic(args.TargetEntity);
         args.EntityManager.System<SharedStatusEffectsSystem>()
             .TrySetStatusEffectDuration(args.TargetEntity, Unconscious, TimeSpan.FromSeconds(3));
->>>>>>> cmu/master
     }
 
     protected override void TickOverdose(DamageableSystem damageable, FixedPoint2 potency, EntityEffectReagentArgs args)

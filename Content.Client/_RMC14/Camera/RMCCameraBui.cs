@@ -9,7 +9,6 @@ using Content.Shared.SurveillanceCamera;
 using Robust.Client.Graphics;
 using Robust.Client.UserInterface;
 using Robust.Client.UserInterface.Controls;
-using Robust.Shared.Prototypes;
 
 namespace Content.Client._RMC14.Camera;
 
@@ -56,59 +55,6 @@ public sealed class RMCCameraBui : RMCPopOutBui<RMCCameraWindow>
         Window.NetworkEditor.EditorCameraSelected += _ => RefreshEditorPreview();
 
         Refresh();
-        if (State is RMCCameraBuiState state)
-        {
-            PopulateNetworkSelector(Window.NetworkSelector, state);
-            Window.NetworkEditor.SetState(state.Editor);
-            UpdateMap(state.Map);
-        }
-    }
-
-    protected override void UpdateState(BoundUserInterfaceState state)
-    {
-        base.UpdateState(state);
-
-        if (state is not RMCCameraBuiState cameraState)
-            return;
-
-        _mapState = cameraState.Map;
-        if (Window != null)
-        {
-            PopulateNetworkSelector(Window.NetworkSelector, cameraState);
-            Window.NetworkEditor.SetState(cameraState.Editor);
-        }
-        UpdateMap(_mapState);
-    }
-
-    protected override void ReceiveMessage(BoundUserInterfaceMessage message)
-    {
-        base.ReceiveMessage(message);
-        if (message is RMCCameraNetworkEditorResultBuiMsg result)
-            Window?.NetworkEditor.ShowResult(result);
-    }
-
-    public static void PopulateNetworkSelector(
-        OptionButton selector,
-        RMCCameraBuiState state)
-    {
-        selector.Clear();
-        selector.Disabled = state.Networks.Count == 0;
-
-        foreach (var network in state.Networks)
-        {
-            selector.AddItem(network.Name);
-            var id = selector.ItemCount - 1;
-            selector.SetItemMetadata(id, network.Id);
-
-            if (state.ActiveNetwork == network.Id)
-                selector.Select(id);
-        }
-    }
-
-    public static RMCCameraNetworkBuiMsg GetNetworkSelectionMessage(OptionButton.ItemSelectedEventArgs args)
-    {
-        return new RMCCameraNetworkBuiMsg(
-            (ProtoId<CameraNetworkPrototype>) args.Button.GetItemMetadata(args.Id)!);
     }
 
     protected override void ReceiveMessage(BoundUserInterfaceMessage message)

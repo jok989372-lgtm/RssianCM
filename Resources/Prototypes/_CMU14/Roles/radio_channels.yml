@@ -326,11 +326,7 @@
 - type: radioChannel
   id: PART
   name: chat-radio-part
-<<<<<<< HEAD
   keycode: "ж"
-=======
-  keycode: "8"
->>>>>>> cmu/master
   frequency: 5571
   color: "#92969A"
   longRange: true

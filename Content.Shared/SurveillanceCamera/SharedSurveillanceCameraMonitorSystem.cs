@@ -1,7 +1,3 @@
-<<<<<<< HEAD
-using System.Linq;
-=======
->>>>>>> cmu/master
 using Content.Shared.Camera;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Serialization;
@@ -9,85 +5,18 @@ using Robust.Shared.Serialization;
 namespace Content.Shared.SurveillanceCamera;
 
 [Serializable, NetSerializable]
-<<<<<<< HEAD
-public sealed class CameraNetworkUiData(ProtoId<CameraNetworkPrototype> id, string name)
-{
-    public ProtoId<CameraNetworkPrototype> Id { get; } = id;
-=======
 public sealed class CameraSessionNetworkUiData(NetEntity network, string name)
 {
     public NetEntity Network { get; } = network;
->>>>>>> cmu/master
     public string Name { get; } = name;
 }
 
 [Serializable, NetSerializable]
-<<<<<<< HEAD
-public sealed class CameraListUiData(NetEntity camera, string name, bool active,
-    HashSet<ProtoId<CameraNetworkPrototype>> networks)
-=======
 public sealed class CameraSessionCameraUiData(NetEntity camera, string name, bool active)
->>>>>>> cmu/master
 {
     public NetEntity Camera { get; } = camera;
     public string Name { get; } = name;
     public bool Active { get; } = active;
-<<<<<<< HEAD
-    public HashSet<ProtoId<CameraNetworkPrototype>> Networks { get; } = networks;
-}
-
-[Serializable, NetSerializable]
-public sealed class SurveillanceCameraMonitorUiState(
-    NetEntity? activeCamera,
-    string? activeCameraName,
-    List<CameraNetworkUiData> networks,
-    ProtoId<CameraNetworkPrototype>? activeNetwork,
-    List<CameraListUiData> cameras,
-    CameraMapUiState cameraMap) : BoundUserInterfaceState
-{
-    public NetEntity? ActiveCamera { get; } = activeCamera;
-    public string? ActiveCameraName { get; } = activeCameraName;
-    public List<CameraNetworkUiData> Networks { get; } = networks;
-    public ProtoId<CameraNetworkPrototype>? ActiveNetwork { get; } = activeNetwork;
-    public List<CameraListUiData> CameraList { get; } = cameras;
-    public CameraMapUiState CameraMap { get; } = cameraMap;
-
-    // TODO: Remove when the client UI switches to logical camera networks.
-    [Obsolete("Use Networks.")]
-    public HashSet<string> Subnets { get; } = networks.Select(network => network.Id.ToString()).ToHashSet();
-
-    [Obsolete("Use ActiveCamera.")]
-    public string ActiveAddress { get; } = activeCamera?.ToString() ?? string.Empty;
-
-    [Obsolete("Use ActiveNetwork.")]
-    public string ActiveSubnet { get; } = activeNetwork?.ToString() ?? string.Empty;
-
-    [Obsolete("Use CameraList.")]
-    public Dictionary<string, string> Cameras { get; } = cameras.ToDictionary(camera => camera.Camera.ToString(), camera => camera.Name);
-}
-
-[Serializable, NetSerializable]
-public sealed class SurveillanceCameraMonitorSwitchMessage(NetEntity camera) : BoundUserInterfaceMessage
-{
-    public NetEntity Camera { get; } = camera;
-
-    // TODO: Remove with the address-based client selection path.
-    [Obsolete("Use the NetEntity constructor.")]
-    public SurveillanceCameraMonitorSwitchMessage(string _) : this(default(NetEntity)) { }
-}
-
-[Serializable, NetSerializable]
-public sealed class SurveillanceCameraMonitorSubnetRequestMessage(ProtoId<CameraNetworkPrototype> network) : BoundUserInterfaceMessage
-{
-    public ProtoId<CameraNetworkPrototype> Network { get; } = network;
-
-    // TODO: Remove with the address-based client subnet selector.
-    [Obsolete("Use the ProtoId constructor.")]
-    public SurveillanceCameraMonitorSubnetRequestMessage(string network) : this((ProtoId<CameraNetworkPrototype>) network) { }
-
-    [Obsolete("Use Network.")]
-    public string Subnet => Network.ToString();
-=======
 }
 
 [Serializable, NetSerializable]
@@ -105,7 +34,6 @@ public sealed class CameraSessionDirectoryUiData(
     public NetEntity? ActiveNetwork { get; } = activeNetwork;
     public List<CameraSessionCameraUiData> Cameras { get; } = cameras;
     public bool MapEnabled { get; } = mapEnabled;
->>>>>>> cmu/master
 }
 
 [Serializable, NetSerializable]

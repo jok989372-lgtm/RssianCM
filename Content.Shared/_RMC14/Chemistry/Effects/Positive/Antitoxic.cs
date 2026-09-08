@@ -25,14 +25,10 @@ public sealed partial class Antitoxic : RMCChemicalEffect
     protected override string ReagentEffectGuidebookText(IPrototypeManager prototype, IEntitySystemManager entSys)
     {
         var healing = PotencyPerSecond * 2;
-<<<<<<< HEAD
-        return Loc.GetString("reagent-effect-guidebook-rmc-antitoxic", ("healing", healing)); // RuMC edit
-=======
         return $"Heals [color=green]{healing}[/color] toxin damage and removes [color=green]{PotencyPerSecond * 0.5f}[/color] units of toxic chemicals from the bloodstream per second.\n" +
                $"Removes toxins from hydroponic plants.\n" +
                $"Overdoses cause [color=red]{PotencyPerSecond}[/color] damage to the eyes.\n" +
                "Critical overdoses impose at least [color=red]30[/color] seconds of drowsiness and retain a [color=red]5%[/color] chance of unconsciousness.";
->>>>>>> cmu/master
     }
 
     protected override void Tick(DamageableSystem damageable, FixedPoint2 potency, EntityEffectReagentArgs args)

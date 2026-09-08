@@ -6,12 +6,8 @@ cmu-xeno-paralyzing-slash-immune = {$target} is a synthetic and immune to the pa
 # Spore Sac
 cmu-xeno-spore-sac-max = You already have too many spore sacs placed.
 cmu-xeno-spore-sac-place-self = You secrete a spore sac.
-<<<<<<< HEAD
-cmu-xeno-spore-sac-place-others = {$xeno} secretes a spore sac.
-=======
 cmu-xeno-spore-sac-place-others = {$xeno} secretes a spore sac!
 cmu-xeno-spore-sac-too-far = That tile is too far away!
->>>>>>> cmu/master
 cmu-xeno-spore-sac-release = Spore sac quietly releases gas. 
 
 cmu-xeno-spore-cloud-inhale-self = You inhale some weird, musty gas...
@@ -23,7 +19,6 @@ cmu-xeno-direct-spore-infect-dead = Your target is already dead.
 cmu-xeno-direct-spore-infect-already = Your target is already infected.
 cmu-xeno-direct-spore-infect-blocked = Something blocks your spores from taking hold!
 cmu-xeno-direct-spore-infect-hit = You force spores into {$target}!
-cmu-xeno-direct-spore-infect-blocked = The protective gear blocks the spores!
 
 # Blight Wave
 cmu14-xeno-blight-wave-self = You emit a raspy guttural roar!

@@ -28,9 +28,6 @@ public sealed partial class Antiaddictive : RMCChemicalEffect
 
     protected override void Tick(DamageableSystem damageable, FixedPoint2 potency, EntityEffectReagentArgs args)
     {
-<<<<<<< HEAD
-        return Loc.GetString("reagent-effect-guidebook-cmu-stub"); // RuMC edit
-=======
         var treatment = args.EntityManager.System<ChemicalPropertyStatusSystem>()
             .ApplyAddictionTreatment(args.TargetEntity,
                 ActualPotency,
@@ -61,6 +58,5 @@ public sealed partial class Antiaddictive : RMCChemicalEffect
         var damage = new DamageSpecifier();
         damage.DamageDict[type] = amount;
         system.TryChangeDamage(args.TargetEntity, damage, true, interruptsDoAfters: false);
->>>>>>> cmu/master
     }
 }

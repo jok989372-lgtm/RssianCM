@@ -23,9 +23,6 @@ public sealed partial class Fluxing : RMCChemicalEffect
 
     protected override void Tick(DamageableSystem damageable, FixedPoint2 potency, EntityEffectReagentArgs args)
     {
-<<<<<<< HEAD
-        return Loc.GetString("reagent-effect-guidebook-cmu-stub"); // RuMC edit
-=======
         var status = args.EntityManager.System<ChemicalPropertyStatusSystem>();
         var fluxing = status.ApplyFluxing(args.TargetEntity, (float)potency);
         var count = (int)MathF.Floor(fluxing.Progress);
@@ -59,6 +56,5 @@ public sealed partial class Fluxing : RMCChemicalEffect
         damage.DamageDict[BluntType] = blunt;
         damage.DamageDict[PoisonType] = poison;
         damageable.TryChangeDamage(args.TargetEntity, damage, true, interruptsDoAfters: false);
->>>>>>> cmu/master
     }
 }

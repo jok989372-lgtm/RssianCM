@@ -48,11 +48,6 @@ internal static class LobbyHighJobPreview
     // a character whose high-priority jobs are only set for that mode shows no job at all.
     private static readonly (string Key, string Label)[] Gamemodes =
     {
-<<<<<<< HEAD
-        ("Insurgency", "rmc-lobby-gamemode-label-insurgency"), // RuMC edit
-        ("ColonyFall", "rmc-lobby-gamemode-label-colony-fall"),
-        ("DistressSignal", "rmc-lobby-gamemode-label-distress-signal")
-=======
         ("ForceOnForce", "FOF"),
         ("Insurgency", "INS"),
         ("DistressSignal", "DS"),
@@ -60,7 +55,6 @@ internal static class LobbyHighJobPreview
         ("Jailbreak", "JB"),
         ("Prometheus", "PRO"),
         ("Criminal", "CRI")
->>>>>>> cmu/master
     };
 
     public static string GetDisplayJobName(JobPrototype job)

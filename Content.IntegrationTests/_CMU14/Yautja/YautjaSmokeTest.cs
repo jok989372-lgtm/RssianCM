@@ -1,3 +1,5 @@
+using Content.Server.Camera;
+using Content.Shared.Camera;
 using System.Linq;
 using System.Collections.Generic;
 using System.Globalization;
@@ -15831,15 +15833,15 @@ public sealed class YautjaSmokeTest
                 var cameraComputer = entMan.GetComponent<RMCCameraComputerComponent>(internalCamera);
                 Assert.That(cameraComputer.Title, Is.EqualTo("cmu-yautja-houndpad-interface-title"));
                 Assert.That(cameraComputer.ViewportSize, Is.EqualTo(new Vector2i(672, 480)));
-                Assert.That(cameraComputer.ProtoIds, Does.Contain("CMUMobYautjaHellhound"));
-                Assert.That(cameraComputer.CameraIds, Does.Contain(entMan.GetNetEntity(hellhound)));
-                Assert.That(cameraComputer.CameraIds, Does.Contain(entMan.GetNetEntity(otherHellhound)));
-                Assert.That(cameraComputer.CameraIds, Does.Not.Contain(entMan.GetNetEntity(deadHellhound)));
+                Assert.That(entMan.GetComponent<CameraNetworkReceiverComponent>(internalCamera).Networks, Does.Contain((ProtoId<CameraNetworkPrototype>) "CMUYautjaHellhounds"));
+                Assert.That(GetCameraIds(entMan, internalCamera), Does.Contain(entMan.GetNetEntity(hellhound)));
+                Assert.That(GetCameraIds(entMan, internalCamera), Does.Contain(entMan.GetNetEntity(otherHellhound)));
+                Assert.That(GetCameraIds(entMan, internalCamera), Does.Not.Contain(entMan.GetNetEntity(deadHellhound)));
 
                 var firstCamera = entMan.GetComponent<RMCCameraComponent>(hellhound);
                 var secondCamera = entMan.GetComponent<RMCCameraComponent>(otherHellhound);
-                Assert.That(firstCamera.Id, Is.EqualTo("CMUMobYautjaHellhound"));
-                Assert.That(secondCamera.Id, Is.EqualTo("CMUMobYautjaHellhound"));
+                Assert.That(entMan.GetComponent<CameraNetworkMemberComponent>(hellhound).Networks, Does.Contain((ProtoId<CameraNetworkPrototype>) "CMUYautjaHellhounds"));
+                Assert.That(entMan.GetComponent<CameraNetworkMemberComponent>(otherHellhound).Networks, Does.Contain((ProtoId<CameraNetworkPrototype>) "CMUYautjaHellhounds"));
 
                 entMan.EventBus.RaiseLocalEvent(pad, new UseInHandEvent(ordinaryUser));
                 Assert.That(ui.IsUiOpen(internalCamera, RMCCameraUiKey.Key, ordinaryUser), Is.False,
@@ -15904,7 +15906,7 @@ public sealed class YautjaSmokeTest
                 {
                     Assert.That(ui.IsUiOpen(internalCamera, RMCCameraUiKey.Key, hunter), Is.True,
                         "CMSS13 /obj/item/device/houndcam/attack_hand only delegates to internal_camera.tgui_interact(user).");
-                    Assert.That(entMan.GetComponent<RMCCameraComputerComponent>(internalCamera).CameraIds,
+                    Assert.That(GetCameraIds(entMan, internalCamera),
                         Does.Contain(entMan.GetNetEntity(hellhound)));
                     Assert.That(AudioFileNamesAfter(entMan, beforeAudio), Is.Empty,
                         "CMSS13 houndcam attack_hand has no playsound() call.");
@@ -15961,9 +15963,9 @@ public sealed class YautjaSmokeTest
 
                 Assert.Multiple(() =>
                 {
-                    Assert.That(cameraComputer.CurrentCamera, Is.EqualTo(hellhound));
-                    Assert.That(entMan.TryGetComponent<RMCCameraWatcherComponent>(hunter, out var watcher), Is.True);
-                    Assert.That(watcher!.Overrides, Does.Contain(netHellhound),
+                    Assert.That(GetCameraSession(entMan, session, internalCamera).SelectedCamera, Is.EqualTo(hellhound));
+                    Assert.That(entMan.System<CameraSessionSystem>().TryGetSession(session, internalCamera, out var watcher), Is.True);
+                    Assert.That(watcher!.AuthorizedCameras, Does.Contain(hellhound),
                         "Selecting a CMSS13 hound camera switches the console to that live camera feed.");
                     Assert.That(entMan.GetComponent<EyeComponent>(hunter).Target, Is.Null);
                     Assert.That(entMan.HasComponent<YautjaHoundWatchingComponent>(hunter), Is.False);
@@ -15975,11 +15977,11 @@ public sealed class YautjaSmokeTest
                 {
                     Assert.That(entMan.HasComponent<RMCCameraComponent>(hellhound), Is.False,
                         "Dead Hellhounds should no longer expose a live hound camera feed.");
-                    Assert.That(cameraComputer.CameraIds, Does.Not.Contain(netHellhound));
-                    Assert.That(cameraComputer.CurrentCamera, Is.Null,
+                    Assert.That(GetCameraIds(entMan, internalCamera), Does.Not.Contain(netHellhound));
+                    Assert.That(GetCameraSession(entMan, session, internalCamera).SelectedCamera, Is.Null,
                         "The houndpad internal camera console should drop the selected feed when the live Hellhound camera is removed.");
-                    Assert.That(entMan.GetComponent<RMCCameraWatcherComponent>(hunter).Overrides,
-                        Does.Not.Contain(netHellhound),
+                    Assert.That(GetCameraSession(entMan, session, internalCamera).AuthorizedCameras,
+                        Does.Not.Contain(hellhound),
                         "CMSS13 camera consoles show static or clear when the selected camera is no longer usable instead of keeping a stale live feed subscription.");
                 });
             }
@@ -16021,14 +16023,14 @@ public sealed class YautjaSmokeTest
                 var netHellhound = entMan.GetNetEntity(hellhound);
 
                 entMan.EventBus.RaiseLocalEvent(pad, new UseInHandEvent(hunter));
-                Assert.That(cameraComputer.CameraIds, Does.Contain(netHellhound));
+                Assert.That(GetCameraIds(entMan, internalCamera), Does.Contain(netHellhound));
 
                 mobState.ChangeMobState(hellhound, MobState.Dead);
                 Assert.Multiple(() =>
                 {
                     Assert.That(entMan.HasComponent<RMCCameraComponent>(hellhound), Is.False,
                         "Dead Hellhounds should leave the hound camera feed list like CMSS13 houndcam filtering of non-live feeds.");
-                    Assert.That(cameraComputer.CameraIds, Does.Not.Contain(netHellhound));
+                    Assert.That(GetCameraIds(entMan, internalCamera), Does.Not.Contain(netHellhound));
                 });
 
                 mobState.ChangeMobState(hellhound, MobState.Alive);
@@ -16036,13 +16038,13 @@ public sealed class YautjaSmokeTest
                     "CMSS13 houndcam reads the live Hellhound set each time; a Hellhound returning to a live state must expose a live camera feed again.");
                 Assert.Multiple(() =>
                 {
-                    Assert.That(revivedCamera!.Id, Is.EqualTo("CMUMobYautjaHellhound"));
+                    Assert.That(entMan.GetComponent<CameraNetworkMemberComponent>(hellhound).Networks, Does.Contain((ProtoId<CameraNetworkPrototype>) "CMUYautjaHellhounds"));
                     Assert.That(revivedCamera.Rename, Is.False,
                         "Houndcam feeds should use the Hellhound mob name, not area-renamed security-camera labels.");
                 });
 
                 entMan.EventBus.RaiseLocalEvent(pad, new UseInHandEvent(hunter));
-                AssertCameraEntry(entMan, cameraComputer, hellhound, "Hellhound");
+                AssertCameraEntry(entMan, internalCamera, hellhound, "Hellhound");
             }
             finally
             {
@@ -16098,12 +16100,12 @@ public sealed class YautjaSmokeTest
                         "CMSS13 houndcam internal camera lists live Hellhound mobs by their mob name, not an area-renamed security-camera label.");
                     Assert.That(secondCamera.Rename, Is.False,
                         "CMSS13 houndcam internal camera lists live Hellhound mobs by their mob name, not an area-renamed security-camera label.");
-                    AssertCameraEntry(entMan, cameraComputer, first, "A'ke Hellhound");
-                    AssertCameraEntry(entMan, cameraComputer, second, "N'dui Hellhound");
-                    AssertCameraEntry(entMan, cameraComputer, duplicateA, "Hellhound");
-                    AssertCameraEntry(entMan, cameraComputer, duplicateB, "Hellhound");
-                    Assert.That(cameraComputer.CameraIds.Count, Is.EqualTo(4));
-                    Assert.That(cameraComputer.CameraNames.Count, Is.EqualTo(4));
+                    AssertCameraEntry(entMan, internalCamera, first, "A'ke Hellhound");
+                    AssertCameraEntry(entMan, internalCamera, second, "N'dui Hellhound");
+                    AssertCameraEntry(entMan, internalCamera, duplicateA, "Hellhound");
+                    AssertCameraEntry(entMan, internalCamera, duplicateB, "Hellhound");
+                    Assert.That(GetCameraIds(entMan, internalCamera).Count, Is.EqualTo(4));
+                    Assert.That(GetCameraNames(entMan, internalCamera).Count, Is.EqualTo(4));
                 });
 
                 mobState.ChangeMobState(second, MobState.Dead);
@@ -16113,12 +16115,12 @@ public sealed class YautjaSmokeTest
                 {
                     Assert.That(entMan.HasComponent<RMCCameraComponent>(second), Is.False,
                         "Dead Hellhounds should leave the hound camera feed list like CMSS13 houndcam filtering of non-live feeds.");
-                    AssertCameraEntry(entMan, cameraComputer, first, "A'ke Hellhound");
-                    Assert.That(cameraComputer.CameraIds, Does.Not.Contain(entMan.GetNetEntity(second)));
-                    AssertCameraEntry(entMan, cameraComputer, duplicateA, "Hellhound");
-                    AssertCameraEntry(entMan, cameraComputer, duplicateB, "Hellhound");
-                    Assert.That(cameraComputer.CameraIds.Count, Is.EqualTo(3));
-                    Assert.That(cameraComputer.CameraNames.Count, Is.EqualTo(3));
+                    AssertCameraEntry(entMan, internalCamera, first, "A'ke Hellhound");
+                    Assert.That(GetCameraIds(entMan, internalCamera), Does.Not.Contain(entMan.GetNetEntity(second)));
+                    AssertCameraEntry(entMan, internalCamera, duplicateA, "Hellhound");
+                    AssertCameraEntry(entMan, internalCamera, duplicateB, "Hellhound");
+                    Assert.That(GetCameraIds(entMan, internalCamera).Count, Is.EqualTo(3));
+                    Assert.That(GetCameraNames(entMan, internalCamera).Count, Is.EqualTo(3));
                 });
 
                 entMan.DeleteEntity(duplicateA);
@@ -16126,10 +16128,10 @@ public sealed class YautjaSmokeTest
 
                 Assert.Multiple(() =>
                 {
-                    AssertCameraEntry(entMan, cameraComputer, first, "A'ke Hellhound");
-                    AssertCameraEntry(entMan, cameraComputer, duplicateB, "Hellhound");
-                    Assert.That(cameraComputer.CameraIds.Count, Is.EqualTo(2));
-                    Assert.That(cameraComputer.CameraNames.Count, Is.EqualTo(2),
+                    AssertCameraEntry(entMan, internalCamera, first, "A'ke Hellhound");
+                    AssertCameraEntry(entMan, internalCamera, duplicateB, "Hellhound");
+                    Assert.That(GetCameraIds(entMan, internalCamera).Count, Is.EqualTo(2));
+                    Assert.That(GetCameraNames(entMan, internalCamera).Count, Is.EqualTo(2),
                         "Removing one duplicate Hellhound camera must remove the name at the same index, not all matching duplicate names.");
                 });
             }
@@ -16187,10 +16189,10 @@ public sealed class YautjaSmokeTest
                 var cameraComputer = entMan.GetComponent<RMCCameraComputerComponent>(internalCamera);
                 Assert.That(cameraComputer.Title, Is.EqualTo("cmu-yautja-houndpad-interface-title"));
                 Assert.That(cameraComputer.ViewportSize, Is.EqualTo(new Vector2i(672, 480)));
-                Assert.That(cameraComputer.ProtoIds, Does.Contain("CMUMobYautjaHellhound"));
+                Assert.That(entMan.GetComponent<CameraNetworkReceiverComponent>(internalCamera).Networks, Does.Contain((ProtoId<CameraNetworkPrototype>) "CMUYautjaHellhounds"));
 
                 entMan.EventBus.RaiseLocalEvent(pad, new UseInHandEvent(hunter));
-                Assert.That(cameraComputer.CameraIds, Does.Contain(entMan.GetNetEntity(hellhound)));
+                Assert.That(GetCameraIds(entMan, internalCamera), Does.Contain(entMan.GetNetEntity(hellhound)));
                 Assert.That(ui.IsUiOpen(internalCamera, RMCCameraUiKey.Key, hunter), Is.True,
                     "CMSS13 houndcam attack_hand delegates to internal_camera.tgui_interact(user).");
                 Assert.That(ui.IsUiOpen(pad, RMCCameraUiKey.Key, hunter), Is.False);
@@ -19054,8 +19056,7 @@ public sealed class YautjaSmokeTest
 
                 var trophyComp = entMan.GetComponent<YautjaTrophyComponent>(trophy);
                 Assert.That(trophyComp.Kind, Is.EqualTo(YautjaTrophyKind.HumanSkull));
-                Assert.That(trophyComp.Source, Is.EqualTo(target));
-                Assert.That(trophyComp.Hunter, Is.EqualTo(hunter));
+                Assert.That(trophyComp.SourceName, Is.EqualTo(entMan.GetComponent<MetaDataComponent>(target).EntityName));
 
                 var record = entMan.GetComponent<YautjaTrophyRecordComponent>(hunter);
                 Assert.That(record.HumanSkulls, Is.EqualTo(1));
@@ -19394,17 +19395,37 @@ public sealed class YautjaSmokeTest
         Assert.That(tech.BlockUse, Is.False, "Falcon trash has no active use surface.");
     }
 
+    private static List<NetEntity> GetCameraIds(IEntityManager entMan, EntityUid receiver)
+    {
+        var networks = entMan.System<CameraNetworkSystem>();
+        networks.Update(0f);
+        return networks.GetAccessibleCameras((receiver, entMan.GetComponent<CameraNetworkReceiverComponent>(receiver)))
+            .OrderBy(uid => uid.Id).Select(uid => entMan.GetNetEntity(uid)).ToList();
+    }
+
+    private static List<string> GetCameraNames(IEntityManager entMan, EntityUid receiver)
+    {
+        return GetCameraIds(entMan, receiver).Select(net => entMan.GetComponent<MetaDataComponent>(entMan.GetEntity(net)).EntityName).ToList();
+    }
+
+    private static CameraViewerSession GetCameraSession(IEntityManager entMan, Robust.Shared.Player.ICommonSession viewer, EntityUid receiver)
+    {
+        entMan.System<CameraNetworkSystem>().Update(0f);
+        Assert.That(entMan.System<CameraSessionSystem>().TryGetSession(viewer, receiver, out var session), Is.True);
+        return session;
+    }
+
     private static void AssertCameraEntry(
         IEntityManager entMan,
-        RMCCameraComputerComponent cameraComputer,
+        EntityUid internalCamera,
         EntityUid camera,
         string expectedName)
     {
         var netCamera = entMan.GetNetEntity(camera);
         var index = -1;
-        for (var i = 0; i < cameraComputer.CameraIds.Count; i++)
+        for (var i = 0; i < GetCameraIds(entMan, internalCamera).Count; i++)
         {
-            if (cameraComputer.CameraIds[i] == netCamera)
+            if (GetCameraIds(entMan, internalCamera)[i] == netCamera)
             {
                 index = i;
                 break;
@@ -19412,9 +19433,9 @@ public sealed class YautjaSmokeTest
         }
 
         Assert.That(index, Is.GreaterThanOrEqualTo(0), $"{expectedName} camera id should be present.");
-        Assert.That(cameraComputer.CameraNames, Has.Count.GreaterThan(index),
+        Assert.That(GetCameraNames(entMan, internalCamera), Has.Count.GreaterThan(index),
             $"{expectedName} camera name should have the same index as its camera id.");
-        Assert.That(cameraComputer.CameraNames[index], Is.EqualTo(expectedName));
+        Assert.That(GetCameraNames(entMan, internalCamera)[index], Is.EqualTo(expectedName));
     }
 
     private static EntityUid GetHoundPadInternalCamera(IEntityManager entMan, EntityUid pad)

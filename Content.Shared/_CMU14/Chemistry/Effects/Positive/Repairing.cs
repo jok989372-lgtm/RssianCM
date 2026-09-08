@@ -24,9 +24,6 @@ public sealed partial class Repairing : RMCChemicalEffect
 
     protected override void Tick(DamageableSystem damageable, FixedPoint2 potency, EntityEffectReagentArgs args)
     {
-<<<<<<< HEAD
-        return Loc.GetString("reagent-effect-guidebook-cmu-stub"); // RuMC edit
-=======
         if (!args.EntityManager.HasComponent<SynthComponent>(args.TargetEntity))
             return;
 
@@ -47,6 +44,5 @@ public sealed partial class Repairing : RMCChemicalEffect
         var damage = new DamageSpecifier();
         damage.DamageDict[PoisonType] = amount;
         damageable.TryChangeDamage(args.TargetEntity, damage, true, interruptsDoAfters: false);
->>>>>>> cmu/master
     }
 }

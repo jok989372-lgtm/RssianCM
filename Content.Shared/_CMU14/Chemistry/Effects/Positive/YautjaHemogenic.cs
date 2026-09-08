@@ -12,26 +12,12 @@ namespace Content.Shared._CMU14.Chemistry.Effects.Positive;
 
 public sealed partial class Yautjahemogenic : RMCChemicalEffect
 {
-    protected override void Tick(DamageableSystem damageable, FixedPoint2 potency, EntityEffectReagentArgs args)
-    {
-        if (!args.EntityManager.TryGetComponent<BloodstreamComponent>(args.TargetEntity, out var bloodstream))
-            return;
-
-        // CMSS13's Yautja hemogenic property restores blood without the
-        // hunger drain used by the generic Hemogenic property.
-        var bloodstreamSystem = args.EntityManager.System<SharedBloodstreamSystem>();
-        bloodstreamSystem.TryModifyBloodLevel((args.TargetEntity, bloodstream), potency);
-    }
-
     protected override string ReagentEffectGuidebookText(IPrototypeManager prototype, IEntitySystemManager entSys)
         => $"Restores [color=green]{PotencyPerSecond * 2}[/color]cl of blood to Yautja without consuming nutrition. " +
            "It has no effect on other species.";
 
     protected override void Tick(DamageableSystem damageable, FixedPoint2 potency, EntityEffectReagentArgs args)
     {
-<<<<<<< HEAD
-        return Loc.GetString("reagent-effect-guidebook-cmu-yautja-hemogenic", ("restore", PotencyPerSecond)); // RuMC edit
-=======
         if (!args.EntityManager.HasComponent<YautjaComponent>(args.TargetEntity) ||
             !args.EntityManager.TryGetComponent<BloodstreamComponent>(args.TargetEntity, out var bloodstream))
         {
@@ -40,6 +26,5 @@ public sealed partial class Yautjahemogenic : RMCChemicalEffect
 
         args.EntityManager.System<SharedBloodstreamSystem>()
             .TryModifyBloodLevel((args.TargetEntity, bloodstream), potency * 2f);
->>>>>>> cmu/master
     }
 }

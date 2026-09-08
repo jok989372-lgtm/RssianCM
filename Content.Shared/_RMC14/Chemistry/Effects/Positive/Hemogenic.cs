@@ -21,19 +21,10 @@ public sealed partial class Hemogenic : RMCChemicalEffect
 
     protected override string ReagentEffectGuidebookText(IPrototypeManager prototype, IEntitySystemManager entSys)
     {
-<<<<<<< HEAD
-        // RuMC edit start
-        var baseText = Loc.GetString("reagent-effect-guidebook-rmc-hemogenic",
-            ("restore", PotencyPerSecond),
-            ("loss", PotencyPerSecond),
-            ("odToxin", PotencyPerSecond),
-            ("critLoss", PotencyPerSecond * 5));
-=======
         var baseText = $"Restores [color=green]{PotencyPerSecond}[/color]cl of blood while not hungry; Yautja ignore the nutrient requirement.\n" +
                        $"Causes [color=red]{PotencyPerSecond}[/color] nutrient loss per second.\n" +
                        $"Overdoses cause [color=red]{PotencyPerSecond}[/color] toxin damage.\n" +
                        $"Critical overdoses cause [color=red]{PotencyPerSecond * 5}[/color] additional nutrient loss";
->>>>>>> cmu/master
 
         if (ActualPotency <= 3)
             return baseText;

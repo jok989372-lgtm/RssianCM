@@ -22,9 +22,6 @@ public sealed partial class Nephropeutic : OrganPeuticEffect<KidneysComponent>
     protected override void TickCriticalOverdose(DamageableSystem damageable, FixedPoint2 potency,
         EntityEffectReagentArgs args)
     {
-<<<<<<< HEAD
-        return Loc.GetString("reagent-effect-guidebook-cmu-stub"); // RuMC edit
-=======
         base.TickCriticalOverdose(damageable, potency, args);
         var damage = new DamageSpecifier();
         damage.DamageDict[OrganDamageType] = potency * 2.5f;
@@ -35,6 +32,5 @@ public sealed partial class Nephropeutic : OrganPeuticEffect<KidneysComponent>
     {
         var ev = new HydroTickEvent<Nephropeutic>(potency, args);
         args.EntityManager.EventBus.RaiseEvent(EventSource.Local, ev);
->>>>>>> cmu/master
     }
 }

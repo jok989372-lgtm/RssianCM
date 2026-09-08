@@ -124,9 +124,9 @@ public sealed class HunterShipYautjaVendingTest
                 Assert.That(vending!.PackPrototypeId, Is.EqualTo(row.Pack), row.Id);
 
                 var inventory = prototypes.Index<VendingMachineInventoryPrototype>(row.Pack);
-                Assert.That(inventory.StartingInventory, Is.EqualTo(row.StartingInventory), row.Id);
-                Assert.That(inventory.ContrabandInventory ?? new Dictionary<string, uint>(), Is.EqualTo(row.ContrabandInventory), row.Id);
-                Assert.That(inventory.EmaggedInventory ?? new Dictionary<string, uint>(), Is.Empty, row.Id);
+                Assert.That(inventory.StartingInventory.ToDictionary(pair => pair.Key.Id, pair => pair.Value), Is.EqualTo(row.StartingInventory), row.Id);
+                Assert.That(inventory.ContrabandInventory?.ToDictionary(pair => pair.Key.Id, pair => pair.Value) ?? new Dictionary<string, uint>(), Is.EqualTo(row.ContrabandInventory), row.Id);
+                Assert.That(inventory.EmaggedInventory ?? new Dictionary<EntProtoId, uint>(), Is.Empty, row.Id);
             }
 
             var dinnerware = prototypes.Index<EntityPrototype>(DinnerwareId);

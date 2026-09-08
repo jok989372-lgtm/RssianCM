@@ -243,11 +243,8 @@ public sealed partial class GridVehicleMoverSystem : EntitySystem
                 return false;
 
             ent.Comp.SyncedGrid = null;
-<<<<<<< HEAD
-=======
             ent.Comp.CurrentSpeed = 0f;
             ent.Comp.AngularVelocityDegrees = 0f;
->>>>>>> cmu/master
             ent.Comp.PushDirection = Vector2i.Zero;
             ent.Comp.IsCommittedToMove = false;
             ent.Comp.IsPushMove = false;

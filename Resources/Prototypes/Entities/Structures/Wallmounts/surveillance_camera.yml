@@ -107,10 +107,7 @@
     - type: CameraNetworkMember
       networks: []
       sourceKinds: Standard
-<<<<<<< HEAD
-=======
     - type: CameraMapMarker
->>>>>>> cmu/master
     - type: SurveillanceCamera
       setupAvailableNetworks:
         - SurveillanceCameraEngineering

@@ -27,9 +27,6 @@ public sealed partial class Musclestimulating : RMCChemicalEffect
 
     protected override void Tick(DamageableSystem damageable, FixedPoint2 potency, EntityEffectReagentArgs args)
     {
-<<<<<<< HEAD
-        return Loc.GetString("reagent-effect-guidebook-cmu-stub"); // RuMC edit
-=======
         args.EntityManager.System<ChemicalPropertyStatusSystem>()
             .ApplyMuscleStimulation(args.TargetEntity, ActualPotency, args.Reagent!.ID);
         args.EntityManager.System<HungerSystem>().ModifyHunger(args.TargetEntity, -(float)potency);
@@ -50,6 +47,5 @@ public sealed partial class Musclestimulating : RMCChemicalEffect
         var damage = new DamageSpecifier();
         damage.DamageDict[BluntType] = potency;
         damageable.TryChangeDamage(args.TargetEntity, damage, true, interruptsDoAfters: false);
->>>>>>> cmu/master
     }
 }

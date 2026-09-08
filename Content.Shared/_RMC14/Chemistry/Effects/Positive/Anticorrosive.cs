@@ -1,4 +1,4 @@
-﻿using Content.Shared._RMC14.Damage;
+using Content.Shared._RMC14.Damage;
 using Content.Shared.Damage;
 using Content.Shared.Damage.Prototypes;
 using Content.Shared.EntityEffects;
@@ -18,20 +18,9 @@ public sealed partial class Anticorrosive : RMCChemicalEffect
     {
         var healing = PotencyPerSecond * 1.5f;
 
-<<<<<<< HEAD
-        // RuMC edit start
-        return Loc.GetString("reagent-effect-guidebook-rmc-anticorrosive",
-            ("heal", healing),
-            ("odBrute", PotencyPerSecond),
-            ("odToxin", PotencyPerSecond),
-            ("critBrute", PotencyPerSecond * 5),
-            ("critToxin", PotencyPerSecond * 5));
-        // RuMC edit end
-=======
         return $"Heals [color=green]{healing}[/color] burn damage and restores damaged plant health.\n" +
                $"Overdoses cause [color=red]{PotencyPerSecond}[/color] brute and [color=red]{PotencyPerSecond}[/color] toxin damage.\n" +
                $"Critical overdoses cause [color=red]{PotencyPerSecond * 5}[/color] brute and [color=red]{PotencyPerSecond * 5}[/color] toxin damage";
->>>>>>> cmu/master
     }
 
     protected override void Tick(DamageableSystem damageable, FixedPoint2 potency, EntityEffectReagentArgs args)

@@ -247,8 +247,6 @@ public sealed partial class NavMapSystem : SharedNavMapSystem
         RefreshGrid(grid, component, grid.Comp);
     }
 
-<<<<<<< HEAD
-=======
     /// <summary>
     /// Generates nav-map geometry for a grid that was loaded outside station setup.
     /// Existing nav maps are maintained by the normal tile and airtight event handlers.
@@ -261,7 +259,6 @@ public sealed partial class NavMapSystem : SharedNavMapSystem
         EnsureNavMap(grid);
     }
 
->>>>>>> cmu/master
     private void RefreshGrid(EntityUid uid, NavMapComponent component, MapGridComponent mapGrid)
     {
         // Clear stale data

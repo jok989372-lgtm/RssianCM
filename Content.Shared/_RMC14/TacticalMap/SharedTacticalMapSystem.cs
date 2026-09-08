@@ -169,14 +169,6 @@ public abstract partial class SharedTacticalMapSystem : EntitySystem // CMU14 Cl
         }
 
         // Helpers to check faction selection
-<<<<<<< HEAD
-        bool WantsMarines() => faction == null || faction == "MARINES" || faction == "UNMC" || faction == string.Empty;
-        bool WantsXenos() => faction == null || faction == "XENONIDS" || faction == "XENONID" || faction == string.Empty;
-        bool WantsOpfor() => faction == null || faction == "OPFOR" || faction == string.Empty;
-        bool WantsGovfor() => faction == null || faction == "GOVFOR" || faction == string.Empty;
-        bool WantsClf() => faction == null || faction == "CLF" || faction == string.Empty;
-        bool WantsYautja() => faction == null || faction == "YAUTJA" || faction == "PREDATOR" || faction == string.Empty;
-=======
         bool WantsMarines() => faction == null || faction == MarinesFaction;
         bool WantsXenos() => faction == null || faction == XenosFaction;
         bool WantsOpfor() => faction == null || faction == OpforFaction;
@@ -184,7 +176,7 @@ public abstract partial class SharedTacticalMapSystem : EntitySystem // CMU14 Cl
         bool WantsClf() => faction == null || faction == ClfFaction;
         bool WantsWeYu() => faction == null || faction == WeYuFaction;
         var sensorsOnline = faction != null && _sensorTowers.HasOnlineSensorForFaction(faction);
->>>>>>> cmu/master
+        bool WantsYautja() => faction == null || faction is "YAUTJA" or "PREDATOR";
 
         // Add marine blips if desired
         AddIf(() => WantsMarines() || sensorsOnline, map.MarineBlips);
@@ -283,13 +275,10 @@ public abstract partial class SharedTacticalMapSystem : EntitySystem // CMU14 Cl
                         isFriendly = map.GovforBlips.ContainsKey(id);
                     else if (up == "CLF")
                         isFriendly = map.ClfBlips.ContainsKey(id);
-<<<<<<< HEAD
                     else if (up is "YAUTJA" or "PREDATOR")
                         isFriendly = map.YautjaBlips.ContainsKey(id);
-=======
                     else if (up == "WEYU")
                         isFriendly = map.WeYuBlips.ContainsKey(id);
->>>>>>> cmu/master
                 }
 
                 if (!isFriendly)
@@ -430,13 +419,10 @@ public abstract partial class SharedTacticalMapSystem : EntitySystem // CMU14 Cl
             return govforBlip;
         if (map.ClfBlips.TryGetValue(entityId, out var clfBlip))
             return clfBlip;
-<<<<<<< HEAD
         if (map.YautjaBlips.TryGetValue(entityId, out var yautjaBlip))
             return yautjaBlip;
-=======
         if (map.WeYuBlips.TryGetValue(entityId, out var weyuBlip))
             return weyuBlip;
->>>>>>> cmu/master
         return null;
     }
 }

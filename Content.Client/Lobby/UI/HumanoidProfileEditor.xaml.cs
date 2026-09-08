@@ -88,13 +88,10 @@ namespace Content.Client.Lobby.UI
         // One at a time.
         private LoadoutWindow? _loadoutWindow;
 
-<<<<<<< HEAD
         private TTSTab? _ttsTab; // Corvax-TTS
         private YautjaProfileEditor? _yautjaTab;
         private readonly DonorCapeTab _donorCapeTab;
-=======
         [ViewVariables] private PlatoonRankPreferenceWindow? _rankPreferenceWindow;
->>>>>>> cmu/master
 
         private bool _exporting;
         private bool _imaging;

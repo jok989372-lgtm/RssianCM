@@ -25,9 +25,6 @@ public sealed partial class Antiparasitic : RMCChemicalEffect
 
     protected override void Tick(DamageableSystem damageable, FixedPoint2 potency, EntityEffectReagentArgs args)
     {
-<<<<<<< HEAD
-        return Loc.GetString("reagent-effect-guidebook-cmu-stub"); // RuMC edit
-=======
         if (!args.EntityManager.HasComponent<VictimInfectedComponent>(args.TargetEntity))
             return;
 
@@ -55,6 +52,5 @@ public sealed partial class Antiparasitic : RMCChemicalEffect
         var damage = new DamageSpecifier();
         damage.DamageDict[type] = amount;
         damageable.TryChangeDamage(args.TargetEntity, damage, true, interruptsDoAfters: false);
->>>>>>> cmu/master
     }
 }

@@ -1,12 +1,9 @@
 using Content.Server.Chat.Managers;
-<<<<<<< HEAD
-=======
 using Content.Server._CMU14.Language;
 using Content.Server._CMU14.Round.Objectives;
 using Content.Server._CMU14.Weapons.Ranged;
 using Content.Server.Electrocution;
 using Content.Server.Ghost.Roles.Components;
->>>>>>> cmu/master
 using Content.Shared._CMU14.Yautja;
 using Content.Shared._RMC14.Actions;
 using Content.Shared._RMC14.Areas;
@@ -67,7 +64,6 @@ public sealed partial class YautjaThrallSystem : EntitySystem
     private static readonly TimeSpan WarningEvery = TimeSpan.FromSeconds(2);
     private static readonly TimeSpan ThrallStunTime = TimeSpan.FromSeconds(10);
     private static readonly Color MessageColor = Color.FromHex("#b85440");
-<<<<<<< HEAD
     private static readonly SoundSpecifier ThrallShockSound = new SoundPathSpecifier("/Audio/Effects/Lightning/lightningshock.ogg");
     private static readonly Dictionary<string, int> Cmss13YautjaBuyCategoryUses = new()
     {
@@ -79,9 +75,7 @@ public sealed partial class YautjaThrallSystem : EntitySystem
         ["CMUYautjaSupport"] = 0,
         ["CMUYautjaAccessory"] = 0,
     };
-=======
     private static readonly HashSet<string> StrippedOnRaiseSlots = ["gloves", "mask", "eyes"];
->>>>>>> cmu/master
 
     [Dependency] private ISharedAdminLogManager _adminLog = default!;
     [Dependency] private AreaSystem _areas = default!;
@@ -125,14 +119,11 @@ public sealed partial class YautjaThrallSystem : EntitySystem
         SubscribeLocalEvent<YautjaMarkComponent, YautjaMarkRemovedEvent>(OnMarkRemoved);
 
         SubscribeLocalEvent<YautjaThrallComponent, ComponentRemove>(OnThrallRemoved);
-<<<<<<< HEAD
         SubscribeLocalEvent<YautjaThrallComponent, YautjaThrallSelfDestructConfirmEvent>(OnThrallSelfDestructConfirm);
-=======
         SubscribeLocalEvent<YautjaThrallComponent, TakeGhostRoleEvent>(OnThrallTakeGhostRole);
         SubscribeLocalEvent<YautjaThrallComponent, IsEquippingTargetAttemptEvent>(OnThrallEquipAttempt);
         SubscribeLocalEvent<MobStateChangedEvent>(OnMobStateChanged);
-        SubscribeLocalEvent<YautjaComponent, EntityTerminatingEvent>(OnMasterTerminating);
->>>>>>> cmu/master
+        SubscribeLocalEvent<EntityTerminatingEvent>(OnMasterTerminating);
         SubscribeLocalEvent<YautjaHivebrokenXenoComponent, RefreshNameModifiersEvent>(OnHivebrokenRefreshName);
 
         SubscribeLocalEvent<YautjaBracerComponent, YautjaLinkThrallBracerActionEvent>(OnLinkThrallBracer);
@@ -218,7 +209,7 @@ public sealed partial class YautjaThrallSystem : EntitySystem
                     Loc.GetString(
                         "cmu-yautja-thrall-already-blooded",
                         ("target", args.Target),
-                        ("hunter", existingBlooded.BloodedBy ?? existingBlooded.Master),
+                        ("hunter", (object?) (existingBlooded.BloodedBy ?? existingBlooded.Master) ?? Loc.GetString("cmu-yautja-identity-unknown")),
                         ("reason", existingBlooded.BloodingReason)),
                     args.Hunter,
                     args.Hunter,
@@ -243,13 +234,13 @@ public sealed partial class YautjaThrallSystem : EntitySystem
             return;
         }
 
-        if (TryComp(args.Target, out YautjaThrallComponent? targetThrall) && targetThrall.Master != args.Hunter)
+        if (TryComp(args.Target, out YautjaThrallComponent? targetThrall) && targetThrall.Master is { } claimedBy && claimedBy != args.Hunter)
         {
             _popup.PopupEntity(
                 Loc.GetString(
                     "cmu-yautja-thrall-already-claimed",
                     ("target", args.Target),
-                    ("hunter", targetThrall.Master),
+                    ("hunter", claimedBy),
                     ("reason", targetThrall.Reason)),
                 args.Hunter,
                 args.Hunter,
@@ -343,8 +334,12 @@ public sealed partial class YautjaThrallSystem : EntitySystem
         }
     }
 
-    private void OnMasterTerminating(EntityUid uid, YautjaComponent comp, ref EntityTerminatingEvent args)
+    private void OnMasterTerminating(ref EntityTerminatingEvent args)
     {
+        var uid = args.Entity.Owner;
+        if (!HasComp<YautjaComponent>(uid))
+            return;
+
         var query = EntityQueryEnumerator<YautjaThrallComponent>();
         while (query.MoveNext(out var thrallId, out var thrall))
         {
@@ -466,15 +461,11 @@ public sealed partial class YautjaThrallSystem : EntitySystem
 
     public bool TryOpenMasterThrallTransmission(Entity<YautjaBracerComponent> masterBracer, EntityUid master)
     {
-<<<<<<< HEAD
         if (!CanUseMasterBracer(masterBracer, master) ||
             !TryGetReceiverFromMaster(masterBracer, master, out _, out _))
         {
-=======
-        if (!CanUseMasterBracer(masterBracer, master)
-                || !TryGetReceiverFromMaster(masterBracer, master, out _))
->>>>>>> cmu/master
             return false;
+        }
 
         _ui.TryOpenUi(masterBracer.Owner, YautjaThrallMessageUIKey.Key, master);
         return true;
@@ -482,18 +473,14 @@ public sealed partial class YautjaThrallSystem : EntitySystem
 
     public bool TryStunLinkedThrall(Entity<YautjaBracerComponent> masterBracer, EntityUid master)
     {
-<<<<<<< HEAD
         if (!CanUseMasterBracer(masterBracer, master))
             return false;
 
         if (!TryFindThrall(master, out var thrall))
         {
             _popup.PopupEntity(Loc.GetString("cmu-yautja-thrall-stun-none"), master, master, PopupType.SmallCaution);
-=======
-        if (!CanUseMasterBracer(masterBracer, master)
-                || !TryGetLinkedThrall(master, out var thrall, out var bracer))
->>>>>>> cmu/master
             return false;
+        }
 
         if (HasComp<StunnedComponent>(thrall.Owner) || HasComp<KnockedDownComponent>(thrall.Owner))
         {
@@ -521,18 +508,14 @@ public sealed partial class YautjaThrallSystem : EntitySystem
 
     public bool TryToggleLinkedThrallSelfDestruct(Entity<YautjaBracerComponent> masterBracer, EntityUid master)
     {
-<<<<<<< HEAD
         if (!CanUseMasterBracer(masterBracer, master))
             return false;
 
         if (_mob.IsDead(master))
         {
             _popup.PopupEntity(Loc.GetString("cmu-yautja-self-destruct-dead"), master, master, PopupType.SmallCaution);
-=======
-        if (!CanUseMasterBracer(masterBracer, master)
-               || !TryGetLinkedThrall(master, out var thrall, out var bracer))
->>>>>>> cmu/master
             return false;
+        }
 
         if (_mob.IsCritical(master))
         {
@@ -1413,7 +1396,6 @@ public sealed partial class YautjaThrallSystem : EntitySystem
         out Entity<YautjaThrallComponent> thrall,
         out Entity<YautjaThrallBracerComponent> bracer)
     {
-<<<<<<< HEAD
         if (TryFindThrall(master, out thrall) &&
             TryGetLinkedThrall(master, thrall, out bracer))
         {
@@ -1448,14 +1430,6 @@ public sealed partial class YautjaThrallSystem : EntitySystem
             bracerComp.Linked &&
             bracerComp.Master == master &&
             bracerComp.User == thrall.Owner)
-=======
-        if (TryFindThrall(master, out thrall)
-            && thrall.Comp.ThrallBracer is { } bracerId
-            && TryComp(bracerId, out YautjaThrallBracerComponent? bracerComp)
-            && bracerComp.Linked
-            && bracerComp.Master == master
-            && bracerComp.User == thrall.Owner)
->>>>>>> cmu/master
         {
             bracer = (bracerId, bracerComp);
             return true;
@@ -1676,37 +1650,27 @@ public sealed partial class YautjaThrallSystem : EntitySystem
         out EntityUid receiverBracer)
     {
         receiver = default;
-<<<<<<< HEAD
         receiverBracer = default;
         if (!CanUseThrallMessageBracer(bracer, user) ||
             !TryComp(user, out YautjaThrallComponent? thrall))
         {
-=======
-        if (!CanUseThrallBracer(bracer, user)
-                || !TryComp(user, out YautjaThrallComponent? thrall)
-                || thrall.Master is not { } master
-                || Deleted(master))
->>>>>>> cmu/master
             return false;
+        }
 
-<<<<<<< HEAD
-        if (Deleted(thrall.Master))
+        if (thrall.Master is not { } master || Deleted(master))
         {
             _popup.PopupEntity(Loc.GetString("cmu-yautja-thrall-message-none"), user, user, PopupType.SmallCaution);
             return false;
         }
 
-        if (!TryGetWornYautjaBracer(thrall.Master, out var wornBracer))
+        if (!TryGetWornYautjaBracer(master, out var wornBracer))
         {
             _popup.PopupEntity(Loc.GetString("cmu-yautja-thrall-message-no-bracer-master"), user, user, PopupType.SmallCaution);
             return false;
         }
 
-        receiver = thrall.Master;
-        receiverBracer = wornBracer;
-=======
         receiver = master;
->>>>>>> cmu/master
+        receiverBracer = wornBracer;
         return true;
     }
 

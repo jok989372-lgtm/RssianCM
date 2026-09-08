@@ -25,11 +25,7 @@ public sealed partial class SurveillanceCameraMonitorWindow : DefaultWindow
     [Dependency] private IResourceCache _resourceCache = default!;
 
     public event Action<NetEntity>? CameraSelected;
-<<<<<<< HEAD
-    public event Action<ProtoId<CameraNetworkPrototype>>? NetworkOpened;
-=======
     public event Action<NetEntity>? NetworkOpened;
->>>>>>> cmu/master
     public event Action? CameraRefresh;
     public event Action? SubnetRefresh;
     public event Action? CameraSwitchTimer;
@@ -38,11 +34,7 @@ public sealed partial class SurveillanceCameraMonitorWindow : DefaultWindow
     private string _currentCameraName = string.Empty;
     private bool _isSwitching;
     private readonly FixedEye _defaultEye = new();
-<<<<<<< HEAD
-    private readonly Dictionary<ProtoId<CameraNetworkPrototype>, int> _networkMap = new();
-=======
     private readonly Dictionary<NetEntity, int> _networkMap = new();
->>>>>>> cmu/master
     private readonly Dictionary<NetEntity, int> _gridMap = new();
     private NetEntity? _selectedGrid;
 
@@ -74,11 +66,7 @@ public sealed partial class SurveillanceCameraMonitorWindow : DefaultWindow
 
         SubnetList.OnItemSelected += OnCameraListSelect;
         NetworkSelector.OnItemSelected += args =>
-<<<<<<< HEAD
-            NetworkOpened?.Invoke((ProtoId<CameraNetworkPrototype>) args.Button.GetItemMetadata(args.Id)!);
-=======
             NetworkOpened?.Invoke((NetEntity) args.Button.GetItemMetadata(args.Id)!);
->>>>>>> cmu/master
         GridSelector.OnItemSelected += args =>
             CameraMap.SelectGrid((NetEntity) args.Button.GetItemMetadata(args.Id)!);
         CameraMap.CameraSelected += camera => CameraSelected?.Invoke(camera);
@@ -89,20 +77,6 @@ public sealed partial class SurveillanceCameraMonitorWindow : DefaultWindow
     }
 
     // The UI class gets the eye from the active entity, and passes it here to change the view.
-<<<<<<< HEAD
-    public void UpdateState(IEye? eye, SurveillanceCameraMonitorUiState state)
-    {
-        _currentCameraName = state.ActiveCameraName ?? string.Empty;
-        SetCameraView(eye);
-        PopulateNetworkSelector(state.Networks, state.ActiveNetwork);
-        PopulateCameraList(state.CameraList);
-        PopulateMap(state.CameraMap, state.ActiveCamera);
-    }
-
-    private void PopulateNetworkSelector(
-        List<CameraNetworkUiData> networks,
-        ProtoId<CameraNetworkPrototype>? activeNetwork)
-=======
     public void UpdateState(
         IEye? eye,
         CameraSessionDirectoryUiData directory,
@@ -123,7 +97,6 @@ public sealed partial class SurveillanceCameraMonitorWindow : DefaultWindow
     private void PopulateNetworkSelector(
         List<CameraSessionNetworkUiData> networks,
         NetEntity? activeNetwork)
->>>>>>> cmu/master
     {
         NetworkSelector.Clear();
         _networkMap.Clear();
@@ -140,24 +113,15 @@ public sealed partial class SurveillanceCameraMonitorWindow : DefaultWindow
         {
             NetworkSelector.AddItem(network.Name);
             var id = NetworkSelector.ItemCount - 1;
-<<<<<<< HEAD
-            NetworkSelector.SetItemMetadata(id, network.Id);
-            _networkMap[network.Id] = id;
-=======
             NetworkSelector.SetItemMetadata(id, network.Network);
             _networkMap[network.Network] = id;
->>>>>>> cmu/master
         }
 
         if (activeNetwork is { } selectedNetwork && _networkMap.TryGetValue(selectedNetwork, out var networkId))
             NetworkSelector.Select(networkId);
     }
 
-<<<<<<< HEAD
-    private void PopulateCameraList(List<CameraListUiData> cameras)
-=======
     private void PopulateCameraList(List<CameraSessionCameraUiData> cameras)
->>>>>>> cmu/master
     {
         var entries = cameras.Select(camera => new ItemList.Item(SubnetList)
         {

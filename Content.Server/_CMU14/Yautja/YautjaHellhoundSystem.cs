@@ -1,4 +1,6 @@
 using System.Numerics;
+using Content.Server.Camera;
+using Content.Shared.Camera;
 using Content.Server.Chat.Managers;
 using Content.Shared._CMU14.Medical.Anatomy.BodyParts;
 using Content.Shared._CMU14.Yautja;
@@ -37,6 +39,7 @@ public sealed partial class YautjaHellhoundSystem : EntitySystem
     [Dependency] private SharedPopupSystem _popup = default!;
     [Dependency] private SharedRMCActionsSystem _rmcActions = default!;
     [Dependency] private SharedRMCCameraSystem _rmcCamera = default!;
+    [Dependency] private CameraNetworkSystem _cameraNetworks = default!;
     [Dependency] private SharedTransformSystem _transform = default!;
 
     public override void Initialize()
@@ -83,6 +86,7 @@ public sealed partial class YautjaHellhoundSystem : EntitySystem
     private void OnStartup(Entity<YautjaHellhoundComponent> ent, ref ComponentStartup args)
     {
         RemCompDeferred<HiveMemberComponent>(ent);
+        UpdateCamera(ent, false);
     }
 
     private void OnGetMeleeDamage(Entity<YautjaHellhoundComponent> ent, ref GetMeleeDamageEvent args)
@@ -122,17 +126,23 @@ public sealed partial class YautjaHellhoundSystem : EntitySystem
 
     private void OnMobStateChanged(Entity<YautjaHellhoundComponent> ent, ref MobStateChangedEvent args)
     {
-        if (args.NewMobState == MobState.Dead)
+        UpdateCamera(ent, args.NewMobState == MobState.Dead);
+    }
+
+    private void UpdateCamera(Entity<YautjaHellhoundComponent> ent, bool dead)
+    {
+        if (dead)
         {
             RemComp<RMCCameraComponent>(ent);
-            _rmcCamera.RefreshCameras(ent.Comp.CameraId);
+            RemComp<CameraNetworkMemberComponent>(ent);
             return;
         }
 
         var camera = EnsureComp<RMCCameraComponent>(ent);
         _rmcCamera.SetCameraRename(ent, false, camera);
-        _rmcCamera.SetCameraId(ent, ent.Comp.CameraId, camera);
-        _rmcCamera.RefreshCameras(ent.Comp.CameraId);
+        var member = EnsureComp<CameraNetworkMemberComponent>(ent);
+        member.SourceKinds = CameraSourceKinds.Rmc;
+        _cameraNetworks.SetMemberNetworks(ent, ["CMUYautjaHellhounds"]);
     }
 
     private void SendSenseOwnerResult(EntityUid hellhound, EntityUid owner)

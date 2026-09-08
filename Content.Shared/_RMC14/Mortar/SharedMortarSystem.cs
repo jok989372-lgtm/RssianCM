@@ -573,13 +573,10 @@ public abstract partial class SharedMortarSystem : EntitySystem
             if (distance > range)
                 continue;
 
-<<<<<<< HEAD
-            var direction = Loc.GetString($"zzzz-fmt-direction-{distanceVec.GetDir()}").ToUpperInvariant(); // RuMC edit
-=======
->>>>>>> cmu/master
+            var localizedDirection = direction ?? Loc.GetString($"zzzz-fmt-direction-{distanceVec.GetDir()}").ToUpperInvariant();
             var msg = distance < 1
                 ? Loc.GetString(warningAbove)
-                : Loc.GetString(warning, ("direction", direction ?? distanceVec.GetDir().ToString().ToUpperInvariant())); // CMU14
+                : Loc.GetString(warning, ("direction", localizedDirection));
             _popup.PopupEntity(msg, recipient, recipient, PopupType.LargeCaution);
 
             if (chat)

@@ -11,11 +11,8 @@ using Content.Client.LateJoin;
 using Content.Client.Lobby.UI;
 using Content.Client.Message;
 using Content.Client.Playtime;
-<<<<<<< HEAD
 using Content.Client.Players.PlayTimeTracking;
-=======
 using Content.Client.Stylesheets;
->>>>>>> cmu/master
 using Content.Client.UserInterface.Systems.Chat;
 using Content.Client.Voting;
 using Content.Shared.AU14.Allegiance;
@@ -59,19 +56,10 @@ namespace Content.Client.Lobby
 
         private ClientGameTicker _gameTicker = default!;
         private ContentAudioSystem _contentAudioSystem = default!;
-<<<<<<< HEAD
-        // Cached references to join buttons (looked up from XAML at runtime)
-        private Robust.Client.UserInterface.Controls.Button? _joinGovforButton;
-        private Robust.Client.UserInterface.Controls.Button? _joinOpforButton;
-        private Robust.Client.UserInterface.Controls.Button? _joinOtherButton;
-        private LobbyTerminalMode? _terminalMode;
-        private Robust.Client.UserInterface.Controls.Button? _joinHuntButton;
-=======
         // The faction choices, opened from JoinRoundButton. Held so a second press re-focuses the
         // one window rather than stacking another copy on top of it.
         private JoinRoundWindow? _joinRoundWindow;
         private bool _clockPlaced;
->>>>>>> cmu/master
 
         protected override Type? LinkedScreenType { get; } = typeof(LobbyGui);
         public LobbyGui? Lobby;
@@ -84,8 +72,6 @@ namespace Content.Client.Lobby
             }
 
             Lobby = (LobbyGui) _userInterfaceManager.ActiveScreen;
-            _terminalMode = null;
-            Lobby.StartBootSequence();
 
             var chatController = _userInterfaceManager.GetUIController<ChatUIController>();
             _gameTicker = _entityManager.System<ClientGameTicker>();
@@ -103,17 +89,13 @@ namespace Content.Client.Lobby
             Lobby.ServerName.Text = string.IsNullOrEmpty(lobbyNameCvar)
                 ? Loc.GetString("ui-lobby-title", ("serverName", serverName))
                 : lobbyNameCvar;
-            Lobby.TerminalSource.Text = Loc.GetString(
-                "lobby-terminal-source",
-                ("serverName", string.IsNullOrWhiteSpace(serverName) ? "CMU-14" : serverName));
 
             var width = _cfg.GetCVar(CCVars.ServerLobbyRightPanelWidth);
-            Lobby.SetRightPanelWidth(width);
+            Lobby.RightSide.SetWidth = width;
 
             UpdateLobbyUi();
 
             Lobby.CharacterPreview.CharacterSetupButton.OnPressed += OnSetupPressed;
-            Lobby.CharacterSetupQuickButton.OnPressed += OnSetupPressed;
             Lobby.CharacterPreview.LinkAccountButtonControl.OnPressed += OnLinkAccountPressed;
             Lobby.CharacterPreview.PatronPerks.OnPressed += OnPatronPerksPressed;
             Lobby.CharacterPreview.PrevCharacterButton.OnPressed += OnPrevCharPressed;
@@ -121,53 +103,19 @@ namespace Content.Client.Lobby
             Lobby.CharacterPreview.IgnoreAllegianceToggle.OnToggled += OnIgnoreAllegianceToggled;
             Lobby.ReadyButton.OnPressed += OnReadyPressed;
             Lobby.ReadyButton.OnToggled += OnReadyToggled;
-<<<<<<< HEAD
-            Lobby.OnboardingButton.OnPressed += OnOnboardingPressed;
-=======
             Lobby.RoundClock.PositionChanged += OnRoundClockMoved;
             Lobby.ClockMinimizeButton.OnPressed += OnClockMinimizePressed;
             Lobby.DockedClockButton.OnPressed += OnClockRestorePressed;
->>>>>>> cmu/master
 
             _gameTicker.InfoBlobUpdated += UpdateLobbyUi;
             _gameTicker.LobbyStatusUpdated += LobbyStatusUpdated;
             _gameTicker.LobbyLateJoinStatusUpdated += LobbyLateJoinStatusUpdated;
             _jobRequirements.Updated += JobRequirementsUpdated;
 
-<<<<<<< HEAD
-            // RMC14: look up join buttons from the loaded XAML and wire handlers
-            _joinGovforButton = Lobby.FindControl<Robust.Client.UserInterface.Controls.Button>("JoinGovforButton");
-            if (_joinGovforButton != null)
-            {
-                _joinGovforButton.OnPressed += OnJoinGovforPressed;
-            }
-
-            _joinOpforButton = Lobby.FindControl<Robust.Client.UserInterface.Controls.Button>("JoinOpforButton");
-            if (_joinOpforButton != null)
-            {
-                _joinOpforButton.OnPressed += OnJoinOpforPressed;
-            }
-
-            // 'Other' opens ghost roles UI (all ghost roles)
-            _joinOtherButton = Lobby.FindControl<Robust.Client.UserInterface.Controls.Button>("JoinOtherButton");
-            if (_joinOtherButton != null)
-            {
-                _joinOtherButton.OnPressed += OnJoinOtherPressed;
-            }
-
-            _joinHuntButton = Lobby.FindControl<Robust.Client.UserInterface.Controls.Button>("JoinHuntButton");
-            if (_joinHuntButton != null)
-            {
-                _joinHuntButton.OnPressed += OnJoinHuntPressed;
-                _joinHuntButton.AddStyleClass("OpenRight");
-            }
-
-            UpdateLobbyUi();
-=======
             // RMC14/CMU: the faction choices used to be three buttons on the lobby panel. They now
             // live in JoinRoundWindow, opened from one button; the handlers below are unchanged.
             Lobby.JoinRoundButton.OnPressed += OnJoinRoundPressed;
->>>>>>> cmu/master
+            Lobby.OnboardingButton.OnPressed += OnOnboardingPressed;
         }
 
         protected override void Shutdown()
@@ -183,7 +131,6 @@ namespace Content.Client.Lobby
             _voteManager.ClearPopupContainer();
 
             Lobby!.CharacterPreview.CharacterSetupButton.OnPressed -= OnSetupPressed;
-            Lobby.CharacterSetupQuickButton.OnPressed -= OnSetupPressed;
             Lobby.CharacterPreview.LinkAccountButtonControl.OnPressed -= OnLinkAccountPressed;
             Lobby.CharacterPreview.PatronPerks.OnPressed -= OnPatronPerksPressed;
             Lobby.CharacterPreview.PrevCharacterButton.OnPressed -= OnPrevCharPressed;
@@ -191,28 +138,15 @@ namespace Content.Client.Lobby
             Lobby.CharacterPreview.IgnoreAllegianceToggle.OnToggled -= OnIgnoreAllegianceToggled;
             Lobby!.ReadyButton.OnPressed -= OnReadyPressed;
             Lobby!.ReadyButton.OnToggled -= OnReadyToggled;
-<<<<<<< HEAD
-            Lobby.OnboardingButton.OnPressed -= OnOnboardingPressed;
-
-            // Unhook RMC14 buttons
-            if (_joinGovforButton != null)
-                _joinGovforButton.OnPressed -= OnJoinGovforPressed;
-            if (_joinOpforButton != null)
-                _joinOpforButton.OnPressed -= OnJoinOpforPressed;
-            if (_joinOtherButton != null)
-                _joinOtherButton.OnPressed -= OnJoinOtherPressed;
-            if (_joinHuntButton != null)
-                _joinHuntButton.OnPressed -= OnJoinHuntPressed;
-=======
             Lobby!.RoundClock.PositionChanged -= OnRoundClockMoved;
             Lobby!.ClockMinimizeButton.OnPressed -= OnClockMinimizePressed;
             Lobby!.DockedClockButton.OnPressed -= OnClockRestorePressed;
 
             // Unhook RMC14 buttons
             Lobby.JoinRoundButton.OnPressed -= OnJoinRoundPressed;
+            Lobby.OnboardingButton.OnPressed -= OnOnboardingPressed;
             _joinRoundWindow?.Close();
             _joinRoundWindow = null;
->>>>>>> cmu/master
 
             Lobby = null;
         }
@@ -290,14 +224,9 @@ namespace Content.Client.Lobby
 
         public override void FrameUpdate(FrameEventArgs e)
         {
-<<<<<<< HEAD
-            UpdateTerminalUi();
-
-=======
             // The clock is a caption and a face. The caption says what is being counted so the face
             // never has to carry a sentence, which is what lets it be read at a glance rather than
             // parsed - the whole reason it left the action panel's heading slot.
->>>>>>> cmu/master
             if (_gameTicker.IsGameStarted)
             {
                 var roundTime = _gameTiming.CurTime.Subtract(_gameTicker.RoundStartTimeSpan);
@@ -503,19 +432,11 @@ namespace Content.Client.Lobby
             {
                 Lobby!.ObserveButton.Disabled = false;
 
-<<<<<<< HEAD
-                // RMC14
-                if (_joinGovforButton != null) _joinGovforButton.Visible = true;
-                if (_joinOpforButton != null) _joinOpforButton.Visible = true;
-                if (_joinOtherButton != null) _joinOtherButton.Visible = true;
-                if (_joinHuntButton != null) _joinHuntButton.Visible = HasYautjaWhitelist();
-=======
                 // RMC14/CMU: readying up is meaningless once the round is running, so the row swaps
                 // to the single button that opens the faction choices rather than restyling Ready
                 // into a join button.
                 Lobby!.ReadyButton.Visible = false;
                 Lobby!.JoinRoundButton.Visible = true;
->>>>>>> cmu/master
             }
             else
             {
@@ -528,18 +449,10 @@ namespace Content.Client.Lobby
                 UpdateReadyAppearance();
                 Lobby!.ObserveButton.Disabled = true;
 
-<<<<<<< HEAD
-                // RMC14
-                if (_joinGovforButton != null) _joinGovforButton.Visible = false;
-                if (_joinOpforButton != null) _joinOpforButton.Visible = false;
-                if (_joinOtherButton != null) _joinOtherButton.Visible = false;
-                if (_joinHuntButton != null) _joinHuntButton.Visible = false;
-=======
                 // RMC14/CMU
                 Lobby!.ReadyButton.Visible = true;
                 Lobby!.JoinRoundButton.Visible = false;
                 _joinRoundWindow?.Close();
->>>>>>> cmu/master
             }
 
             if (_gameTicker.ServerInfoBlob != null)
@@ -569,45 +482,6 @@ namespace Content.Client.Lobby
             else
                 Lobby!.PlaytimeComment.Visible = false;
 
-            UpdateTerminalUi();
-        }
-
-        private void UpdateTerminalUi()
-        {
-            if (Lobby == null)
-                return;
-
-            TimeSpan? remaining = null;
-            if (!_gameTicker.IsGameStarted)
-                remaining = _gameTicker.StartTime - _gameTiming.CurTime;
-
-            Lobby.TerminalBackground.SetLobbyState(
-                _gameTicker.IsGameStarted,
-                _gameTicker.Paused,
-                _gameTicker.AreWeReady,
-                remaining);
-
-            var mode = Lobby.TerminalBackground.Mode;
-            var accent = Lobby.TerminalBackground.AccentColor;
-            Lobby.TerminalStatus.FontColorOverride = accent;
-            Lobby.StartTime.FontColorOverride = accent;
-
-            if (_terminalMode == mode)
-                return;
-
-            _terminalMode = mode;
-
-            var statusKey = mode switch
-            {
-                LobbyTerminalMode.Ready => "lobby-terminal-status-ready",
-                LobbyTerminalMode.Countdown => "lobby-terminal-status-countdown",
-                LobbyTerminalMode.Imminent => "lobby-terminal-status-imminent",
-                LobbyTerminalMode.Paused => "lobby-terminal-status-paused",
-                LobbyTerminalMode.InProgress => "lobby-terminal-status-in-progress",
-                _ => "lobby-terminal-status-waiting",
-            };
-
-            Lobby.TerminalStatus.Text = Loc.GetString(statusKey);
         }
 
         private void UpdateLobbySoundtrackInfo(LobbySoundtrackChangedEvent ev)
@@ -641,12 +515,6 @@ namespace Content.Client.Lobby
 
         private void UpdateLobbyBackground()
         {
-            if (!Lobby!.Background.Visible)
-            {
-                Lobby.Background.Texture = null;
-                return;
-            }
-
             if (_gameTicker.LobbyBackground != null)
             {
                 Lobby!.Background.Texture = _resourceCache.GetResource<TextureResource>(_gameTicker.LobbyBackground );
@@ -685,6 +553,8 @@ namespace Content.Client.Lobby
             window.JoinGovforButton.OnPressed += args2 => { window.Close(); OnJoinGovforPressed(args2); };
             window.JoinOpforButton.OnPressed += args2 => { window.Close(); OnJoinOpforPressed(args2); };
             window.JoinOtherButton.OnPressed += args2 => { window.Close(); OnJoinOtherPressed(args2); };
+            window.JoinHuntButton.Visible = HasYautjaWhitelist();
+            window.JoinHuntButton.OnPressed += args2 => { window.Close(); OnJoinHuntPressed(args2); };
             window.OnClose += () =>
             {
                 if (_joinRoundWindow == window)

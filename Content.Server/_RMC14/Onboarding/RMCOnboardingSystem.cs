@@ -250,7 +250,7 @@ public sealed partial class RMCOnboardingSystem : EntitySystem
         SubscribeLocalEvent<ItemComponent, UseInHandEvent>(OnUseInHand);
         SubscribeLocalEvent<InputMoverComponent, ActiveHandChangedEvent>(OnActiveHandChanged);
         SubscribeLocalEvent<FoodComponent, AfterFoodEatenEvent>(OnFoodEaten);
-        SubscribeLocalEvent<FoodComponent, AfterFullyEatenEvent>(OnFoodFullyEaten);
+        SubscribeLocalEvent<AfterFullyEatenEvent>(OnFoodFullyEaten);
         // SubscribeLocalEvent<MobStateComponent, ExaminedEvent>(OnMedicalPatientExamined);
         SubscribeLocalEvent<WoundTreatedEvent>(OnMedicalWoundTreated);
         SubscribeLocalEvent<CPRAttemptFinishedEvent>(OnMedicalCprFinished);
@@ -719,7 +719,7 @@ public sealed partial class RMCOnboardingSystem : EntitySystem
         AresSay(active, Loc.GetString(loc));
     }
 
-    private void OnFoodFullyEaten(Entity<FoodComponent> ent, ref AfterFullyEatenEvent args)
+    private void OnFoodFullyEaten(ref AfterFullyEatenEvent args)
     {
         if (!_players.TryGetSessionByEntity(args.User, out var session) ||
             !_activeSessions.TryGetValue(session.UserId, out var active))

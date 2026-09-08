@@ -31,9 +31,6 @@ public sealed partial class Nervestimulating : RMCChemicalEffect
 
     protected override void Tick(DamageableSystem damageable, FixedPoint2 potency, EntityEffectReagentArgs args)
     {
-<<<<<<< HEAD
-        return Loc.GetString("reagent-effect-guidebook-cmu-stub"); // RuMC edit
-=======
         args.EntityManager.System<ChemicalPropertyStatusSystem>()
             .ApplyNerveStimulation(args.TargetEntity, ActualPotency, args.Reagent!.ID);
 
@@ -67,6 +64,5 @@ public sealed partial class Nervestimulating : RMCChemicalEffect
         damage.DamageDict[HeatType] = potency;
         damage.DamageDict[PoisonType] = potency * 3f;
         damageable.TryChangeDamage(args.TargetEntity, damage, true, interruptsDoAfters: false);
->>>>>>> cmu/master
     }
 }

@@ -80,10 +80,11 @@
   id: RMCSurveillanceCameraAlmayer
   name: camera-network-rmc-surveillance-camera-almayer
   configurable: true
-<<<<<<< HEAD
-=======
 
 - type: cameraNetwork
   id: RMCTelevision
   name: rmc-television-title
->>>>>>> cmu/master
+
+- type: cameraNetwork
+  id: CMUYautjaHellhounds
+  name: cmu-yautja-houndpad-network

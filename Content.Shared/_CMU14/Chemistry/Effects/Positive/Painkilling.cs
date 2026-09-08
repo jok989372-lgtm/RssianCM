@@ -4,41 +4,23 @@ using Content.Shared._CMU14.Medical.Anatomy.Organs.Brain;
 using Content.Shared._CMU14.Medical.Anatomy.Organs.Liver;
 using Content.Shared._CMU14.Chemistry.Effects;
 using Content.Shared._RMC14.Chemistry.Effects;
-<<<<<<< HEAD
-using Content.Shared._CMU14.Medical.Injuries.Pain;
-using Content.Shared.EntityEffects;
-=======
 using Content.Shared.Damage;
 using Content.Shared.Damage.Prototypes;
 using Content.Shared.EntityEffects;
 using Content.Shared.FixedPoint;
 using Content.Shared.StatusEffectNew;
 using Content.Shared.Stunnable;
->>>>>>> cmu/master
 using Robust.Shared.Prototypes;
 
 namespace Content.Shared._CMU14.Chemistry.Effects.Positive;
 
 public sealed partial class Painkilling : RMCChemicalEffect
 {
-<<<<<<< HEAD
-    protected override void Tick(Content.Shared.Damage.DamageableSystem damageable, Content.Shared.FixedPoint.FixedPoint2 potency, EntityEffectReagentArgs args)
-    {
-        var pain = args.EntityManager.System<SharedPainShockSystem>();
-        pain.AddPainSuppressionProfile(
-            args.TargetEntity,
-            Math.Clamp(PotencyPerSecond * 0.25f, 0f, 1f),
-            PotencyPerSecond >= 1f ? 1 : 0,
-            0.5f,
-            TimeSpan.FromSeconds(2));
-    }
-=======
     private static readonly EntProtoId Unconscious = "StatusEffectCMUUnconscious";
     private static readonly EntProtoId Drowsiness = "StatusEffectDrowsiness";
     private static readonly ProtoId<DamageTypePrototype> AsphyxiationType = "Asphyxiation";
     private static readonly ProtoId<DamageTypePrototype> PoisonType = "Poison";
     private static readonly ProtoId<DamageTypePrototype> ShockType = "Shock";
->>>>>>> cmu/master
 
     protected override string ReagentEffectGuidebookText(IPrototypeManager prototype, IEntitySystemManager entSys)
         => $"Suppresses [color=green]{MathF.Min(90f, LinearLevel * 40f)}%[/color] of new pain and up to " +
@@ -49,9 +31,6 @@ public sealed partial class Painkilling : RMCChemicalEffect
 
     protected override void Tick(DamageableSystem damageable, FixedPoint2 potency, EntityEffectReagentArgs args)
     {
-<<<<<<< HEAD
-        return Loc.GetString("reagent-effect-guidebook-cmu-painkilling"); // RuMC edit
-=======
         var suppression = MathF.Min(0.9f, LinearLevel * 0.4f);
         var tiers = Math.Max(1, (int)MathF.Ceiling(LinearLevel));
         args.EntityManager.System<SharedPainShockSystem>().AddPainSuppressionProfile(
@@ -76,6 +55,5 @@ public sealed partial class Painkilling : RMCChemicalEffect
         medical.DamageOrgan<CMUBrainComponent>(args.TargetEntity, potency * 2f, ShockType);
         args.EntityManager.System<SharedStatusEffectsSystem>()
             .TrySetStatusEffectDuration(args.TargetEntity, Unconscious, TimeSpan.FromSeconds(3));
->>>>>>> cmu/master
     }
 }

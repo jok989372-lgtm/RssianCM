@@ -1,4 +1,4 @@
-﻿using Content.Shared._RMC14.Damage;
+using Content.Shared._RMC14.Damage;
 using Content.Shared.Damage;
 using Content.Shared.Damage.Prototypes;
 using Content.Shared.EntityEffects;
@@ -15,24 +15,11 @@ public sealed partial class Neogenetic : RMCChemicalEffect
 
     protected override string ReagentEffectGuidebookText(IPrototypeManager prototype, IEntitySystemManager entSys)
     {
-<<<<<<< HEAD
-        var healing = PotencyPerSecond;
-        if (ActualPotency > 2)
-            healing += PotencyPerSecond * 0.5f;
-        // RuMC edit start
-        return Loc.GetString("reagent-effect-guidebook-rmc-neogenetic",
-            ("heal", healing),
-            ("overdose", PotencyPerSecond),
-            ("critBurn", PotencyPerSecond * 5),
-            ("critToxin", PotencyPerSecond * 2));
-        // RuMC edit end
-=======
         var healing = PotencyPerSecond * 1.5f;
 
         return $"Heals [color=green]{healing}[/color] brute damage.\n" +
                $"Overdoses cause [color=red]{PotencyPerSecond}[/color] burn damage.\n" +
                $"Critical overdoses cause [color=red]{PotencyPerSecond * 5}[/color] burn and [color=red]{PotencyPerSecond * 2}[/color] toxin damage";
->>>>>>> cmu/master
     }
 
     protected override void Tick(DamageableSystem damageable, FixedPoint2 potency, EntityEffectReagentArgs args)

@@ -62,6 +62,8 @@ public sealed partial class JoinRoundWindow : DefaultWindow
 
     public Button JoinOtherButton => _other.Button;
 
+    public Button JoinHuntButton { get; } = new() { Visible = false, HorizontalExpand = true };
+
     private readonly CmuChoiceCard _colonists;
     private readonly CmuChoiceCard _govfor;
     private readonly CmuChoiceCard _opfor;
@@ -80,6 +82,9 @@ public sealed partial class JoinRoundWindow : DefaultWindow
         _govfor = AddCard("rmc-lobby-join-govfor", "cmu-lobby-join-govfor-desc", GovforPalette, buttonOnLeft: false);
         _opfor = AddCard("rmc-lobby-join-opfor", "cmu-lobby-join-opfor-desc", OpforPalette, buttonOnLeft: true);
         _other = AddCard("rmc-lobby-join-other", "cmu-lobby-join-other-desc", OtherPalette, buttonOnLeft: false);
+
+        JoinHuntButton.Text = Loc.GetString("rmc-lobby-join-hunt");
+        Choices.AddChild(JoinHuntButton);
 
         ApplyCrtPalette();
 

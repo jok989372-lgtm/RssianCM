@@ -155,12 +155,9 @@
     name: cmu-job-name-pathogen-neomorph
   - type: Speech
     speechSounds: Pathogen
-<<<<<<< HEAD
   - type: TTS # RuMC edit
     voice: TWITCH
     faction: Xeno
-=======
->>>>>>> cmu/master
 
 - type: entity
   parent: CMU14XenoNeomorphBase

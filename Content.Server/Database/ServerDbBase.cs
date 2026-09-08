@@ -813,10 +813,8 @@ namespace Content.Server.Database
             profile.GamemodeJobPriorities = SerializeGamemodeJobPriorities(humanoid.GamemodeJobPriorities);
             profile.GamemodeAntagPreferences = SerializeGamemodeSetPreferences(humanoid.GamemodeAntagPreferences);
             profile.GamemodeThreatPreferences = SerializeGamemodeSetPreferences(humanoid.GamemodeThreatPreferences);
-<<<<<<< HEAD
             profile.YautjaProfile = SerializeYautjaProfile(humanoid.YautjaProfile);
             profile.SelectedDonorCape = humanoid.SelectedDonorCape?.Id;
-=======
             profile.RankPreferences = humanoid.RankPreferences.Count == 0
                 ? null
                 : JsonSerializer.Serialize(
@@ -824,7 +822,6 @@ namespace Content.Server.Database
                         kvp => kvp.Key,
                         kvp => kvp.Value.Where(p => p.Value != null)
                                         .ToDictionary(p => p.Key, p => p.Value)));
->>>>>>> cmu/master
 
             return profile;
         }
