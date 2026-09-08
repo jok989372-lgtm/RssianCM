@@ -34,6 +34,7 @@ namespace Content.Shared.Throwing
         [Dependency] private SharedTransformSystem _transform = default!; private const string ThrowingFixture = "throw-fixture";
 
         private readonly List<(EntityUid Uid, ThrownItemComponent Thrown, PhysicsComponent Physics)> _thrownSnapshot = new(); // CMU14
+        private const string ThrowingWallFixture = "throw-wall-fixture";
 
 
         public override void Initialize()
@@ -49,6 +50,17 @@ namespace Content.Shared.Throwing
         }
         private void PreventCollision(EntityUid uid, ThrownItemComponent component, ref PreventCollideEvent args)
         {
+            // Only immovable obstacles should physically stop a throw. Hits on mobile
+            // bodies use the sensor fixture so ordinary items cannot push them around.
+            var wallFixture = _fixtures.GetFixtureOrNull(uid, ThrowingWallFixture);
+            if ((ReferenceEquals(args.OurFixture, wallFixture) && args.OtherBody.BodyType != BodyType.Static) ||
+                (ReferenceEquals(args.OurFixture, _fixtures.GetFixtureOrNull(uid, ThrowingFixture)) &&
+                 args.OtherBody.BodyType == BodyType.Static))
+            {
+                args.Cancelled = true;
+                return;
+            }
+
             if (args.OtherEntity == component.Thrower)
             {
                 args.Cancelled = true;
@@ -140,6 +152,16 @@ namespace Content.Shared.Throwing
                 uid,
                 shape,
                 ThrowingFixture,
+                hard: false,
+                collisionLayer: (int) CollisionGroup.ThrownItem,
+                collisionMask: (int) CollisionGroup.ThrownItem,
+                manager: fixturesComponent,
+                body: body);
+            _fixtures.TryCreateFixture(
+                uid,
+                shape,
+                ThrowingWallFixture,
+                density: 0,
                 hard: true,
                 collisionLayer: (int) CollisionGroup.ThrownItem,
                 collisionMask: (int) CollisionGroup.ThrownItem,
@@ -179,6 +201,10 @@ namespace Content.Shared.Throwing
             // physics awake-body assertion when a thrown entity goes to sleep.
             if (TryComp(uid, out FixturesComponent? manager))
             {
+                var wallFixture = _fixtures.GetFixtureOrNull(uid, ThrowingWallFixture, manager: manager);
+                if (wallFixture != null)
+                    _fixtures.DestroyFixture(uid, ThrowingWallFixture, wallFixture, manager: manager);
+
                 var fixture = _fixtures.GetFixtureOrNull(uid, ThrowingFixture, manager: manager);
 
                 if (fixture != null)

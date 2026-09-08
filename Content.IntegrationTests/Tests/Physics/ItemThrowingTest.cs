@@ -1,4 +1,7 @@
 using Content.IntegrationTests.Tests.Interaction;
+using System.Numerics;
+using System.Collections.Generic;
+using Content.Shared.Damage;
 using Content.Shared.Damage.Components;
 using Content.Shared.Physics;
 using Content.Shared.Throwing;
@@ -22,10 +25,42 @@ public sealed class ItemThrowingTest : InteractionTest
 
         var fixtures = Comp<FixturesComponent>(pen);
         Assert.That(fixtures.Fixtures.TryGetValue("throw-fixture", out var thrownFixture), Is.True);
-        Assert.That(thrownFixture!.Hard, Is.True,
-            "The active throw fixture must participate in physical collision resolution.");
+        Assert.That(thrownFixture!.Hard, Is.False,
+            "Thrown-item hits must not transfer physical momentum to mobile bodies.");
         Assert.That(thrownFixture.CollisionLayer & (int) CollisionGroup.ThrownItem, Is.Not.EqualTo(0),
             "The active throw fixture must advertise the thrown-item collision layer to ship walls.");
+        Assert.That(fixtures.Fixtures.TryGetValue("throw-wall-fixture", out var wallFixture), Is.True);
+        Assert.That(wallFixture!.Hard, Is.True);
+
+        var wallPosition = Transform.GetMapCoordinates(STarget!.Value).Position;
+        await RunTicks(60);
+        Assert.That(Transform.GetMapCoordinates(ToServer(pen)).Position.X, Is.LessThan(wallPosition.X),
+            "A thrown item must stop in front of the hunter ship wall.");
+        Assert.That(fixtures.Fixtures.ContainsKey("throw-wall-fixture"), Is.False);
+    }
+
+    [TestCase(BodyType.Dynamic, "Pen")]
+    [TestCase(BodyType.KinematicController, "Pen")]
+    [TestCase(BodyType.Dynamic, "Spear")]
+    public async Task TestThrownItemDoesNotPushBody(BodyType bodyType, string item)
+    {
+        var target = await SpawnTarget("MobHuman");
+        await Server.WaitPost(() => Server.System<PhysicsSystem>().SetBodyType(
+            ToServer(target), bodyType));
+        var position = Transform.GetMapCoordinates(ToServer(target)).Position;
+        var initialPiercing = Comp<DamageableComponent>(target).Damage.DamageDict.GetValueOrDefault("Piercing");
+        await PlaceInHands(item);
+
+        Assert.That(await ThrowItem(), Is.True);
+        await RunTicks(60);
+
+        Assert.That(Vector2.Distance(Transform.GetMapCoordinates(ToServer(target)).Position, position),
+            Is.LessThan(0.01f), "Thrown items must not shove living or ragdolled bodies.");
+        if (item == "Spear")
+        {
+            Assert.That(Comp<DamageableComponent>(target).Damage.DamageDict.GetValueOrDefault("Piercing"),
+                Is.GreaterThan(initialPiercing), "A sensor collision must still deliver thrown-weapon damage.");
+        }
     }
 
     /// <summary>
